@@ -11,3 +11,8 @@ final class SplashscreenInitial extends SplashscreenState {}
 class SplashLoginCheckingState extends SplashscreenState{}
 class SplashLoginCheckingErrorState extends SplashscreenState{}
 class SplashLoginCheckingSuccessState extends SplashscreenState{}
+
+class SplashNavigatetoLoginState extends SplashscreenActionState{}
+class SplashNavigateToHome extends SplashscreenActionState{}
+
+
