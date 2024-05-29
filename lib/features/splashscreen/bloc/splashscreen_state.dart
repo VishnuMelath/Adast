@@ -13,6 +13,6 @@ class SplashLoginCheckingErrorState extends SplashscreenState{}
 class SplashLoginCheckingSuccessState extends SplashscreenState{}
 
 class SplashNavigatetoLoginState extends SplashscreenActionState{}
-class SplashNavigateToHome extends SplashscreenActionState{}
+class SplashNavigateToHomeState extends SplashscreenActionState{}
 
 
