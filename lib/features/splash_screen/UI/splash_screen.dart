@@ -22,18 +22,24 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocConsumer<SplashscreenBloc,SplashscreenState>(
         bloc: splashscreenBloc,
         builder: (context, state) {
-        print(state.runtimeType);
         switch(state.runtimeType)
           {
-            case const (SplashLoginCheckingState):return const Center(
-              child: CircularProgressIndicator(),
+            case const (SplashLoginCheckingState):return  Center(
+              child: Image.asset('assets/images/logo.png'),
             );
             default:
             return const SizedBox();
 
           }
       } , listener: (context, state) {
-        
+        if(state.runtimeType==SplashNavigateToHomeState)
+        {
+          // Navigator.push(context,MaterialPageRoute(builder: (context) =>const HomeScreen(),));
+        }
+        else if(state.runtimeType==SplashNavigatetoLoginState)
+        {
+          // Navigator.push(context,MaterialPageRoute(builder: (context) =>const LoginScreen(),));
+        }
       },),
     );
   }
