@@ -15,13 +15,14 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
     
       SplashLoadingEvent event, Emitter<SplashscreenState> emit) async{bool test=false;
     emit(SplashLoginCheckingState());
+
+    //todo -check wheather the user already logged in or not
    await Future.delayed(
       const Duration(seconds: 3),
       () {
          test = true;
       },
     );
-    print(test);
       if (test) {
           emit(SplashNavigatetoLoginState());
         } 

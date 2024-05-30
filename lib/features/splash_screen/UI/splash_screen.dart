@@ -1,6 +1,8 @@
- import 'package:adast/features/splashscreen/bloc/splashscreen_bloc.dart';
+ import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../login_screen/UI/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (context, state) {
         switch(state.runtimeType)
           {
-            case const (SplashLoginCheckingState):return  Center(
+            case  const (SplashLoginCheckingState):return  Center(
               child: Image.asset('assets/images/logo.png'),
             );
             default:
@@ -38,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
         else if(state.runtimeType==SplashNavigatetoLoginState)
         {
-          // Navigator.push(context,MaterialPageRoute(builder: (context) =>const LoginScreen(),));
+          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>const LoginScreen(),));
         }
       },),
     );
