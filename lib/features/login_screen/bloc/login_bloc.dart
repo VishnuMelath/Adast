@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
@@ -14,7 +15,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   FutureOr<void> loginButtonPressedEvent(LoginButtonPressedEvent event, Emitter<LoginState> emit) {
-    //todo : validation
+    if(event.email.text.isEmpty||event.pass.text.isEmpty)
+    {
+      emit(LoginEmptyFieldState());
+    }
+    else{
+      //todo : validation
+    }
+    
   }
 
   FutureOr<void> loginRegisterPressedEvent(LoginRegisterPressedEvent event, Emitter<LoginState> emit) {

@@ -7,6 +7,8 @@ sealed class LoginActionState extends LoginState{}
 
 final class LoginInitial extends LoginState {}
 
+class LoginEmptyFieldState extends LoginActionState{}
+
  class LoginNavigateToHomeState extends LoginActionState{}
 
  class LoginNavigateToRegisterState extends LoginActionState{}

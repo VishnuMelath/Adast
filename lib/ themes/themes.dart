@@ -17,4 +17,6 @@ const TextStyle whiteTextStyle=TextStyle(color: Colors.white);
 
 const TextStyle greyTextStyle=  TextStyle(color: Colors.black54);
 
+const TextStyle redTextStyle=  TextStyle(color: Colors.red,fontSize: 10);
+
 const TextStyle greenTextStyle=  TextStyle(color: green,fontWeight: FontWeight.w700);
