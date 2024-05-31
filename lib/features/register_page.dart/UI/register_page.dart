@@ -19,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController rePasswordController = TextEditingController();
+  GlobalKey<FormState> formkey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
       body: Form(
+        key: formkey,
           child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
         child: BlocListener<RegisterBloc, RegisterState>(
@@ -57,13 +59,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 password: true,
               ),
               CustomTextfield(
+                passController: passwordController,
                 label: 'Confirm Password',
                 controller: rePasswordController,
                 login: false,
                 password: true,
               ),
               CustomButton(onTap: () {
-                registerBloc.add(RegisterButtonEvent());
+                registerBloc.add(RegisterButtonEvent(formkey:formkey ,emailController: emailController,nameController: nameController,passController: passwordController));
               }, text: 'Submit')
             ],
           ),

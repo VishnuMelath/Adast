@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../ themes/constants.dart';
@@ -8,12 +7,15 @@ class CustomTextfield extends StatefulWidget {
   final TextEditingController controller;
   final bool login;
   final bool password;
-  const CustomTextfield(
-      {super.key,
-      this.login = false,
-      this.password = false,
-      required this.label,
-      required this.controller});
+  final TextEditingController? passController;
+  const CustomTextfield({
+    super.key,
+    this.login = false,
+    this.password = false,
+    required this.label,
+    required this.controller,
+    this.passController,
+  });
 
   @override
   State<CustomTextfield> createState() => _CustomTextfieldState();
@@ -39,17 +41,16 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         borderRadius: BorderRadius.circular(15),
         elevation: elevation,
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            minWidth: 0,
-          maxWidth: 100
-          ),
+          constraints: const BoxConstraints(minWidth: 0, maxWidth: 100),
           child: TextFormField(
-            autovalidateMode:widget.login?AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
+            autovalidateMode: widget.login||widget.passController!=null
+                ? AutovalidateMode.disabled
+                : AutovalidateMode.onUserInteraction,
             controller: widget.controller,
             obscureText: show,
             decoration: InputDecoration(
                 suffixIcon: Visibility(
-                    visible: widget.password,
+                    visible: widget.password&&widget.passController==null,
                     child: IconButton(
                       onPressed: () {
                         setState(() {
@@ -68,6 +69,10 @@ class _CustomTextfieldState extends State<CustomTextfield> {
             validator: (value) {
               if (value == '' || value == null) {
                 return '${widget.label} cannot be empty';
+              }
+              else if(widget.passController!=null&&widget.passController!.text!=widget.controller.text)
+              {
+                return 'passwords doesn\'t matches ';
               }
               return null;
             },

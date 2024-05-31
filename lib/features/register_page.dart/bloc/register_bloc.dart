@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:adast/services/auth.dart';
+import 'package:adast/models/user_model.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -11,8 +14,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterButtonEvent>(registerButtonEvent);
   }
 
-  FutureOr<void> registerButtonEvent(RegisterEvent event, Emitter<RegisterState> emit) {
-    //todo register user
-    emit(RegisterSuccessState());
+  FutureOr<void> registerButtonEvent(RegisterButtonEvent event, Emitter<RegisterState> emit) async{
+    emit(RegisterInitial());
+    var user=UserModel( name: event.nameController.text, email: event.emailController.text);
+    if(event.formkey.currentState!.validate())
+    {
+      try{
+       await LoginService().signUp(user, event.passController.text);
+        emit(RegisterSuccessState());
+      }
+      catch(e)
+      {
+        log(e.toString());
+        emit(RegisterErrorState());
+      }
+    }
+
+   
   }
 }

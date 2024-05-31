@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888534327765",
+    "project_id": "adast-53666",
+    "storage_bucket": "adast-53666.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888534327765:android:ef2b698efd062dece01d5c",
+        "android_client_info": {
+          "package_name": "com.vishnumelath.adast"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFRzhTQ4RaXtB_XTZ_xCUz2YQAU7KczIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

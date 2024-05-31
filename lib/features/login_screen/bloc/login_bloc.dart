@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adast/services/auth.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -20,7 +21,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginEmptyFieldState());
     }
     else{
-      //todo : validation
+      LoginService().signInWithMailandPass(event.email.text, event.pass.text);
     }
     
   }
@@ -29,7 +30,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginNavigateToRegisterState());
   }
 
-  FutureOr<void> loginGoogleAuthPressedEvent(LoginGoogleAuthPressedEvent event, Emitter<LoginState> emit) {
+  FutureOr<void> loginGoogleAuthPressedEvent(LoginGoogleAuthPressedEvent event, Emitter<LoginState> emit) async{
+
+   await LoginService().signUpWithGoogle();
   emit(LoginGoogleAuthenticationState());
   }
 }

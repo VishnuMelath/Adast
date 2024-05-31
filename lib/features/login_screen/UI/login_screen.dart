@@ -115,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 CustomButton(
                   onTap: () {
+                    loginBloc.add(LoginGoogleAuthPressedEvent());
                     //todo validation google
                   },
                   text: 'Google',
