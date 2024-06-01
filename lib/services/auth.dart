@@ -11,7 +11,7 @@ class LoginService {
     try {
       var user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      await DatabaseServices().getUserData(user.user!.uid);
+      await DatabaseServices().getUserData(user.user!.email!);
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -23,7 +23,6 @@ class LoginService {
       await _auth
           .createUserWithEmailAndPassword(email: user.email, password: password)
           .then((value) {
-        user.uid = value.user!.uid;
         log(value.user!.photoURL ?? '');
       });
       await DatabaseServices().addUser(user);
@@ -46,7 +45,7 @@ class LoginService {
   Future<void> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       log(e.toString());
       rethrow;
     }
@@ -61,10 +60,16 @@ class LoginService {
       final credential = GoogleAuthProvider.credential(
           accessToken: gAuth.accessToken, idToken: gAuth.idToken);
 
-     var user= await _auth.signInWithCredential(credential);
-     var map=user.additionalUserInfo;
-     UserModel userModel=UserModel(email:map!.profile?['email'],name: map.profile?['given_name'],image: map.profile?['picture'] ,uid: credential.idToken);
-     log(user.credential.toString());
+      var user = await _auth.signInWithCredential(credential);
+      var map = user.additionalUserInfo;
+      if (user.additionalUserInfo!.isNewUser) {
+        UserModel userModel = UserModel(
+            email: map!.profile?['email'],
+            name: map.profile?['given_name'],
+            image: map.profile?['picture']);
+        await DatabaseServices().addUser(userModel);
+      }
+      log(user.credential.toString());
     } catch (e) {
       log(e.toString());
       rethrow;

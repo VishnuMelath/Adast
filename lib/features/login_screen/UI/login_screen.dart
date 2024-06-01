@@ -2,9 +2,10 @@ import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_button.dart';
 import 'package:adast/custom_widgets/custom_snackbar.dart';
 import 'package:adast/custom_widgets/custom_textfield.dart';
+import 'package:adast/features/bottom_nav/UI/bottom_nav.dart';
+import 'package:adast/features/login_screen/UI/forgot_password.dart';
 import 'package:adast/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast/features/register_page.dart/UI/register_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   LoginBloc loginBloc = LoginBloc();
   TextEditingController emailcontroller = TextEditingController();
+   TextEditingController emailcontroller1 = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
@@ -32,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: BlocListener<LoginBloc, LoginState>(
             bloc: loginBloc,
             listener: (context, state) {
+              
               if (state.runtimeType == LoginEmptyFieldState) {
                customSnackBar(context, 'email and password cannot be empty');
               }
@@ -41,11 +44,18 @@ class _LoginScreenState extends State<LoginScreen> {
               }
               else if(state.runtimeType==LoginNavigateToHomeState)
               {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),));
                 //todo navigate to home
               }
               else if(state.runtimeType==LoginNavigateToRegisterState)
               {
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>const RegisterPage(),));
+              }
+              else if(state.runtimeType==LoginForgotPassMailSuccesfullySentState)
+              {
+                customSnackBar(context,'Password reset mail successfully sent to your mail address');
+                Navigator.pop(context);
+                emailcontroller.clear();
               }
             },
             child: ListView(
@@ -76,9 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: InkWell(
                         onTap: () {
-                          if (kDebugMode) {
-                            print('object');
-                          }
+                          forgotPasswordDialog(context, emailcontroller1, loginBloc);
                           //todo : forgot password
                         },
                         child: const Text(

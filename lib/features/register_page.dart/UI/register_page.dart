@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
             {
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),), (route) => false,);
             }
-            // TODO: implement listener
+            
           },
           child: ListView(
             children: [

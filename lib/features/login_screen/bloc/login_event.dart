@@ -13,4 +13,9 @@ class LoginRegisterPressedEvent extends LoginEvent{}
 
 class LoginGoogleAuthPressedEvent extends LoginEvent{}
 
+class LoginForgotPasswordEvent extends LoginEvent{
+  final TextEditingController email;
+  LoginForgotPasswordEvent({required this.email});
+}
+
 
