@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
+import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,11 +16,11 @@ class BottomNavbarScreen extends StatefulWidget {
 }
 
 class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
-  BottomNavBloc bottomNavBloc=BottomNavBloc();
+  BottomNavBloc bottomNavBloc = BottomNavBloc();
 
   int selectedIndex = 0;
   List<Widget> pages = List.generate(
-    3,
+    2,
     (index) => Center(
       child: Text((index + 1).toString()),
     ),
@@ -25,6 +28,7 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   @override
   void initState() {
     bottomNavBloc.add(BottomNavInitialEvent());
+    pages.add(const MapScreen());
     pages.add(const Profile());
     super.initState();
   }
@@ -33,11 +37,16 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<BottomNavBloc>(
       create: (context) => bottomNavBloc,
-      child: Scaffold(
-          body: pages[selectedIndex],
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(20),
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Scaffold(
+            body: pages[selectedIndex],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
             child: Material(
+              color: Colors.transparent,
               elevation: 10,
               borderRadius: BorderRadius.circular(20),
               child: ClipRRect(
@@ -66,7 +75,9 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
                     ]),
               ),
             ),
-          )),
+          ),
+        ],
+      ),
     );
   }
 }

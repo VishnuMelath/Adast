@@ -1,7 +1,10 @@
- import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
+ import 'dart:developer';
+
+import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bottom_nav/UI/bottom_nav.dart';
 import '../../login_screen/UI/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,17 +15,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final SplashscreenBloc splashscreenBloc=SplashscreenBloc();
-  @override
-  void initState() {
-    splashscreenBloc.add(SplashLoadingEvent());
-    super.initState();
-  }
+  
+  
   @override
   Widget build(BuildContext context) {
+    final SplashscreenBloc splashscreenBloc=context.read();
+    splashscreenBloc.add(SplashLoadingEvent());
     return Scaffold(
       body: BlocConsumer<SplashscreenBloc,SplashscreenState>(
-        bloc: splashscreenBloc,
         builder: (context, state) {
         switch(state.runtimeType)
           {
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } , listener: (context, state) {
         if(state.runtimeType==SplashNavigateToHomeState)
         {
-          // Navigator.push(context,MaterialPageRoute(builder: (context) =>const HomeScreen(),));
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),));
         }
         else if(state.runtimeType==SplashNavigatetoLoginState)
         {

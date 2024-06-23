@@ -9,11 +9,13 @@ class LoginService {
 
   Future<void> signInWithMailandPass(String email, String password) async {
     try {
-      var user = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      await DatabaseServices().getUserData(user.user!.email!);
-    } catch (e) {
-      log(e.toString());
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        await UserDatabaseServices().getUserData(email);
+      });
+    } on FirebaseAuthException catch (e) {
+      log(e.code.toString());
       rethrow;
     }
   }
@@ -23,12 +25,11 @@ class LoginService {
       await _auth
           .createUserWithEmailAndPassword(email: user.email, password: password)
           .then((value) {
-        log(value.user!.photoURL ?? '');
       });
-      await DatabaseServices().addUser(user);
+      await UserDatabaseServices().addUser(user);
       return user;
-    } catch (e) {
-      log(e.toString());
+    } on FirebaseAuthException catch (e) {
+      log(e.code.toString());
       rethrow;
     }
   }
@@ -67,9 +68,8 @@ class LoginService {
             email: map!.profile?['email'],
             name: map.profile?['given_name'],
             image: map.profile?['picture']);
-        await DatabaseServices().addUser(userModel);
+        await UserDatabaseServices().addUser(userModel);
       }
-      log(user.credential.toString());
     } catch (e) {
       log(e.toString());
       rethrow;

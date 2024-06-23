@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:adast/models/user_model.dart';
-import 'package:adast/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -14,13 +13,13 @@ class BottomNavBloc extends Bloc<BottomNavEvent, BottomNavState> {
     on<BottomNavInitialEvent>(bottomNavInitialEvent);
   }
 
-  FutureOr<void> bottomNavInitialEvent(BottomNavInitialEvent event, Emitter<BottomNavState> emit) async{
-    emit(BottomNavUserLoadingState());
-    userModel=await DatabaseServices().getUser();
-    if(userModel==null) {
-      emit(BottomNavUserLoadingErrorState());
-    } else {
-      emit(BottomNavUserLoadingSuccessState());
-    }
-  }
+  FutureOr<void> bottomNavInitialEvent(BottomNavInitialEvent event, Emitter<BottomNavState> emit) async{}
+  //   emit(BottomNavUserLoadingState());
+  //   userModel=await DatabaseServices().getUser();
+  //   if(userModel==null) {
+  //     emit(BottomNavUserLoadingErrorState());
+  //   } else {
+  //     emit(BottomNavUserLoadingSuccessState());
+  //   }
+  // }
 }

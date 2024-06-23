@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:adast/services/auth.dart';
 import 'package:adast/models/user_model.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 part 'register_event.dart';
@@ -15,7 +16,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   FutureOr<void> registerButtonEvent(RegisterButtonEvent event, Emitter<RegisterState> emit) async{
-    emit(RegisterInitial());
+    emit(RegisterButtomPressedState());
     var user=UserModel( name: event.nameController.text, email: event.emailController.text);
     if(event.formkey.currentState!.validate())
     {
@@ -23,12 +24,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
        await LoginService().signUp(user, event.passController.text);
         emit(RegisterSuccessState());
       }
-      catch(e)
+      on FirebaseException catch(e)
       {
         log(e.toString());
-        emit(RegisterErrorState());
+        emit(RegisterErrorState(errormsg: e.code));
       }
     }
+    emit(RegisterButtonDefaultState());
 
    
   }

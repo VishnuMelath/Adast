@@ -1,26 +1,87 @@
 {
   "project_info": {
-    "project_number": "888534327765",
-    "project_id": "adast-53666",
-    "storage_bucket": "adast-53666.appspot.com"
+    "project_number": "282036476767",
+    "project_id": "adast-425404",
+    "storage_bucket": "adast-425404.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:888534327765:android:ef2b698efd062dece01d5c",
+        "mobilesdk_app_id": "1:282036476767:android:6111fbdc8c7dc3e49a34ea",
         "android_client_info": {
-          "package_name": "com.vishnumelath.adast"
+          "package_name": "com.vishnumeloth.adast"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCFRzhTQ4RaXtB_XTZ_xCUz2YQAU7KczIE"
+          "current_key": "AIzaSyBmbcfy-m0zedpbfYH2Do-Di-Nx8xl84JM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "282036476767-c8jjdfmpe1284gj0hvbe4f8enlbvbfpv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.adastSeller"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282036476767:android:cbd28a2fe0ba27519a34ea",
+        "android_client_info": {
+          "package_name": "com.vishnumeloth.adast_seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282036476767-3on9ml5cqbf5et8jvf2292u8ovt2mk8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vishnumeloth.adast_seller",
+            "certificate_hash": "b4326c85382db8a2f4c2613ea64620f92f72ba35"
+          }
+        },
+        {
+          "client_id": "282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmbcfy-m0zedpbfYH2Do-Di-Nx8xl84JM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "282036476767-c8jjdfmpe1284gj0hvbe4f8enlbvbfpv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.adastSeller"
+              }
+            }
+          ]
         }
       }
     }

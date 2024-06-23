@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:adast/services/auth.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -18,12 +18,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> loginButtonPressedEvent(
       LoginButtonPressedEvent event, Emitter<LoginState> emit) async {
+        emit(LoginButtonPressedState());
     if (event.email.text.isEmpty || event.pass.text.isEmpty) {
       emit(LoginEmptyFieldState());
     } else {
-      await LoginService()
-          .signInWithMailandPass(event.email.text, event.pass.text);
-      emit(LoginNavigateToHomeState());
+      try {
+        await LoginService()
+            .signInWithMailandPass(event.email.text, event.pass.text);
+        emit(LoginNavigateToHomeState());
+      } on FirebaseException catch (e) {
+        emit(LoginInvalidUserIdOrPassState(errormsg: e.code));
+      }
     }
   }
 
@@ -34,13 +39,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   FutureOr<void> loginGoogleAuthPressedEvent(
       LoginGoogleAuthPressedEvent event, Emitter<LoginState> emit) async {
-    await LoginService().signUpWithGoogle();
-    emit(LoginNavigateToHomeState());
+    try {
+      await LoginService().signUpWithGoogle();
+      emit(LoginNavigateToHomeState());
+    } on FirebaseException catch (e) {
+      emit(LoginInvalidUserIdOrPassState(errormsg: e.code));
+    }
   }
 
-  FutureOr<void> loginForgotPasswordEvent(LoginForgotPasswordEvent event, Emitter<LoginState> emit) async{
-
-    await LoginService().resetPassword(event.email.text);
-    emit(LoginForgotPassMailSuccesfullySentState());
+  FutureOr<void> loginForgotPasswordEvent(
+      LoginForgotPasswordEvent event, Emitter<LoginState> emit) async {
+    try {
+      await LoginService().resetPassword(event.email.text);
+      emit(LoginForgotPassMailSuccesfullySentState());
+    } on FirebaseException catch (e) {
+     emit(LoginInvalidUserIdOrPassState(errormsg: e.code));
+    }
   }
 }

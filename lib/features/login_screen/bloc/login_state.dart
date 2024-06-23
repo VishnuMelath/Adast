@@ -7,13 +7,20 @@ sealed class LoginActionState extends LoginState{}
 
 final class LoginInitial extends LoginState {}
 
+class LoginButtonPressedState extends LoginState{}
+
 class LoginEmptyFieldState extends LoginActionState{}
 
  class LoginNavigateToHomeState extends LoginActionState{}
 
  class LoginNavigateToRegisterState extends LoginActionState{}
 
- class LoginInvalidUserIdOrPassState extends LoginActionState{}
+ class LoginInvalidUserIdOrPassState extends LoginActionState{
+  final String errormsg;
+
+  LoginInvalidUserIdOrPassState({required this.errormsg});
+
+ }
 
  class LoginGoogleAuthenticationState extends LoginActionState{}
 

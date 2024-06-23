@@ -6,7 +6,8 @@ class CustomButton extends StatelessWidget {
   final Function() onTap;
   final String text;
   final bool icon;
-  const CustomButton({super.key, required this.onTap,required this.text,  this.icon=false});
+  final bool loading;
+  const CustomButton({super.key, required this.onTap,required this.text,  this.icon=false,this.loading=false});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CustomButton extends StatelessWidget {
                 Visibility(
                   visible: icon,
                   child:const Icon(Icons.g_mobiledata)),
-                Text(
+                loading?const SizedBox(width: 20,height: 20, child:  CircularProgressIndicator(color: white,)):Text(
                   text,
                   style:!icon? whiteTextStyle:greyTextStyle,
                 ),
@@ -40,4 +41,7 @@ class CustomButton extends StatelessWidget {
       ),
     );
   }
+
+
+
 }
