@@ -27,4 +27,8 @@ class SellerModel {
       // 'items':items
     };
   }
+ factory SellerModel.fromJson(QueryDocumentSnapshot<Object?> data)
+  {
+    return SellerModel(name: data['name'], email: data['emailaddress'],image: data['image'],latLng: data['latlng']);
+  }
 }

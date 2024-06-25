@@ -30,4 +30,7 @@ class MapSaveErrorState extends MapState{
 
 class MapFormImageNotAddedState extends MapActionState{}
 
+class MapMarkerUpdatedState extends MapState{}
+
+class MapWidgetMarkerUpdatedState extends MapState{}
 

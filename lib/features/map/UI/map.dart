@@ -1,14 +1,19 @@
+import 'dart:developer';
 
-import 'package:adast/features/map/methods/data_to_markers.dart';
+import 'package:adast/features/map/UI/widgets/marker.dart';
+import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
+import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/seller_database_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../ themes/colors_shemes.dart';
-import '../../../custom_widgets/custom_snackbar.dart';
+import '../../seller_profile/UI/seller_profile.dart';
 import '../bloc/map_bloc.dart';
+import '../methods/markers_from_widget.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -18,82 +23,126 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  bool isloaded = false;
   GlobalKey<FormState> formkey = GlobalKey();
-  final Set<Marker> markers = {};
+  final Map<String, Marker> markers = {};
   LatLng center = const LatLng(11.2588, 75.7804);
   late GoogleMapController mapController;
   MapBloc mapBloc = MapBloc();
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   late Stream<QuerySnapshot> _locationsStream;
-@override
+  List<Map<String, dynamic>> data = [];
+  @override
   void initState() {
-    _locationsStream=SellerDatabaseServices().getAllSellers();
+    _locationsStream = SellerDatabaseServices().getAllSellers();
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    log('hello');
     return Container(
       color: greentransparent,
       child: SafeArea(
         child: Scaffold(
-          // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: green,
-            child: const Icon(
-              Icons.my_location_sharp,
-              color: white,
-            ),
-            onPressed: () {
-              mapBloc.add(MapCurrentLocationTappedEvent(
-                  googleMapController: mapController));
-            },
-          ),
-          body: BlocConsumer<MapBloc, MapState>(
-            bloc: mapBloc,
-            listener: (context, state) {
-              if (state is MapSaveErrorState) {
-                customSnackBar(context, state.error);
-              }
-        
-              if (state is MapBottomSheetState) {}
-            },
-            builder: (context, state) {
-              return StreamBuilder<QuerySnapshot> (
-                  stream: _locationsStream,
-                  builder: (context, snapshot) {
-                    
-                    if (snapshot.hasError) {
-                      
-                    }
-        
-                    if (!snapshot.hasData) {
-                    //  dataToMarker(snapshot, markers);
-                    }
-                    final locations = snapshot.data?.docs;
-                    final markers = locations?.map((doc) => createMarker(doc)).toSet();
-                    return GoogleMap(
-                      markers: markers??{},
-                      onTap: (latlng) {},
-                      mapType: MapType.normal,
-                      zoomControlsEnabled: false,
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      onMapCreated: (controller) {
-                        mapController = controller;
-                      },
-                      initialCameraPosition: CameraPosition(
-                        target: center, // Example coordinates (San Francisco)
-                        zoom: 13.0,
-                      ),
+          body: StreamBuilder<QuerySnapshot>(
+              stream: _locationsStream,
+              builder: (context, snapshot) {
+                final locations = snapshot.data?.docs;
+                final length = locations?.length ?? 0;
+                locations?.forEach(
+                  (element) {
+                    data.add({'globalKey': GlobalKey(), 'data': element});
+                  },
+                );
+                SchedulerBinding.instance
+                    .addPostFrameCallback((_) => onBuildCompleted());
+                return BlocBuilder<MapBloc, MapState>(
+                  bloc: mapBloc,
+                  builder: (context, state) {
+                    return Stack(
+                      children: [
+                        ListView(
+                          children: [
+                            for (int i = 0; i < length; i++)
+                              Transform.translate(
+                                offset: Offset(
+                                    -MediaQuery.of(context).size.width * 2,
+                                    -MediaQuery.of(context).size.height * 2),
+                                child: RepaintBoundary(
+                                  key: data[i]['globalKey'],
+                                  child: CustomMarker(
+                                    image: data[i]['data']['image'],
+                                    name: data[i]['data']['name'],
+                                  ),
+                                ),
+                              )
+                          ],
+                        ),
+                        GoogleMap(
+                          buildingsEnabled: false,
+                          markers: markers.values.toSet(),
+                          onTap: (latlng) {},
+                          mapType: MapType.normal,
+                          zoomControlsEnabled: false,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: true,
+                          onMapCreated: (controller) {
+                            mapController = controller;
+                          },
+                          initialCameraPosition: CameraPosition(
+                            target: center,
+                            zoom: 13.0,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: MediaQuery.sizeOf(context).height * 0.152,
+                          right: MediaQuery.sizeOf(context).height * 0.01,
+                          child: FloatingActionButton(
+                            child:const Icon(Icons.my_location_sharp),
+                            onPressed: () {
+                              mapBloc.add(MapCurrentLocationTappedEvent(
+                                  googleMapController: mapController));
+                            },
+                          ),
+                        )
+                      ],
                     );
-                  });
-            },
-          ),
+                  },
+                );
+              }),
         ),
       ),
     );
   }
 
+  Future<void> onBuildCompleted() async {
 
+    await Future.wait(data.map(
+      (e) async {
+        try {
+          Marker marker = await generateMarkersFromWidget(
+            e,
+            () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => SellerProfileBloc(sellerModel: SellerModel.fromJson(e['data'])),
+                      child: const SellerProfile(),
+                    ),
+                  ));
+            },
+          );
+          markers[marker.markerId.value] = marker;
+        } on Exception catch (e) {
+          log(e.toString());
+        }
+      },
+    ));
+    log(markers.toString());
+    mapBloc.add(MapBuildCompletedEvent());
+  }
 }

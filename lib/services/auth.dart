@@ -19,9 +19,10 @@ class LoginService {
       rethrow;
     }
   }
+  
 
   Future<UserModel> signUp(UserModel user, String password) async {
-    try {
+    try {      
       await _auth
           .createUserWithEmailAndPassword(email: user.email, password: password)
           .then((value) {

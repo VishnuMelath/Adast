@@ -23,3 +23,12 @@ final GlobalKey<FormState> formkey;
  final String email;
   MapSavePressedEvent({required this.name, required this.address, required this.latLng, required this.image,required this.email,required this.formkey});
 }
+
+class MapMarkerLoadingEvent extends MapEvent{
+  final List<QueryDocumentSnapshot> doc;
+
+  MapMarkerLoadingEvent({required this.doc});
+
+}
+
+class MapBuildCompletedEvent extends MapEvent{}

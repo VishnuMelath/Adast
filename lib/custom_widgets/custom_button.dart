@@ -27,9 +27,7 @@ class CustomButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Visibility(
-                  visible: icon,
-                  child:const Icon(Icons.g_mobiledata)),
+                
                 loading?const SizedBox(width: 20,height: 20, child:  CircularProgressIndicator(color: white,)):Text(
                   text,
                   style:!icon? whiteTextStyle:greyTextStyle,
