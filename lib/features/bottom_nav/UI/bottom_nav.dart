@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/map/UI/map.dart';

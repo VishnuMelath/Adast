@@ -1,4 +1,3 @@
- import 'dart:developer';
 
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
