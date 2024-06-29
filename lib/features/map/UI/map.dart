@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/models/seller_model.dart';
@@ -12,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../ themes/colors_shemes.dart';
 import '../../seller_profile/UI/seller_profile.dart';
+import '../../splash_screen/bloc/splashscreen_bloc.dart';
 import '../bloc/map_bloc.dart';
 import '../methods/markers_from_widget.dart';
 
@@ -126,11 +128,13 @@ class _MapScreenState extends State<MapScreen> {
           Marker marker = await generateMarkersFromWidget(
             e,
             () {
+              final subscribed=context.read<SplashscreenBloc>().userModel!.subscriptions.contains(e['data']['email']);
+            
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                      create: (context) => SellerProfileBloc(sellerModel: SellerModel.fromJson(e['data'])),
+                      create: (context) => SellerProfileBloc(sellerModel: SellerModel.fromJson(e['data']),subscribed: subscribed),
                       child: const SellerProfile(),
                     ),
                   ));

@@ -12,10 +12,12 @@ part 'seller_profile_event.dart';
 part 'seller_profile_state.dart';
 
 class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
+  late bool subscribed;
   List<ClothModel> items = [];
   SellerModel sellerModel;
-  SellerProfileBloc({required this.sellerModel})
+  SellerProfileBloc({required this.sellerModel,required this.subscribed})
       : super(SellerProfileInitial()) {
+  
     on<SellerProfileItemLoadingEvent>(sellerProfileItemLoadingEvent);
   }
 

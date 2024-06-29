@@ -69,8 +69,11 @@ class SellerProfile extends StatelessWidget {
               BlocBuilder<SellerProfileBloc, SellerProfileState>(
                 builder: (context, state) {
                   if (state is SellerProfileItemsLoadingState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return SizedBox(
+                      height: MediaQuery.sizeOf(context).height*0.5,
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     );
                   } else {
                     if (sellerProfileBloc.items.isEmpty) {

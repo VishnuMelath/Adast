@@ -5,12 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ themes/colors_shemes.dart';
 import '../../../../ themes/themes.dart';
-import '../../../../custom_widgets/custom_button.dart';
 import '../../../../methods/common_methods.dart';
-import '../../../../services/item_database_services.dart';
 import '../../bloc/item_details_bloc.dart';
 import 'drawer_holder.dart';
-import 'show_dialog_delete.dart';
 import 'size_widget.dart';
 
 class ResizableContainer extends StatefulWidget {
@@ -98,29 +95,8 @@ class _ResizableContainerState extends State<ResizableContainer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(10),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 15),
-                              decoration: greenBoxDecoration,
-                              child: Text(
-                                '$reservedCount reserved',
-                                style: whiteTextStyle,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 15),
-                              decoration: greenBoxDecoration,
-                              child: Text(
-                                '$itemsLeft left',
-                                style: whiteTextStyle,
-                              ),
-                            )
-                          ],
-                        ),
+                        
+                       
                         Text(
                           capitalize(itemDetailsBloc.item.brand),
                           style: largeBlackTextStyle,
@@ -141,6 +117,16 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           style: mediumBlackTextStyle,
                         ),
                         SizeWidget(itemDetailsBloc: itemDetailsBloc),
+                        if(itemDetailsBloc.selectedSize!=null)
+                         Container(
+                           padding: const EdgeInsets.symmetric(
+                               vertical: 8, horizontal: 15),
+                           decoration: greenBoxDecoration,
+                           child: Text(
+                             '$itemsLeft left',
+                             style: whiteTextStyle,
+                           ),
+                         ),
                         const Divider(),
                         const Text(
                           'Product details',
