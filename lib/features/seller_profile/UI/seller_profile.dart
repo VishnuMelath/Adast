@@ -46,10 +46,14 @@ class SellerProfile extends StatelessWidget {
                       subtitle: const Text('kozhikode'),
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.34,
-                    height: 70,
-                    child: CustomButton(onTap: () {}, text: 'subscribe'),
+                  BlocBuilder<SellerProfileBloc, SellerProfileState>(
+                    builder: (context, state) {
+                      return SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.34,
+                        height: 70,
+                        child: CustomButton(onTap: () {}, text: 'subscribe'),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -70,7 +74,7 @@ class SellerProfile extends StatelessWidget {
                 builder: (context, state) {
                   if (state is SellerProfileItemsLoadingState) {
                     return SizedBox(
-                      height: MediaQuery.sizeOf(context).height*0.5,
+                      height: MediaQuery.sizeOf(context).height * 0.5,
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),
