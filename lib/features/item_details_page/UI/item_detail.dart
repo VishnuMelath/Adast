@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,8 +62,11 @@ class ItemDetails extends StatelessWidget {
                     color: green,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                    child:
-                        PageView(onPageChanged: (value) {}, children: images),
+                    child: PageView(
+                        onPageChanged: (value) {
+                          itemDetailsBloc.add(ItemDetailsPageSwitchEvent(index: value+1));
+                        },
+                        children: images),
                   ),
                   ResizableContainer(
                     minHeight: MediaQuery.of(context).size.height * .3,
@@ -69,12 +74,22 @@ class ItemDetails extends StatelessWidget {
                   Positioned(
                     top: 10,
                     right: 10,
-                      child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(5)),
-                        child: Text('${itemDetailsBloc.page}/${images.length}'),
-                  ),),
+                    child: BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
+                      builder: (context, state) {
+                        log(itemDetailsBloc.page.toString());
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            '${itemDetailsBloc.page}/${images.length}',
+                            style: whiteTextStyle,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   Positioned(
                     top: 0,
                     left: 0,

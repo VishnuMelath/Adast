@@ -106,5 +106,10 @@ class ItemDatabaseServices {
     }
   }
 
-  
+Future<List<ClothModel>> getItemOfSubscribedSeller(List seller)
+async{
+  final query=firestore.collection('items').where('sellerID',whereIn: seller).orderBy('date',descending: true);
+  final snaps=await query.get();
+  return snaps.docs.map((e) => ClothModel.fromJson(e.data(), e.id),).toList();
+}
 }

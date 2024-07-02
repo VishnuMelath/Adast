@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } , listener: (context, state) {
         if(state.runtimeType==SplashNavigateToHomeState)
         {
-          Navigator.push(context,MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),));
+          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) =>const BottomNavbarScreen(),));
         }
         else if(state.runtimeType==SplashNavigatetoLoginState)
         {

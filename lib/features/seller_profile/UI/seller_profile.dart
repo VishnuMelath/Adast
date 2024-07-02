@@ -1,8 +1,10 @@
+
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_button.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
+import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +49,33 @@ class SellerProfile extends StatelessWidget {
                     ),
                   ),
                   BlocBuilder<SellerProfileBloc, SellerProfileState>(
+                    buildWhen: (previous, current)=>current is SellerSubscribedState,
                     builder: (context, state) {
-                      return SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.34,
-                        height: 70,
-                        child: CustomButton(onTap: () {}, text: 'subscribe'),
-                      );
+                      if (sellerProfileBloc.subscribed) {
+                        return SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.34,
+                          height: 70,
+                          child: CustomButton(
+                             
+                              onTap: () {
+                                sellerProfileBloc
+                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!));
+                              },
+                              text: 'subscribed'),
+                        );
+                      } else {
+                        return SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.34,
+                          height: 70,
+                          child: CustomButton(
+                             icon: true,
+                              onTap: () {
+                                sellerProfileBloc
+                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!));
+                              },
+                              text: 'subscribe'),
+                        );
+                      }
                     },
                   ),
                 ],

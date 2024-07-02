@@ -10,4 +10,8 @@ class SellerProfileItemLoadingEvent extends SellerProfileEvent{
 
 class SellerProfileMessageTappedEvent extends SellerProfileEvent{}
 
-class SellerProfileSubscribeUnsubEvent extends SellerProfileEvent{}
+class SellerProfileSubscribeUnsubEvent extends SellerProfileEvent{
+  final UserModel userModel;
+
+  SellerProfileSubscribeUnsubEvent({required this.userModel});
+}

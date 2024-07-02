@@ -13,6 +13,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
    int page=1;
   ItemDetailsBloc({required this.item}) : super(ItemDetailsInitial()) {
     on<ItemDetailsSizeChangedEvent>(itemDetailsSizeChangedEvent);
+    on<ItemDetailsPageSwitchEvent>(itemDetailsPageSwitchEvent);
   }
 
     FutureOr<void> itemDetailsSizeChangedEvent(
@@ -26,5 +27,10 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
         }
     
     emit(ItemDetailsSizeChangedState());
+  }
+
+  FutureOr<void> itemDetailsPageSwitchEvent(ItemDetailsPageSwitchEvent event, Emitter<ItemDetailsState> emit) {
+    page=event.index;
+    emit(ItemDetailsPageChangedState());
   }
 }

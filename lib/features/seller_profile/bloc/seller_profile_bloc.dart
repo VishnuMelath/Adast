@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
+import 'package:adast/models/user_model.dart';
 import 'package:adast/services/item_database_services.dart';
+import 'package:adast/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
@@ -19,6 +21,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
       : super(SellerProfileInitial()) {
   
     on<SellerProfileItemLoadingEvent>(sellerProfileItemLoadingEvent);
+    on<SellerProfileSubscribeUnsubEvent>(sellerProfileSubscribeUnsubEvent);
   }
 
   FutureOr<void> sellerProfileItemLoadingEvent(
@@ -31,5 +34,21 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
     } on FirebaseException catch (e) {
       log(e.code);
     }
+  }
+
+  FutureOr<void> sellerProfileSubscribeUnsubEvent(SellerProfileSubscribeUnsubEvent event, Emitter<SellerProfileState> emit) async{
+
+    subscribed=!subscribed;
+    if(subscribed)
+    {
+      event.userModel.subscriptions.add(sellerModel.email);
+    }
+    else
+    {
+      event.userModel.subscriptions.remove(sellerModel.email);
+    }
+    log(event.userModel.subscriptions.toString());
+await UserDatabaseServices().updateUser(event.userModel);
+    emit(SellerSubscribedState());
   }
 }

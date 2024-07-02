@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:adast/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/models/seller_model.dart';
@@ -128,7 +127,7 @@ class _MapScreenState extends State<MapScreen> {
           Marker marker = await generateMarkersFromWidget(
             e,
             () {
-              final subscribed=context.read<SplashscreenBloc>().userModel!.subscriptions.contains(e['data']['email']);
+              final subscribed=context.read<SplashscreenBloc>().userModel!.subscriptions.contains(e['data']['emailaddress']);
             
               Navigator.push(
                   context,

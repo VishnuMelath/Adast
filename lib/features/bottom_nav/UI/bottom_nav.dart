@@ -1,5 +1,6 @@
 
 import 'package:adast/%20themes/colors_shemes.dart';
+import 'package:adast/features/home_screen/UI/home_screen.dart';
 import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';
 import 'package:flutter/material.dart';
@@ -18,17 +19,10 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   BottomNavBloc bottomNavBloc = BottomNavBloc();
 
   int selectedIndex = 0;
-  List<Widget> pages = List.generate(
-    2,
-    (index) => Center(
-      child: Text((index + 1).toString()),
-    ),
-  );
+  List<Widget> pages =const [HomeScreen(),HomeScreen(),MapScreen(),Profile()];
   @override
   void initState() {
     bottomNavBloc.add(BottomNavInitialEvent());
-    pages.add(const MapScreen());
-    pages.add(const Profile());
     super.initState();
   }
 

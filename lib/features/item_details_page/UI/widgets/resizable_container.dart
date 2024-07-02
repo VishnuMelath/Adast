@@ -39,16 +39,9 @@ class _ResizableContainerState extends State<ResizableContainer> {
     ItemDetailsBloc itemDetailsBloc = BlocProvider.of(context);
     return BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
       builder: (context, state) {
-        late int reservedCount;
         late int itemsLeft;
         log('message');
         if (itemDetailsBloc.selectedSize == null) {
-          reservedCount = itemDetailsBloc.item.reservedCount.values.fold<int>(
-            0,
-            (s, e) {
-              return s + (e[1] ?? 0) as int;
-            },
-          );
           itemsLeft = itemDetailsBloc.item.size.values.fold<int>(
                 0,
                 (s, e) {
@@ -61,9 +54,6 @@ class _ResizableContainerState extends State<ResizableContainer> {
                       as int
                   : 0);
         } else {
-          reservedCount = itemDetailsBloc
-                  .item.reservedCount[itemDetailsBloc.selectedSize] ??
-              0;
           itemsLeft = itemDetailsBloc.item.size[itemDetailsBloc.selectedSize]
                   [0] -
               (itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize] ??
@@ -95,8 +85,6 @@ class _ResizableContainerState extends State<ResizableContainer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        
-                       
                         Text(
                           capitalize(itemDetailsBloc.item.brand),
                           style: largeBlackTextStyle,
@@ -117,16 +105,16 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           style: mediumBlackTextStyle,
                         ),
                         SizeWidget(itemDetailsBloc: itemDetailsBloc),
-                        if(itemDetailsBloc.selectedSize!=null)
-                         Container(
-                           padding: const EdgeInsets.symmetric(
-                               vertical: 8, horizontal: 15),
-                           decoration: greenBoxDecoration,
-                           child: Text(
-                             '$itemsLeft left',
-                             style: whiteTextStyle,
-                           ),
-                         ),
+                        if (itemDetailsBloc.selectedSize != null)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 15),
+                            decoration: greenBoxDecoration,
+                            child: Text(
+                              '$itemsLeft left',
+                              style: whiteTextStyle,
+                            ),
+                          ),
                         const Divider(),
                         const Text(
                           'Product details',

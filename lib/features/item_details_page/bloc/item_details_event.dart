@@ -8,3 +8,9 @@ class ItemDetailsSizeChangedEvent extends ItemDetailsEvent {
 
   ItemDetailsSizeChangedEvent({required this.size});
 }
+
+class ItemDetailsPageSwitchEvent extends ItemDetailsEvent{
+final int index;
+
+  ItemDetailsPageSwitchEvent({required this.index});
+}
