@@ -12,6 +12,7 @@ class SellerProfileMessageTappedEvent extends SellerProfileEvent{}
 
 class SellerProfileSubscribeUnsubEvent extends SellerProfileEvent{
   final UserModel userModel;
+  final HomeBloc homeBloc;
 
-  SellerProfileSubscribeUnsubEvent({required this.userModel});
+  SellerProfileSubscribeUnsubEvent({required this.userModel,required this.homeBloc});
 }

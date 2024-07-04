@@ -16,3 +16,7 @@ class HomeLoadedState extends HomeState{}
 class HomeErrorState extends HomeState{final String error;
 
   HomeErrorState({required this.error});}
+
+class HomeNoSubState extends HomeState{}
+
+class HomeNoItemState extends HomeState{}

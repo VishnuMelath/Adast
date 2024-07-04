@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/models/seller_model.dart';
@@ -24,6 +25,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+
   bool isloaded = false;
   GlobalKey<FormState> formkey = GlobalKey();
   final Map<String, Marker> markers = {};
@@ -43,83 +45,78 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('hello');
-    return Container(
-      color: greentransparent,
-      child: SafeArea(
-        child: Scaffold(
-          body: StreamBuilder<QuerySnapshot>(
-              stream: _locationsStream,
-              builder: (context, snapshot) {
-                final locations = snapshot.data?.docs;
-                final length = locations?.length ?? 0;
-                locations?.forEach(
-                  (element) {
-                    data.add({'globalKey': GlobalKey(), 'data': element});
-                  },
-                );
-                SchedulerBinding.instance
-                    .addPostFrameCallback((_) => onBuildCompleted());
-                return BlocBuilder<MapBloc, MapState>(
-                  bloc: mapBloc,
-                  builder: (context, state) {
-                    return Stack(
+      HomeBloc homeBloc=context.read();
+    return Scaffold(
+      body: StreamBuilder<QuerySnapshot>(
+          stream: _locationsStream,
+          builder: (context, snapshot) {
+            final locations = snapshot.data?.docs;
+            final length = locations?.length ?? 0;
+            locations?.forEach(
+              (element) {
+                data.add({'globalKey': GlobalKey(), 'data': element});
+              },
+            );
+            SchedulerBinding.instance
+                .addPostFrameCallback((_) => onBuildCompleted(homeBloc));
+            return BlocBuilder<MapBloc, MapState>(
+              bloc: mapBloc,
+              builder: (context, state) {
+                return Stack(
+                  children: [
+                    ListView(
                       children: [
-                        ListView(
-                          children: [
-                            for (int i = 0; i < length; i++)
-                              Transform.translate(
-                                offset: Offset(
-                                    -MediaQuery.of(context).size.width * 2,
-                                    -MediaQuery.of(context).size.height * 2),
-                                child: RepaintBoundary(
-                                  key: data[i]['globalKey'],
-                                  child: CustomMarker(
-                                    image: data[i]['data']['image'],
-                                    name: data[i]['data']['name'],
-                                  ),
-                                ),
-                              )
-                          ],
-                        ),
-                        GoogleMap(
-                          buildingsEnabled: false,
-                          markers: markers.values.toSet(),
-                          onTap: (latlng) {},
-                          mapType: MapType.normal,
-                          zoomControlsEnabled: false,
-                          myLocationEnabled: true,
-                          myLocationButtonEnabled: true,
-                          onMapCreated: (controller) {
-                            mapController = controller;
-                          },
-                          initialCameraPosition: CameraPosition(
-                            target: center,
-                            zoom: 13.0,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: MediaQuery.sizeOf(context).height * 0.152,
-                          right: MediaQuery.sizeOf(context).height * 0.01,
-                          child: FloatingActionButton(
-                            child:const Icon(Icons.my_location_sharp),
-                            onPressed: () {
-                              mapBloc.add(MapCurrentLocationTappedEvent(
-                                  googleMapController: mapController));
-                            },
-                          ),
-                        )
+                        for (int i = 0; i < length; i++)
+                          Transform.translate(
+                            offset: Offset(
+                                -MediaQuery.of(context).size.width * 2,
+                                -MediaQuery.of(context).size.height * 2),
+                            child: RepaintBoundary(
+                              key: data[i]['globalKey'],
+                              child: CustomMarker(
+                                image: data[i]['data']['image'],
+                                name: data[i]['data']['name'],
+                              ),
+                            ),
+                          )
                       ],
-                    );
-                  },
+                    ),
+                    GoogleMap(
+                      buildingsEnabled: false,
+                      markers: markers.values.toSet(),
+                      onTap: (latlng) {},
+                      mapType: MapType.normal,
+                      zoomControlsEnabled: false,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: true,
+                      onMapCreated: (controller) {
+                        mapController = controller;
+                      },
+                      initialCameraPosition: CameraPosition(
+                        target: center,
+                        zoom: 13.0,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: MediaQuery.sizeOf(context).height * 0.152,
+                      right: MediaQuery.sizeOf(context).height * 0.01,
+                      child: FloatingActionButton(
+                        child:const Icon(Icons.my_location_sharp),
+                        onPressed: () {
+                          mapBloc.add(MapCurrentLocationTappedEvent(
+                              googleMapController: mapController));
+                        },
+                      ),
+                    )
+                  ],
                 );
-              }),
-        ),
-      ),
+              },
+            );
+          }),
     );
   }
 
-  Future<void> onBuildCompleted() async {
+  Future<void> onBuildCompleted(HomeBloc homeBloc) async {
 
     await Future.wait(data.map(
       (e) async {
@@ -134,7 +131,7 @@ class _MapScreenState extends State<MapScreen> {
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
                       create: (context) => SellerProfileBloc(sellerModel: SellerModel.fromJson(e['data']),subscribed: subscribed),
-                      child: const SellerProfile(),
+                      child:  SellerProfile(homeBloc: homeBloc,),
                     ),
                   ));
             },

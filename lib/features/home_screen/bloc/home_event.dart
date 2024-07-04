@@ -22,3 +22,4 @@ class HomeInitialEvent extends HomeEvent{
   HomeInitialEvent({required this.userModel});
 
 }
+

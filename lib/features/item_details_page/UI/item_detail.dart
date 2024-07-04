@@ -77,14 +77,17 @@ class ItemDetails extends StatelessWidget {
                     child: BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
                       builder: (context, state) {
                         log(itemDetailsBloc.page.toString());
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Text(
-                            '${itemDetailsBloc.page}/${images.length}',
-                            style: whiteTextStyle,
+                        return Visibility(
+                          visible: images.length>1,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              '${itemDetailsBloc.page}/${images.length}',
+                              style: whiteTextStyle,
+                            ),
                           ),
                         );
                       },

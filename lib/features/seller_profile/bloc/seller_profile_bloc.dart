@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
@@ -47,6 +48,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
     {
       event.userModel.subscriptions.remove(sellerModel.email);
     }
+    event.homeBloc.add(HomeInitialEvent(userModel: event.userModel));
     log(event.userModel.subscriptions.toString());
 await UserDatabaseServices().updateUser(event.userModel);
     emit(SellerSubscribedState());

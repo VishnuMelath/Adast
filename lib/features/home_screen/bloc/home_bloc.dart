@@ -6,6 +6,7 @@ import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
 import 'package:adast/services/item_database_services.dart';
 import 'package:adast/services/seller_database_services.dart';
+import 'package:adast/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
@@ -15,7 +16,7 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   late UserModel userModel;
-  Map<String,SellerModel> sellers = {};
+  Map<String, SellerModel> sellers = {};
   String? shopSelected;
   List<ClothModel> fullItemList = [];
   List<ClothModel> showingList = [];
@@ -32,42 +33,56 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else {
       userModel.saved.add(event.itemId);
     }
-    emit(HomeItemSavedUnSavedState());
+    await UserDatabaseServices().updateUser(userModel);
+    emit(HomeLoadedState());
+    // emit(HomeItemSavedUnSavedState());
   }
 
   FutureOr<void> homeSellerTappedEvent(
       HomeSellerTappedEvent event, Emitter<HomeState> emit) {
-        shopSelected=event.email;
-        if(shopSelected==null)
-        {
-          showingList=fullItemList;
-        }
-        else
-        {
-          showingList=fullItemList.where((element) => element.sellerID==shopSelected,).toList();
-        }
-        emit(HomeShopSelectedState());
-      }
+    shopSelected = event.email;
+    if (shopSelected == null) {
+      showingList = fullItemList;
+    } else {
+      showingList = fullItemList
+          .where(
+            (element) => element.sellerID == shopSelected,
+          )
+          .toList();
+    }
+    emit(HomeShopSelectedState());
+  }
 
   FutureOr<void> homeInitialEvent(
       HomeInitialEvent event, Emitter<HomeState> emit) async {
+    log('called');
     userModel = event.userModel;
-    emit(HomeLoadingState());
     if (!await hasNetwork()) {
       emit(HomeErrorState(error: 'please check your network connection'));
     } else {
-      emit(HomeLoadedState());
+      emit(HomeLoadingState());
       try {
         for (var value in userModel.subscriptions) {
-          log(value);
-          var seller=await SellerDatabaseServices().getSeller(value);
-          sellers[seller.email]=seller;
+          if (!sellers.containsKey(value)) {
+            log(value);
+            var seller = await SellerDatabaseServices().getSeller(value);
+            sellers[seller.email] = seller;
+          }
+        }
+        if (sellers.isEmpty) {
+          emit(HomeNoSubState());
+          return;
         }
 
         fullItemList = await ItemDatabaseServices()
             .getItemOfSubscribedSeller(userModel.subscriptions);
-            showingList=fullItemList;
-        emit(HomeLoadedState());
+        showingList = fullItemList;
+        if (showingList.isEmpty) {
+          emit(HomeNoItemState());
+        }
+        {
+          emit(HomeLoadedState());
+        }
       } on FirebaseException catch (e) {
         log(e.toString());
         emit(HomeErrorState(error: e.code));

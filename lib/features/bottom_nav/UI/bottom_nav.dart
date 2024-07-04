@@ -1,11 +1,14 @@
+import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/home_screen/UI/home_screen.dart';
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../splash_screen/bloc/splashscreen_bloc.dart';
 import '../bloc/bottom_nav_bloc.dart';
 
 class BottomNavbarScreen extends StatefulWidget {
@@ -17,24 +20,35 @@ class BottomNavbarScreen extends StatefulWidget {
 
 class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   BottomNavBloc bottomNavBloc = BottomNavBloc();
-
+  HomeBloc homeBloc = HomeBloc();
   int selectedIndex = 0;
-  List<Widget> pages =const [HomeScreen(),HomeScreen(),MapScreen(),Profile()];
+  List<Widget> pages = const [
+    HomeScreen(),
+    HomeScreen(),
+    MapScreen(),
+    Profile()
+  ];
   @override
   void initState() {
-    bottomNavBloc.add(BottomNavInitialEvent());
+    bottomNavBloc.add(BottomNavInitialEvent());homeBloc.add(HomeInitialEvent(
+        userModel: context.read<SplashscreenBloc>().userModel!));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    log(selectedIndex.toString());
     return BlocProvider<BottomNavBloc>(
       create: (context) => bottomNavBloc,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Scaffold(
-            body: pages[selectedIndex],
+          BlocProvider(
+            create: (context) => homeBloc,
+            child: Scaffold(
+              body: pages[selectedIndex],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),

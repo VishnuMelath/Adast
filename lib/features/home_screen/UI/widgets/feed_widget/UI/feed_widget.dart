@@ -1,6 +1,13 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/bloc/feed_widget_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
+import 'package:adast/features/item_details_page/UI/item_detail.dart';
+import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
+import 'package:adast/features/seller_profile/UI/seller_profile.dart';
+import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
+import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,74 +25,151 @@ class FeedWidget extends StatelessWidget {
     FeedWidgetBloc feedWidgetBloc = FeedWidgetBloc();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
         children: [
-          Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.sizeOf(context).width * 1.5,
-                child: PageView(
-                  onPageChanged: (value) {
-                    feedWidgetBloc.add(FeedImageChangedEvent(page: value));
-                  },
-                  children: [
-                    ...clothModel.images.map(
-                      (e) => CachedNetworkImage(imageUrl: e),
-                    )
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 10,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.sizeOf(context).width,
-                  child: Row(
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => ItemDetailsBloc(item: clothModel),
+                      child: const ItemDetails(),
+                    ),
+                  ));
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).width * 1.4,
+                  child: PageView(
+                    onPageChanged: (value) {
+                      feedWidgetBloc.add(FeedImageChangedEvent(page: value));
+                    },
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            width: 40,
-                            imageUrl:
-                                homeBloc.sellers[clothModel.sellerID]!.image!),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            capitalize(
-                                homeBloc.sellers[clothModel.sellerID]!.name),
-                            style: mediumWhiteTextStyle,
+                      ...clothModel.images.map(
+                        (e) => ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: CachedNetworkImage(
+                            imageUrl: e,
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
-                      ),
-                      Visibility(
-                        visible: clothModel.images.length > 1,
-                        child: BlocBuilder<FeedWidgetBloc, FeedWidgetState>(
-                          bloc: feedWidgetBloc,
-                          builder: (context, state) {
-                            return Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                '${feedWidgetBloc.currentPage + 1}/${clothModel.images.length}',
-                                style: whiteTextStyle,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${capitalize(clothModel.name)} ( ₹${clothModel.price})',
+                                style: mediumBlackTextStyle,
+                              ),
+                              Text(clothModel.description),
+                              Text('Available sizes ${clothModel.size.keys}')
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              homeBloc.add(HomeSaveOrRemoveTappedEvent(
+                                  userModel: context
+                                      .read<SplashscreenBloc>()
+                                      .userModel!,
+                                  itemId: clothModel.id!));
+                            },
+                            child: context
+                                    .read<SplashscreenBloc>()
+                                    .userModel!
+                                    .saved
+                                    .contains(clothModel.id)
+                                ? const Icon(Icons.bookmark)
+                                : const Icon(Icons.bookmark_border))
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 10,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              width: MediaQuery.sizeOf(context).width,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlocProvider(
+                              create: (context) => SellerProfileBloc(
+                                  sellerModel:
+                                      homeBloc.sellers[clothModel.sellerID]!,
+                                  subscribed: context
+                                      .read<SplashscreenBloc>()
+                                      .userModel!
+                                      .subscriptions
+                                      .contains(clothModel.sellerID)),
+                              child: SellerProfile(
+                                homeBloc: homeBloc,
+                              ),
+                            ),
+                          ));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          width: 40,
+                          imageUrl:
+                              homeBloc.sellers[clothModel.sellerID]!.image!),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        capitalize(homeBloc.sellers[clothModel.sellerID]!.name),
+                        style: mediumWhiteTextStyle,
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: clothModel.images.length > 1,
+                    child: BlocBuilder<FeedWidgetBloc, FeedWidgetState>(
+                      bloc: feedWidgetBloc,
+                      builder: (context, state) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            '${feedWidgetBloc.currentPage + 1}/${clothModel.images.length}',
+                            style: whiteTextStyle,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          )
+            ),
+          ),
         ],
       ),
     );

@@ -1,9 +1,11 @@
 
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_button.dart';
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
+import 'package:adast/features/splash_screen/UI/splash_screen.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -13,7 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widgets/custom_grid.dart';
 
 class SellerProfile extends StatelessWidget {
-  const SellerProfile({super.key});
+  final HomeBloc homeBloc;
+  const SellerProfile({super.key,required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,8 @@ class SellerProfile extends StatelessWidget {
                              
                               onTap: () {
                                 sellerProfileBloc
-                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!));
+                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!,homeBloc: homeBloc));
+                                  
                               },
                               text: 'subscribed'),
                         );
@@ -68,10 +72,11 @@ class SellerProfile extends StatelessWidget {
                           width: MediaQuery.sizeOf(context).width * 0.34,
                           height: 70,
                           child: CustomButton(
-                             icon: true,
+                               icon: true,
                               onTap: () {
                                 sellerProfileBloc
-                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!));
+                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!,homeBloc: homeBloc));
+                                      // homeBloc.add(HomeInitialEvent(userModel: context.read<SplashscreenBloc>().userModel!));
                               },
                               text: 'subscribe'),
                         );
