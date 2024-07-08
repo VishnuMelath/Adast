@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           'REGISTER',
           style: greenTextStyle,
         ),

@@ -8,3 +8,5 @@ final class ItemDetailsInitial extends ItemDetailsState {}
 class ItemDetailsSizeChangedState extends ItemDetailsState{}
 
 class ItemDetailsPageChangedState extends ItemDetailsState{}
+
+class ItemSavedChangedState extends ItemDetailsState{}

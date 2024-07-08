@@ -5,6 +5,7 @@ import 'package:adast/features/home_screen/UI/home_screen.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';
+import 'package:adast/features/search_screen/UI/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +25,7 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   int selectedIndex = 0;
   List<Widget> pages = const [
     HomeScreen(),
-    HomeScreen(),
+    SearchScreen(),
     MapScreen(),
     Profile()
   ];

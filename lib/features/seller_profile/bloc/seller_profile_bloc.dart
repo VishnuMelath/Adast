@@ -30,7 +30,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
       Emitter<SellerProfileState> emit) async {
     emit(SellerProfileItemsLoadingState());
     try {
-      items.addAll(await ItemDatabaseServices().getAllItems(sellerModel.email));
+      items.addAll(await ItemDatabaseServices().getAllSellerItems(sellerModel.email));
       emit(SellerProfileItemsLoadedState());
     } on FirebaseException catch (e) {
       log(e.code);

@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             loginBloc.add(LoginRegisterPressedEvent());
                           },
-                          child: const Text(
+                          child:  Text(
                             'Sign up here',
                             style: greenTextStyle,
                           ),

@@ -1,11 +1,17 @@
 import 'dart:developer';
 
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
+import 'package:adast/models/user_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ themes/colors_shemes.dart';
 import '../../../../ themes/themes.dart';
 import '../../../../methods/common_methods.dart';
+import '../../../seller_profile/UI/seller_profile.dart';
+import '../../../seller_profile/bloc/seller_profile_bloc.dart';
+import '../../../splash_screen/bloc/splashscreen_bloc.dart';
 import '../../bloc/item_details_bloc.dart';
 import 'drawer_holder.dart';
 import 'size_widget.dart';
@@ -13,12 +19,13 @@ import 'size_widget.dart';
 class ResizableContainer extends StatefulWidget {
   final double minHeight;
   final double maxHeight;
+  final HomeBloc homeBloc;
 
-  const ResizableContainer({
-    super.key,
-    this.minHeight = 100.0,
-    this.maxHeight = 700.0,
-  });
+  const ResizableContainer(
+      {super.key,
+      this.minHeight = 100.0,
+      this.maxHeight = 700.0,
+      required this.homeBloc});
 
   @override
   State<ResizableContainer> createState() => _ResizableContainerState();
@@ -40,7 +47,6 @@ class _ResizableContainerState extends State<ResizableContainer> {
     return BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
       builder: (context, state) {
         late int itemsLeft;
-        log('message');
         if (itemDetailsBloc.selectedSize == null) {
           itemsLeft = itemDetailsBloc.item.size.values.fold<int>(
                 0,
@@ -61,7 +67,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
         }
         log(itemDetailsBloc.item.toMap().toString());
         return Container(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
           width: double.infinity,
           height: currentHeight,
           decoration: const BoxDecoration(
@@ -85,9 +91,83 @@ class _ResizableContainerState extends State<ResizableContainer> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          capitalize(itemDetailsBloc.item.brand),
-                          style: largeBlackTextStyle,
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => SellerProfileBloc(
+                                            sellerModel:
+                                                itemDetailsBloc.sellerModel,
+                                            subscribed: context
+                                                .read<SplashscreenBloc>()
+                                                .userModel!
+                                                .subscriptions
+                                                .contains(itemDetailsBloc
+                                                    .item.sellerID)),
+                                        child: SellerProfile(
+                                          homeBloc: widget.homeBloc,
+                                        ),
+                                      ),
+                                    ));
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    width: 40,
+                                    imageUrl: widget
+                                        .homeBloc
+                                        .sellers[itemDetailsBloc.item.sellerID]!
+                                        .image!),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  capitalize(widget
+                                      .homeBloc
+                                      .sellers[itemDetailsBloc.item.sellerID]!
+                                      .name),
+                                  style: largeBlackTextStyle,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                capitalize(itemDetailsBloc.item.brand),
+                                style: mediumBlackTextStyle,
+                              ),
+                            ),
+                            BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
+                              builder: (context, state) {
+                                return IconButton(
+                                    onPressed: () {
+                                      UserModel userModel= context.read<SplashscreenBloc>().userModel!;
+                                      itemDetailsBloc.add(ItemSaveUnSavePressedEvent(userModel:userModel, itemId: itemDetailsBloc.item.id!));
+                                      widget.homeBloc.add(HomeInitialEvent(userModel: userModel));
+                                    },
+                                    icon: context
+                                            .read<SplashscreenBloc>()
+                                            .userModel!
+                                            .saved
+                                            .contains(itemDetailsBloc.item.id)
+                                        ? const Icon(Icons.bookmark)
+                                        : const Icon(Icons.bookmark_border));
+                              },
+                            )
+                          ],
                         ),
                         Text(
                           itemDetailsBloc.item.name,
@@ -100,7 +180,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             style: greyTextStyle,
                           ),
                         ),
-                        const Text(
+                        Text(
                           'size',
                           style: mediumBlackTextStyle,
                         ),
@@ -116,7 +196,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                             ),
                           ),
                         const Divider(),
-                        const Text(
+                        Text(
                           'Product details',
                           style: mediumBlackTextStyle,
                         ),
@@ -131,12 +211,15 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                   SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * .4,
-                                    child: const Text(
+                                    child: Text(
                                       'Material',
                                       style: greyTextStyle,
                                     ),
                                   ),
-                                  Text(itemDetailsBloc.item.material),
+                                  Text(
+                                    itemDetailsBloc.item.material,
+                                    style: blackPlainTextStyle,
+                                  ),
                                 ],
                               ),
                               Row(
@@ -144,12 +227,15 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                   SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * .4,
-                                    child: const Text(
+                                    child: Text(
                                       'Fit',
                                       style: greyTextStyle,
                                     ),
                                   ),
-                                  Text(itemDetailsBloc.item.fit),
+                                  Text(
+                                    itemDetailsBloc.item.fit,
+                                    style: blackPlainTextStyle,
+                                  ),
                                 ],
                               ),
                               Row(
@@ -157,12 +243,15 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                   SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * .4,
-                                    child: const Text(
+                                    child: Text(
                                       'Category',
                                       style: greyTextStyle,
                                     ),
                                   ),
-                                  Text(itemDetailsBloc.item.category),
+                                  Text(
+                                    itemDetailsBloc.item.category,
+                                    style: blackPlainTextStyle,
+                                  ),
                                 ],
                               ),
                               Row(
@@ -170,12 +259,15 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                   SizedBox(
                                     width:
                                         MediaQuery.sizeOf(context).width * .4,
-                                    child: const Text(
+                                    child: Text(
                                       'Price',
                                       style: greyTextStyle,
                                     ),
                                   ),
-                                  Text('${itemDetailsBloc.item.price} ₹'),
+                                  Text(
+                                    '${itemDetailsBloc.item.price} ₹',
+                                    style: blackPlainTextStyle,
+                                  ),
                                 ],
                               ),
                             ],

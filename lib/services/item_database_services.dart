@@ -36,7 +36,7 @@ class ItemDatabaseServices {
 
   }
 
-  Future<List<ClothModel>> getAllItems(String email) async {
+  Future<List<ClothModel>> getAllSellerItems(String email) async {
     try {
       final sellersCollection = firestore.collection('items');
       Query userQuery = sellersCollection.where('sellerID', isEqualTo: email);
@@ -52,7 +52,37 @@ class ItemDatabaseServices {
       rethrow;
     }
   }
+Future<List<ClothModel>> getAllItems() async {
+    try {
+      final sellersCollection = firestore.collection('items').orderBy('date', descending: true);
+      Query userQuery = sellersCollection;
+      QuerySnapshot<Object?> itemsnap = await userQuery.get();
+      return itemsnap.docs.map(
+        (e) {
+          return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
+        },
+      ).toList();
+    }on FirebaseException catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 
+  Future<List<ClothModel>> search(String? query) async {
+    try {
+      final sellersCollection = firestore.collection('items').where('name',isEqualTo: query);
+      Query userQuery = sellersCollection;
+      QuerySnapshot<Object?> itemsnap = await userQuery.get();
+      return itemsnap.docs.map(
+        (e) {
+          return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
+        },
+      ).toList();
+    }on FirebaseException catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
   Future<List<ClothModel>> getSortedList(
       {required String sortby,
       required bool descending,

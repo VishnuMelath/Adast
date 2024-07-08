@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +12,8 @@ import '../bloc/item_details_bloc.dart';
 import 'widgets/resizable_container.dart';
 
 class ItemDetails extends StatelessWidget {
-  const ItemDetails({super.key});
+  final HomeBloc homeBloc;
+  const ItemDetails({super.key, required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ItemDetails extends StatelessWidget {
           floatingActionButton: FloatingActionButton.extended(
               onPressed: () {},
               backgroundColor: green,
-              label: const Text(
+              label:  Text(
                 'reserve',
                 style: whiteTextStyle,
               )),
@@ -70,6 +72,7 @@ class ItemDetails extends StatelessWidget {
                   ),
                   ResizableContainer(
                     minHeight: MediaQuery.of(context).size.height * .3,
+                    homeBloc: homeBloc,
                   ),
                   Positioned(
                     top: 10,

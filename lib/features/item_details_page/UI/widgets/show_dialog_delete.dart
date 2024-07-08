@@ -20,7 +20,7 @@ showDialogueDelete(BuildContext context,  {required void Function() onPressed}) 
           ElevatedButton(
             style:const ButtonStyle(backgroundColor: WidgetStatePropertyAll(green)),
             onPressed: onPressed,
-            child: const Text(
+            child:  Text(
               'confirm',
               style: whiteTextStyle,
             ),

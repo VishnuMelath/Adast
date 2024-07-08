@@ -1,0 +1,135 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:adast/models/cloth_model.dart';
+import 'package:adast/services/item_database_services.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+
+part 'search_event.dart';
+part 'search_state.dart';
+
+class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  String? searchQuery;
+  List<ClothModel> items = [];
+  Set<String> brands = {};
+  Set<String> categories = {};
+  List<String> selectedBrands = [];
+  List<String> selectedFabric = [];
+  List<String> selectedFit = [];
+  List<String> selectedCategory = [];
+  int sortOption = 0;
+  RangeValues priceRangeValues = const RangeValues(0, 10000);
+  SearchBloc() : super(SearchInitial()) {
+    on<SearchInitialEvent>(searchInitialEvent);
+    on<SearchValueChangedEvent>(searchValueChangedEvent);
+  }
+
+  FutureOr<void> searchInitialEvent(
+      SearchInitialEvent event, Emitter<SearchState> emit) async {
+    emit(SearchLoadingState());
+    items = await ItemDatabaseServices().getAllItems();
+    for (var item in items) {
+      brands.add(item.brand);
+      categories.add(item.category);
+    }
+    emit(SearchLoadedState());
+  }
+
+  FutureOr<void> searchValueChangedEvent(
+      SearchValueChangedEvent event, Emitter<SearchState> emit) async {
+    emit(SearchLoadingState());
+    items = await ItemDatabaseServices().getAllItems();
+    for (var item in items) {
+      brands.add(item.brand);
+      categories.add(item.category);
+    }
+    log('${sortOption}sort option');
+    items = items
+        .where(
+          (element) => element.name.contains(searchQuery ?? ''),
+        )
+        .toList();
+    if (selectedBrands.isNotEmpty) {
+      log(selectedBrands.toString());
+      items = items.where(
+        (e) {
+          log(e.brand);
+          return selectedBrands.contains(e.brand);
+        },
+      ).toList();
+    }
+    if (selectedCategory.isNotEmpty) {
+      items = items.where(
+        (e) {
+          log(e.category);
+          return selectedCategory.contains(e.category);
+        },
+      ).toList();
+      log(items.length.toString());
+    }
+    if (selectedFabric.isNotEmpty) {
+      log(selectedFabric.toString());
+      items = items
+          .where(
+            (e) => selectedFabric.contains(e.material),
+          )
+          .toList();
+    }
+    if (selectedFit.isNotEmpty) {
+      log(selectedFit.toString());
+      items = items
+          .where(
+            (e) => selectedFit.contains(e.fit),
+          )
+          .toList();
+    }
+
+    items = items
+        .where(
+          (element) =>
+              element.price <= priceRangeValues.end &&
+              element.price >= priceRangeValues.start,
+        )
+        .toList();
+
+    if (sortOption != 0) {
+      switch (sortOption) {
+        //price ascending order
+        case 1:
+          items.sort((a, b) => a.price.compareTo(b.price));
+          break;
+        //price desc order
+        case 2:
+          items.sort((a, b) => b.price.compareTo(a.price));
+          break;
+        //date ascending order
+        case 3:
+          items.sort((a, b) => a.date.compareTo(b.date));
+          break;
+        //date desc order
+        case 4:
+          items.sort((a, b) => b.date.compareTo(a.date));
+          break;
+        // //item left ascending order
+        // case 5:
+        //   temp.sort((a, b) =>totalItemsLeft(a).compareTo(totalItemsLeft(b)));
+        //   break;
+        // //itemleft desc order
+        // case 6:
+        //   temp.sort((a, b) =>totalItemsLeft(b).compareTo(totalItemsLeft(a)));
+        //   break;
+
+        default:
+          break;
+      }
+    }
+    if (items.isEmpty) {
+      emit(SearchEmptyState());
+    } else {
+      await Future.delayed(const Duration(milliseconds: 200));
+
+      emit(SearchLoadedState());
+    }
+  }
+}

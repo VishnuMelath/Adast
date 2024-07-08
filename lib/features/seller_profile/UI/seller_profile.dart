@@ -5,7 +5,6 @@ import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
-import 'package:adast/features/splash_screen/UI/splash_screen.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -127,8 +126,8 @@ class SellerProfile extends StatelessWidget {
                                       MaterialPageRoute(
                                         builder: (context) => BlocProvider(
                                           create: (context) =>
-                                              ItemDetailsBloc(item: e),
-                                          child: const ItemDetails(),
+                                              ItemDetailsBloc(item: e,sellerModel: sellerProfileBloc.sellerModel),
+                                          child:  ItemDetails(homeBloc:homeBloc ,),
                                         ),
                                       ));
                                 },

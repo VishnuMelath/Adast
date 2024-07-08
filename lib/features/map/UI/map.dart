@@ -11,7 +11,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../ themes/colors_shemes.dart';
 import '../../seller_profile/UI/seller_profile.dart';
 import '../../splash_screen/bloc/splashscreen_bloc.dart';
 import '../bloc/map_bloc.dart';

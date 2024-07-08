@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/bloc/feed_widget_bloc.dart';
@@ -24,7 +23,7 @@ class FeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     FeedWidgetBloc feedWidgetBloc = FeedWidgetBloc();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
       child: Stack(
         children: [
           GestureDetector(
@@ -33,8 +32,8 @@ class FeedWidget extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                      create: (context) => ItemDetailsBloc(item: clothModel),
-                      child: const ItemDetails(),
+                      create: (context) => ItemDetailsBloc(item: clothModel,sellerModel: homeBloc.sellers[clothModel.sellerID]!),
+                      child:  ItemDetails(homeBloc: homeBloc,),
                     ),
                   ));
             },
@@ -75,8 +74,9 @@ class FeedWidget extends StatelessWidget {
                                 '${capitalize(clothModel.name)} ( ₹${clothModel.price})',
                                 style: mediumBlackTextStyle,
                               ),
-                              Text(clothModel.description),
-                              Text('Available sizes ${clothModel.size.keys}')
+                              Text(clothModel.description,style: blackPlainTextStyle,),
+                              Text('Available sizes ${clothModel.size.keys}',style: blackPlainTextStyle,),
+                              Text(dateString(clothModel.date),style: greySmallTextStyle,)
                             ],
                           ),
                         ),

@@ -14,3 +14,10 @@ final int index;
 
   ItemDetailsPageSwitchEvent({required this.index});
 }
+
+class ItemSaveUnSavePressedEvent extends ItemDetailsEvent{
+  final String itemId;
+  final UserModel userModel;
+
+  ItemSaveUnSavePressedEvent({required this.userModel,required this.itemId});
+}

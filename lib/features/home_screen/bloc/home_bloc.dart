@@ -69,7 +69,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             sellers[seller.email] = seller;
           }
         }
-        if (sellers.isEmpty) {
+        if (userModel.subscriptions.isEmpty) {
           emit(HomeNoSubState());
           return;
         }
