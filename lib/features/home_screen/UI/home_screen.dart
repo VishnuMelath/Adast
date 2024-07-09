@@ -7,7 +7,6 @@ import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/feed_widget
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/home_bloc.dart';

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/features/map/bloc/map_bloc.dart';
 import 'package:flutter/material.dart';

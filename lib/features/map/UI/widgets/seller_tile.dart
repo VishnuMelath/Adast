@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_cached_network_image.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
-import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/seller_profile/UI/seller_profile.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
