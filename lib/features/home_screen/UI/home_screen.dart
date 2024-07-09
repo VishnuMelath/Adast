@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
-import 'package:adast/features/home_screen/UI/widgets/custom_cached_network_image.dart';
+import 'package:adast/custom_widgets/custom_cached_network_image.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/feed_widget.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/seller_model.dart';

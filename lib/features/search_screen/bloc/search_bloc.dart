@@ -6,12 +6,15 @@ import 'package:adast/services/item_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/seller_model.dart';
+
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   String? searchQuery;
   List<ClothModel> items = [];
+   Map<String, SellerModel> sellers = {};
   Set<String> brands = {};
   Set<String> categories = {};
   List<String> selectedBrands = [];
@@ -23,6 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchInitial()) {
     on<SearchInitialEvent>(searchInitialEvent);
     on<SearchValueChangedEvent>(searchValueChangedEvent);
+    on<SearchClearFilterEvent>(searchClearFilterEvent);
   }
 
   FutureOr<void> searchInitialEvent(
@@ -131,5 +135,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       emit(SearchLoadedState());
     }
+  }
+
+  FutureOr<void> searchClearFilterEvent(SearchClearFilterEvent event, Emitter<SearchState> emit) async{
+    emit(SearchLoadingState());
+    selectedBrands.clear();
+    selectedCategory.clear();
+    selectedFabric.clear();
+    selectedFit.clear();
+    priceRangeValues = const RangeValues(0, 10000);
+    items = await ItemDatabaseServices().getAllItems();
+    emit(SearchLoadedState());
+
   }
 }

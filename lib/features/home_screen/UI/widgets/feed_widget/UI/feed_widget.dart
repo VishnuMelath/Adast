@@ -1,4 +1,3 @@
-
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/bloc/feed_widget_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
@@ -28,12 +27,20 @@ class FeedWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
+              ItemDetailsBloc itemDetailsBloc =
+                  ItemDetailsBloc(item: clothModel);
+              itemDetailsBloc.sellerModel =
+                  homeBloc.sellers[clothModel.sellerID]!;
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                      create: (context) => ItemDetailsBloc(item: clothModel,sellerModel: homeBloc.sellers[clothModel.sellerID]!),
-                      child:  ItemDetails(homeBloc: homeBloc,),
+                      create: (context) => ItemDetailsBloc(
+                        item: clothModel,
+                      ),
+                      child: ItemDetails(
+                        homeBloc: homeBloc,
+                      ),
                     ),
                   ));
             },
@@ -74,9 +81,18 @@ class FeedWidget extends StatelessWidget {
                                 '${capitalize(clothModel.name)} ( ₹${clothModel.price})',
                                 style: mediumBlackTextStyle,
                               ),
-                              Text(clothModel.description,style: blackPlainTextStyle,),
-                              Text('Available sizes ${clothModel.size.keys}',style: blackPlainTextStyle,),
-                              Text(dateString(clothModel.date),style: greySmallTextStyle,)
+                              Text(
+                                clothModel.description,
+                                style: blackPlainTextStyle,
+                              ),
+                              Text(
+                                'Available sizes ${clothModel.size.keys}',
+                                style: blackPlainTextStyle,
+                              ),
+                              Text(
+                                dateString(clothModel.date),
+                                style: greySmallTextStyle,
+                              )
                             ],
                           ),
                         ),
@@ -111,18 +127,19 @@ class FeedWidget extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      SellerProfileBloc sellerProfileBloc = SellerProfileBloc(
+                          sellerModel: homeBloc.sellers[clothModel.sellerID]!,
+                          subscribed: context
+                              .read<SplashscreenBloc>()
+                              .userModel!
+                              .subscriptions
+                              .contains(clothModel.sellerID))
+                        ..add(SellerProfileItemLoadingEvent());
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => BlocProvider(
-                              create: (context) => SellerProfileBloc(
-                                  sellerModel:
-                                      homeBloc.sellers[clothModel.sellerID]!,
-                                  subscribed: context
-                                      .read<SplashscreenBloc>()
-                                      .userModel!
-                                      .subscriptions
-                                      .contains(clothModel.sellerID)),
+                              create: (context) => sellerProfileBloc,
                               child: SellerProfile(
                                 homeBloc: homeBloc,
                               ),

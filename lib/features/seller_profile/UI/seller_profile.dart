@@ -19,8 +19,7 @@ class SellerProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SellerProfileBloc sellerProfileBloc = context.read()
-      ..add(SellerProfileItemLoadingEvent());
+    SellerProfileBloc sellerProfileBloc = context.read();
 
     return Scaffold(
       appBar: AppBar(),
@@ -121,12 +120,14 @@ class SellerProfile extends StatelessWidget {
                             (e) => Builder(builder: (context) {
                               return GestureDetector(
                                 onTap: () {
+                                  ItemDetailsBloc itemDetailsBloc=ItemDetailsBloc(item: e);
+                                  itemDetailsBloc.sellerModel=sellerProfileBloc.sellerModel;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => BlocProvider(
                                           create: (context) =>
-                                              ItemDetailsBloc(item: e,sellerModel: sellerProfileBloc.sellerModel),
+                                              itemDetailsBloc,
                                           child:  ItemDetails(homeBloc:homeBloc ,),
                                         ),
                                       ));

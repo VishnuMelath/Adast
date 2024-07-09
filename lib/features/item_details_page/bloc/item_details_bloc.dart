@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
+import 'package:adast/services/seller_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -13,13 +14,14 @@ part 'item_details_state.dart';
 
 class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
    ClothModel item;
-   SellerModel sellerModel;
+   SellerModel? sellerModel;
    String? selectedSize;
    int page=1;
-  ItemDetailsBloc({required this.item,required this.sellerModel}) : super(ItemDetailsInitial()) {
+  ItemDetailsBloc({required this.item}) : super(ItemDetailsInitial()) {
     on<ItemDetailsSizeChangedEvent>(itemDetailsSizeChangedEvent);
     on<ItemDetailsPageSwitchEvent>(itemDetailsPageSwitchEvent);
     on<ItemSaveUnSavePressedEvent>(itemSaveUnSavePressedEvent);
+    on<ItemSellerLoadingEvent>(itemSellerLoadingEvent);
   }
 
     FutureOr<void> itemDetailsSizeChangedEvent(
@@ -48,5 +50,11 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
     }
     await  UserDatabaseServices().updateUser(event.userModel);
     emit(ItemSavedChangedState());
+  }
+
+  FutureOr<void> itemSellerLoadingEvent(ItemSellerLoadingEvent event, Emitter<ItemDetailsState> emit) async{
+    emit(ItemDetailsLoadingState());
+    sellerModel=await SellerDatabaseServices().getSeller(item.sellerID);
+    emit(ItemDetailsLoadedState());
   }
 }

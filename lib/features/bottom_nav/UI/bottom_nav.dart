@@ -31,7 +31,8 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   ];
   @override
   void initState() {
-    bottomNavBloc.add(BottomNavInitialEvent());homeBloc.add(HomeInitialEvent(
+    bottomNavBloc.add(BottomNavInitialEvent());
+    homeBloc.add(HomeInitialEvent(
         userModel: context.read<SplashscreenBloc>().userModel!));
     super.initState();
   }

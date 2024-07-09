@@ -32,3 +32,11 @@ class MapMarkerLoadingEvent extends MapEvent{
 }
 
 class MapBuildCompletedEvent extends MapEvent{}
+
+class MapSellerSearchEvent extends MapEvent{
+  final String querry;
+
+  MapSellerSearchEvent({required this.querry});
+}
+
+class MapSearchClearEvent extends MapEvent{}

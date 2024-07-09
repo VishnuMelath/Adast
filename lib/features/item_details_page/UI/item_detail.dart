@@ -26,7 +26,7 @@ class ItemDetails extends StatelessWidget {
           floatingActionButton: FloatingActionButton.extended(
               onPressed: () {},
               backgroundColor: green,
-              label:  Text(
+              label: Text(
                 'reserve',
                 style: whiteTextStyle,
               )),
@@ -56,60 +56,66 @@ class ItemDetails extends StatelessWidget {
                 },
               ).toList();
               //
-
-              return Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    color: green,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: PageView(
-                        onPageChanged: (value) {
-                          itemDetailsBloc.add(ItemDetailsPageSwitchEvent(index: value+1));
-                        },
-                        children: images),
-                  ),
-                  ResizableContainer(
-                    minHeight: MediaQuery.of(context).size.height * .3,
-                    homeBloc: homeBloc,
-                  ),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
-                      builder: (context, state) {
-                        log(itemDetailsBloc.page.toString());
-                        return Visibility(
-                          visible: images.length>1,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Text(
-                              '${itemDetailsBloc.page}/${images.length}',
-                              style: whiteTextStyle,
-                            ),
-                          ),
-                        );
-                      },
+              if (state is ItemDetailsLoadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      color: green,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: PageView(
+                          onPageChanged: (value) {
+                            itemDetailsBloc.add(
+                                ItemDetailsPageSwitchEvent(index: value + 1));
+                          },
+                          children: images),
                     ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context, reload);
+                    ResizableContainer(
+                      minHeight: MediaQuery.of(context).size.height * .3,
+                      homeBloc: homeBloc,
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
+                        builder: (context, state) {
+                          return Visibility(
+                            visible: images.length > 1,
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                '${itemDetailsBloc.page}/${images.length}',
+                                style: whiteTextStyle,
+                              ),
+                            ),
+                          );
                         },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: white,
-                        )),
-                  )
-                ],
-              );
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context, reload);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: white,
+                          )),
+                    )
+                  ],
+                );
+              }
             },
           ),
         ),

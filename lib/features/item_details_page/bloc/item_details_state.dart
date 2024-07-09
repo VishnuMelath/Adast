@@ -10,3 +10,7 @@ class ItemDetailsSizeChangedState extends ItemDetailsState{}
 class ItemDetailsPageChangedState extends ItemDetailsState{}
 
 class ItemSavedChangedState extends ItemDetailsState{}
+
+class ItemDetailsLoadingState extends ItemDetailsState{}
+
+class ItemDetailsLoadedState extends ItemDetailsState{}

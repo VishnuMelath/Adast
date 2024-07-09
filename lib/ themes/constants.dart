@@ -8,7 +8,8 @@ Map<String, IconData> icons = {
   'Personal Details': Icons.person,
   'My Reservations': Icons.lock_clock,
   'Saved': Icons.bookmark,
-  'Settings': Icons.settings
+  'Settings': Icons.settings,
+  'Subscriptions':Icons.follow_the_signs
 };
 
 Map<bool, Icon> eye = {

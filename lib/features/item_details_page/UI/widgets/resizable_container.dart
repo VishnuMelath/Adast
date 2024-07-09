@@ -101,7 +101,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                       builder: (context) => BlocProvider(
                                         create: (context) => SellerProfileBloc(
                                             sellerModel:
-                                                itemDetailsBloc.sellerModel,
+                                                itemDetailsBloc.sellerModel!,
                                             subscribed: context
                                                 .read<SplashscreenBloc>()
                                                 .userModel!
@@ -119,7 +119,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                 child: CachedNetworkImage(
                                     fit: BoxFit.cover,
                                     width: 40,
-                                    imageUrl: widget
+                                    imageUrl:itemDetailsBloc.sellerModel?.image?? widget
                                         .homeBloc
                                         .sellers[itemDetailsBloc.item.sellerID]!
                                         .image!),
@@ -129,7 +129,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  capitalize(widget
+                                  capitalize(itemDetailsBloc.sellerModel?.name??widget
                                       .homeBloc
                                       .sellers[itemDetailsBloc.item.sellerID]!
                                       .name),
@@ -270,9 +270,13 @@ class _ResizableContainerState extends State<ResizableContainer> {
                                   ),
                                 ],
                               ),
+                              
                             ],
                           ),
-                        )
+                        ),
+                         InkWell(onTap: () {
+                           log('tapped');
+                         },child: Text('Cancellation and replacement policy',style: blueMediumTextStyle,))
                       ],
                     ),
                   ),

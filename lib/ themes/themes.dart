@@ -26,6 +26,9 @@ const Decoration greenbuttonDecoration=BoxDecoration(
 
 
  TextStyle redTextStyle=  GoogleFonts.robotoSlab(color: Colors.red,fontSize: 10);
+ TextStyle mediumRedTextStyle=  GoogleFonts.robotoSlab(color: Colors.red,fontSize: 14);
+
+
 
  TextStyle greenTextStyle=  GoogleFonts.robotoSlab(color: green,fontWeight: FontWeight.w700);
 
@@ -41,3 +44,6 @@ const Decoration greenbuttonDecoration=BoxDecoration(
 const BoxDecoration greenBoxDecoration=BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),color: green);
 
 const BoxDecoration lightRedBoxDecoration=BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),color: Color.fromARGB(137, 244, 67, 54));
+
+
+ TextStyle blueMediumTextStyle=  GoogleFonts.robotoSlab(color: const Color.fromARGB(255, 8, 79, 134),fontSize: 12);

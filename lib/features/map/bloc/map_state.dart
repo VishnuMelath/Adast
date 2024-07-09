@@ -34,3 +34,8 @@ class MapMarkerUpdatedState extends MapState{}
 
 class MapWidgetMarkerUpdatedState extends MapState{}
 
+class MapSearchingState extends MapState{}
+
+class MapSearchedState extends MapState{}
+
+class MapSearchClearedState extends MapState{}

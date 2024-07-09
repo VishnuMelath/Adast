@@ -21,3 +21,5 @@ class ItemSaveUnSavePressedEvent extends ItemDetailsEvent{
 
   ItemSaveUnSavePressedEvent({required this.userModel,required this.itemId});
 }
+
+class ItemSellerLoadingEvent extends ItemDetailsEvent{}

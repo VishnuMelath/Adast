@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:adast/models/seller_model.dart';
+import 'package:adast/services/seller_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,23 +16,27 @@ part 'map_event.dart';
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
-  Set<Marker> markers={};
+  late GoogleMapController googleMapController;
+  String searchQuery='';
+  List<SellerModel> sellers = [];
+  Set<Marker> markers = {};
   MapBloc() : super(MapInitial()) {
     on<MapTapedEvent>(mapTapedEvent);
     on<MapCurrentLocationTappedEvent>(mapCurrentLocationTappedEvent);
     on<MapMarkerLoadingEvent>(mapMarkerLoadingEvent);
     on<MapBuildCompletedEvent>(mapBuildCompletedEvent);
+    on<MapSellerSearchEvent>(mapSearchEvent);
+    on<MapSearchClearEvent>(mapSearchClearEvent);
   }
 
   FutureOr<void> mapTapedEvent(MapTapedEvent event, Emitter<MapState> emit) {
     emit(MapMarkerShowState(
         marker: Marker(markerId: const MarkerId('1'), position: event.latLng)));
-    emit(MapBottomSheetState(latLng:  event.latLng));
+    emit(MapBottomSheetState(latLng: event.latLng));
   }
 
-
-
-  FutureOr<void> mapCurrentLocationTappedEvent(MapCurrentLocationTappedEvent event, Emitter<MapState> emit) async{
+  FutureOr<void> mapCurrentLocationTappedEvent(
+      MapCurrentLocationTappedEvent event, Emitter<MapState> emit) async {
     var locationPermission = await Geolocator.checkPermission();
     if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
@@ -39,27 +45,49 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         desiredAccuracy: LocationAccuracy.high);
     var zoom = await event.googleMapController.getZoomLevel();
     event.googleMapController.moveCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: zoom)));
+        CameraPosition(
+            target: LatLng(position.latitude, position.longitude),
+            zoom: zoom)));
   }
- 
 
-
-  FutureOr<void> mapMarkerLoadingEvent(MapMarkerLoadingEvent event, Emitter<MapState> emit) async{
+  FutureOr<void> mapMarkerLoadingEvent(
+      MapMarkerLoadingEvent event, Emitter<MapState> emit) async {
     for (var element in event.doc) {
       try {
-  final marker= await createImageMarker(element);
-  markers.add(marker);
-} on Exception catch (e) {
-  log(e.toString());
-}
+        final marker = await createImageMarker(element);
+        markers.add(marker);
+      } on Exception catch (e) {
+        log(e.toString());
+      }
     }
     emit(MapMarkerUpdatedState());
-
   }
 
-  FutureOr<void> mapBuildCompletedEvent(MapBuildCompletedEvent event, Emitter<MapState> emit) {
+  FutureOr<void> mapBuildCompletedEvent(
+      MapBuildCompletedEvent event, Emitter<MapState> emit) {
     emit(MapWidgetMarkerUpdatedState());
   }
+
+  FutureOr<void> mapSearchEvent(
+      MapSellerSearchEvent event, Emitter<MapState> emit) async {
+        if(searchQuery=='')
+        {
+          emit(MapSearchClearedState());
+          return;
+        }
+    emit(MapSearchingState());
+    sellers = await SellerDatabaseServices().getAllSellers1();
+    sellers = sellers
+        .where(
+          (element) => element.name.contains(event.querry),
+        )
+        .toList();
+    emit(MapSearchedState());
+  }
+
+  FutureOr<void> mapSearchClearEvent(MapSearchClearEvent event, Emitter<MapState> emit) {
+    sellers.clear();
+    searchQuery='';
+    emit(MapSearchClearedState());
+  }
 }
-
-

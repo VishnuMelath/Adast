@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
+import 'package:adast/features/map/UI/widgets/search_widget.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/seller_database_services.dart';
@@ -24,7 +25,6 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-
   bool isloaded = false;
   GlobalKey<FormState> formkey = GlobalKey();
   final Map<String, Marker> markers = {};
@@ -44,7 +44,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-      HomeBloc homeBloc=context.read();
+    HomeBloc homeBloc = context.read();
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
           stream: _locationsStream,
@@ -59,6 +59,8 @@ class _MapScreenState extends State<MapScreen> {
             SchedulerBinding.instance
                 .addPostFrameCallback((_) => onBuildCompleted(homeBloc));
             return BlocBuilder<MapBloc, MapState>(
+              buildWhen: (previous, current) =>
+                  current is! MapSearchedState && current is! MapSearchingState,
               bloc: mapBloc,
               builder: (context, state) {
                 return Stack(
@@ -86,21 +88,22 @@ class _MapScreenState extends State<MapScreen> {
                       onTap: (latlng) {},
                       mapType: MapType.normal,
                       zoomControlsEnabled: false,
-                      myLocationEnabled: true,
                       myLocationButtonEnabled: true,
                       onMapCreated: (controller) {
                         mapController = controller;
+                        mapBloc.googleMapController = controller;
                       },
                       initialCameraPosition: CameraPosition(
                         target: center,
                         zoom: 13.0,
                       ),
                     ),
+                    SearchWidget(mapBloc: mapBloc),
                     Positioned(
                       bottom: MediaQuery.sizeOf(context).height * 0.152,
                       right: MediaQuery.sizeOf(context).height * 0.01,
                       child: FloatingActionButton(
-                        child:const Icon(Icons.my_location_sharp),
+                        child: const Icon(Icons.my_location_sharp),
                         onPressed: () {
                           mapBloc.add(MapCurrentLocationTappedEvent(
                               googleMapController: mapController));
@@ -116,21 +119,29 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Future<void> onBuildCompleted(HomeBloc homeBloc) async {
-
     await Future.wait(data.map(
       (e) async {
         try {
           Marker marker = await generateMarkersFromWidget(
             e,
             () {
-              final subscribed=context.read<SplashscreenBloc>().userModel!.subscriptions.contains(e['data']['emailaddress']);
-            
+              final subscribed = context
+                  .read<SplashscreenBloc>()
+                  .userModel!
+                  .subscriptions
+                  .contains(e['data']['emailaddress']);
+              SellerProfileBloc sellerProfileBloc = SellerProfileBloc(
+                  sellerModel: SellerModel.fromJson(e['data']),
+                  subscribed: subscribed)
+                ..add(SellerProfileItemLoadingEvent());
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => BlocProvider(
-                      create: (context) => SellerProfileBloc(sellerModel: SellerModel.fromJson(e['data']),subscribed: subscribed),
-                      child:  SellerProfile(homeBloc: homeBloc,),
+                      create: (context) => sellerProfileBloc,
+                      child: SellerProfile(
+                        homeBloc: homeBloc,
+                      ),
                     ),
                   ));
             },

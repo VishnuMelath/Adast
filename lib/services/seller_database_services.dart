@@ -18,4 +18,11 @@ class SellerDatabaseServices {
     log(list.docs.toString());
     return SellerModel.fromJson(list.docs.first);
   }
+
+  Future<List<SellerModel>> getAllSellers1() async
+  {
+    final sellersCollection = firestore.collection('sellers');
+    final list=await sellersCollection.get();
+    return list.docs.map((e) => SellerModel.fromJson(e),).toList();
+  }
 }

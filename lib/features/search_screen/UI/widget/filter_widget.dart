@@ -26,9 +26,23 @@ void showFilters(BuildContext context, SearchBloc searchBloc) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Filter',
-                style: greyTextStyle,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'Filter',
+                      style: greyTextStyle,
+                    ),
+                  ),
+                  TextButton(onPressed: () {
+                    searchBloc.add(SearchClearFilterEvent());
+                  Navigator.pop(context);
+                  showFilters(context, searchBloc);
+                  }, child: Text('clear',style: mediumRedTextStyle,))
+                ],
               ),
               CustomMultiSelectFilter(
                 options: searchBloc.categories.toList(),

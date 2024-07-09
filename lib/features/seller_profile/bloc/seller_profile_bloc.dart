@@ -28,6 +28,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
   FutureOr<void> sellerProfileItemLoadingEvent(
       SellerProfileItemLoadingEvent event,
       Emitter<SellerProfileState> emit) async {
+        log('seller profile');
     emit(SellerProfileItemsLoadingState());
     try {
       items.addAll(await ItemDatabaseServices().getAllSellerItems(sellerModel.email));
