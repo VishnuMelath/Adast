@@ -6,6 +6,7 @@ class ClothModel {
   String category;
   String fit;
   Map<String, dynamic> size;
+  Map<String, dynamic> reservableCount;
   List images;
   Map<String, dynamic> reservedCount;
   Map<String, dynamic> soldCount;
@@ -23,6 +24,7 @@ class ClothModel {
       required this.name,
       required this.description,
       required this.category,
+      required this.reservableCount,
       required this.fit,
       required this.size,
       required this.images,
@@ -46,6 +48,7 @@ class ClothModel {
       'size': size,
       'images': images,
       'reservedCount': reservedCount,
+      'reservableCount':reservableCount,
       'soldCount': soldCount,
       'brand': brand,
       'material': material,
@@ -60,6 +63,7 @@ class ClothModel {
     return ClothModel(
         id: id,
         sellerID: map['sellerID'],
+        reservableCount: map['reservableCount'],
         name: map['name'],
         brand: map['brand'],
         category: map['category'],

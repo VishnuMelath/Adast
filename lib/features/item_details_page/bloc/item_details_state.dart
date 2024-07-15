@@ -14,3 +14,11 @@ class ItemSavedChangedState extends ItemDetailsState{}
 class ItemDetailsLoadingState extends ItemDetailsState{}
 
 class ItemDetailsLoadedState extends ItemDetailsState{}
+
+class ItemShowBottomSheetState extends ItemDetailsState{}
+
+class ItemDetailsErrorState extends ItemDetailsState{
+  final String error;
+
+  ItemDetailsErrorState({required this.error});
+}

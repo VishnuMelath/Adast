@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
+import 'package:adast/features/item_details_page/methods/itemsleft.dart';
 import 'package:adast/models/user_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -48,22 +49,9 @@ class _ResizableContainerState extends State<ResizableContainer> {
       builder: (context, state) {
         late int itemsLeft;
         if (itemDetailsBloc.selectedSize == null) {
-          itemsLeft = itemDetailsBloc.item.size.values.fold<int>(
-                0,
-                (s, e) {
-                  return s + e[0] as int;
-                },
-              ) -
-              (itemDetailsBloc.item.soldCount
-                      .containsKey(itemDetailsBloc.selectedSize)
-                  ? itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize]
-                      as int
-                  : 0);
+          itemsLeft = totalItemsLeft(itemDetailsBloc.item);
         } else {
-          itemsLeft = itemDetailsBloc.item.size[itemDetailsBloc.selectedSize]
-                  [0] -
-              (itemDetailsBloc.item.soldCount[itemDetailsBloc.selectedSize] ??
-                  0);
+          itemsLeft = itemsLeftPerSize(itemDetailsBloc.item, itemDetailsBloc.selectedSize!);
         }
         log(itemDetailsBloc.item.toMap().toString());
         return Container(

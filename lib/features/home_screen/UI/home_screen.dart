@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_cached_network_image.dart';
+import 'package:adast/features/chat/chat_list/UI/chat_list_page.dart';
+import 'package:adast/features/chat/chat_list/bloc/chat_list_bloc.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/feed_widget.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/seller_model.dart';
@@ -65,7 +67,16 @@ class HomeScreen extends StatelessWidget {
                         floating: true,
                         actions: [
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) => ChatListBloc(),
+                                        child: const ChatListPage(),
+                                      ),
+                                    ));
+                              },
                               icon: const Icon(
                                 Icons.chat_bubble_outline,
                                 color: green,
@@ -79,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: MediaQuery.sizeOf(context).width,
-                                height: 60,                        
+                                height: 60,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: [

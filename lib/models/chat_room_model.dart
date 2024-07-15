@@ -1,24 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'message_model.dart';
-
 class ChatRoomModel {
+  String roomId;
   final String userId;
   final String sellerId;
-  List<MessageModel> messages;
-  int unseenMessages;
+  int sellerUnreadCount;
+  int userUnreadCount;
+  String lastMessage;
+  DateTime time;
 
   ChatRoomModel(
-      {required this.userId,
+      {required this.roomId,
+      required this.userId,
       required this.sellerId,
-      required this.messages,
-      required this.unseenMessages});
+      required this.sellerUnreadCount,
+      required this.userUnreadCount,
+      required this.lastMessage,
+      required this.time
+      });
 
   factory ChatRoomModel.fromSnapShot(QueryDocumentSnapshot<Object?> data) {
     return ChatRoomModel(
+        roomId: data['roomId'],
         userId: data['userId'],
         sellerId: data['sellerId'],
-        messages: data['messages'],
-        unseenMessages: data['unseenMessages']);
+        sellerUnreadCount: data['sellerUnreadCount'],
+        userUnreadCount: data['userUnreadCount'],
+        lastMessage: data['lastMessage'],
+        time:( data['time'] as Timestamp).toDate()
+        );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'roomId': roomId,
+      'userId': userId,
+      'sellerId': sellerId,
+      'sellerUnreadCount': sellerUnreadCount,
+      'userUnreadCount': userUnreadCount,
+      'lastMessage': lastMessage,
+      'time':Timestamp.fromDate(time)
+    };
   }
 }

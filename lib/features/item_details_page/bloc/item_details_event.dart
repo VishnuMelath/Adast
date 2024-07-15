@@ -23,3 +23,5 @@ class ItemSaveUnSavePressedEvent extends ItemDetailsEvent{
 }
 
 class ItemSellerLoadingEvent extends ItemDetailsEvent{}
+
+class ItemsReserverPressedEvent extends ItemDetailsEvent{}

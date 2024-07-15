@@ -1,6 +1,7 @@
-
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_button.dart';
+import 'package:adast/features/chat/chat_screen/UI/chat_screen.dart';
+import 'package:adast/features/chat/chat_screen/bloc/chat_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
@@ -15,7 +16,7 @@ import 'widgets/custom_grid.dart';
 
 class SellerProfile extends StatelessWidget {
   final HomeBloc homeBloc;
-  const SellerProfile({super.key,required this.homeBloc});
+  const SellerProfile({super.key, required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +51,21 @@ class SellerProfile extends StatelessWidget {
                     ),
                   ),
                   BlocBuilder<SellerProfileBloc, SellerProfileState>(
-                    buildWhen: (previous, current)=>current is SellerSubscribedState,
+                    buildWhen: (previous, current) =>
+                        current is SellerSubscribedState,
                     builder: (context, state) {
                       if (sellerProfileBloc.subscribed) {
                         return SizedBox(
                           width: MediaQuery.sizeOf(context).width * 0.34,
                           height: 70,
                           child: CustomButton(
-                             
                               onTap: () {
-                                sellerProfileBloc
-                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!,homeBloc: homeBloc));
-                                  
+                                sellerProfileBloc.add(
+                                    SellerProfileSubscribeUnsubEvent(
+                                        userModel: context
+                                            .read<SplashscreenBloc>()
+                                            .userModel!,
+                                        homeBloc: homeBloc));
                               },
                               text: 'subscribed'),
                         );
@@ -70,11 +74,14 @@ class SellerProfile extends StatelessWidget {
                           width: MediaQuery.sizeOf(context).width * 0.34,
                           height: 70,
                           child: CustomButton(
-                               icon: true,
+                              icon: true,
                               onTap: () {
-                                sellerProfileBloc
-                                    .add(SellerProfileSubscribeUnsubEvent(userModel: context.read<SplashscreenBloc>().userModel!,homeBloc: homeBloc));
-                                      // homeBloc.add(HomeInitialEvent(userModel: context.read<SplashscreenBloc>().userModel!));
+                                sellerProfileBloc.add(
+                                    SellerProfileSubscribeUnsubEvent(
+                                        userModel: context
+                                            .read<SplashscreenBloc>()
+                                            .userModel!,
+                                        homeBloc: homeBloc));
                               },
                               text: 'subscribe'),
                         );
@@ -90,10 +97,31 @@ class SellerProfile extends StatelessWidget {
                   style: greyTextStyle,
                 ),
               ),
-              CustomButton(
-                onTap: () {},
-                text: 'Message',
-                icon: true,
+              BlocListener<SellerProfileBloc, SellerProfileState>(
+                listener: (context, state) {
+                  if (state is SellerProfileNavigateToChatState) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => ChatBloc(
+                                sellerModel: sellerProfileBloc.sellerModel,
+                                chatRoomModel: state.chatRoomModel),
+                                child:const ChatScreen(),
+                          ),
+                          
+                        ));
+                  }
+                },
+                child: CustomButton(
+                  onTap: () {
+                    sellerProfileBloc.add(SellerProfileMessageTappedEvent(
+                        userId:
+                            context.read<SplashscreenBloc>().userModel!.email));
+                  },
+                  text: 'Message',
+                  icon: true,
+                ),
               ),
               const Divider(),
               BlocBuilder<SellerProfileBloc, SellerProfileState>(
@@ -120,15 +148,18 @@ class SellerProfile extends StatelessWidget {
                             (e) => Builder(builder: (context) {
                               return GestureDetector(
                                 onTap: () {
-                                  ItemDetailsBloc itemDetailsBloc=ItemDetailsBloc(item: e);
-                                  itemDetailsBloc.sellerModel=sellerProfileBloc.sellerModel;
+                                  ItemDetailsBloc itemDetailsBloc =
+                                      ItemDetailsBloc(item: e);
+                                  itemDetailsBloc.sellerModel =
+                                      sellerProfileBloc.sellerModel;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => BlocProvider(
-                                          create: (context) =>
-                                              itemDetailsBloc,
-                                          child:  ItemDetails(homeBloc:homeBloc ,),
+                                          create: (context) => itemDetailsBloc,
+                                          child: ItemDetails(
+                                            homeBloc: homeBloc,
+                                          ),
                                         ),
                                       ));
                                 },

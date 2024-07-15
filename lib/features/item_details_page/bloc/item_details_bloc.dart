@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adast/features/item_details_page/methods/itemsleft.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
@@ -22,6 +23,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
     on<ItemDetailsPageSwitchEvent>(itemDetailsPageSwitchEvent);
     on<ItemSaveUnSavePressedEvent>(itemSaveUnSavePressedEvent);
     on<ItemSellerLoadingEvent>(itemSellerLoadingEvent);
+    on<ItemsReserverPressedEvent>(itemsReservePressedEvent);
   }
 
     FutureOr<void> itemDetailsSizeChangedEvent(
@@ -56,5 +58,24 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
     emit(ItemDetailsLoadingState());
     sellerModel=await SellerDatabaseServices().getSeller(item.sellerID);
     emit(ItemDetailsLoadedState());
+  }
+
+  FutureOr<void> itemsReservePressedEvent(ItemsReserverPressedEvent event, Emitter<ItemDetailsState> emit) {
+    
+    if(selectedSize==null)
+    {
+      emit(ItemDetailsErrorState(error: 'Please select a size'));
+    }
+    else{
+      var itemsLeft=itemsLeftPerSize(item, selectedSize!);
+      if(itemsLeft==0)
+      {
+        emit(ItemDetailsErrorState(error: 'No items available for that size'));
+      }
+      else
+      {
+        emit(ItemShowBottomSheetState());
+      }
+    }
   }
 }

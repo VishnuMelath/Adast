@@ -18,3 +18,8 @@ class SellerProfileItemsLoadedState extends SellerProfileState{}
 class SellerSubscribedState extends SellerProfileState{
 }
 
+class SellerProfileNavigateToChatState extends SellerProfileState{
+ final ChatRoomModel chatRoomModel;
+
+  SellerProfileNavigateToChatState({required this.chatRoomModel});
+}

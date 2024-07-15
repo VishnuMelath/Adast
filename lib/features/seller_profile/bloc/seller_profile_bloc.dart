@@ -2,10 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
+import 'package:adast/models/chat_room_model.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
+import 'package:adast/services/chat_room_database_services.dart';
 import 'package:adast/services/item_database_services.dart';
+import 'package:adast/services/messages_database_services.dart';
 import 'package:adast/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +26,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
   
     on<SellerProfileItemLoadingEvent>(sellerProfileItemLoadingEvent);
     on<SellerProfileSubscribeUnsubEvent>(sellerProfileSubscribeUnsubEvent);
+    on<SellerProfileMessageTappedEvent>(sellerProfileMessageTappedEvent);
   }
 
   FutureOr<void> sellerProfileItemLoadingEvent(
@@ -53,5 +57,16 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
     log(event.userModel.subscriptions.toString());
 await UserDatabaseServices().updateUser(event.userModel);
     emit(SellerSubscribedState());
+  }
+
+  FutureOr<void> sellerProfileMessageTappedEvent(SellerProfileMessageTappedEvent event, Emitter<SellerProfileState> emit) async{
+    try {
+      ChatRoomModel chatRoomModel=await ChatRoomDatabaseServices().checkWheatherChatroomExists(sellerModel.email, event.userId);
+      chatRoomModel.roomId=MessagesDatabaseServices().generateChatRoomId(chatRoomModel);
+      emit(SellerProfileNavigateToChatState(chatRoomModel: chatRoomModel));
+    } on FirebaseException catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 }
