@@ -1,6 +1,6 @@
 
 
-import 'package:adast/%20themes/constants.dart';
+import 'package:adast/constants/constants.dart';
 
 String capitalize(String string)
 {
@@ -10,4 +10,10 @@ String capitalize(String string)
 String dateString(DateTime date)
 {
   return '${date.day} ${month[date.month]!} , ${date.year}' ;
+}
+
+String dateTimeString(DateTime date)
+{
+  String ampm=date.hour<12?'am':'pm';
+  return '${month[date.month]!} ${date.day} ,${date.year} (${date.hour}:${date.minute} $ampm)' ;
 }

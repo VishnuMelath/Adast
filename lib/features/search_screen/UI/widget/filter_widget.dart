@@ -1,7 +1,7 @@
 import 'package:adast/features/search_screen/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../ themes/constants.dart';
+import '../../../../constants/constants.dart';
 import '../../../../../ themes/themes.dart';
 import '../../../../custom_widgets/custom_button.dart';
 import 'custom_multi_select.dart';

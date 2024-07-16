@@ -1,0 +1,31 @@
+import 'package:adast/%20themes/themes.dart';
+import 'package:adast/features/reservation_status/UI/widgets/network_image.dart';
+import 'package:adast/features/reservation_status/bloc/reservation_status_bloc.dart';
+import 'package:adast/models/seller_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class SellerTile extends StatelessWidget {
+  const SellerTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ReservationStatusBloc reservationStatusBloc = context.read();
+    SellerModel sellerModel=reservationStatusBloc.sellerModel;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        networkImage(sellerModel.image!, 50),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(sellerModel.name,style: mediumBlackTextStyle,),
+          Text(sellerModel.place,style: greySmallTextStyle,),
+        ],
+      ),
+      ]
+         
+        );
+  }
+}

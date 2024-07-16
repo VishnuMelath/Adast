@@ -25,3 +25,16 @@ class ItemSaveUnSavePressedEvent extends ItemDetailsEvent{
 class ItemSellerLoadingEvent extends ItemDetailsEvent{}
 
 class ItemsReserverPressedEvent extends ItemDetailsEvent{}
+
+class ItemReservationPaymentEvent extends ItemDetailsEvent{
+  final Map<String, dynamic> options;
+
+  ItemReservationPaymentEvent({required this.options});
+}
+
+class ItemReservationPaymentCompletionEvent extends ItemDetailsEvent{
+ final Map<String,dynamic>? options;
+ final PaymentSuccessResponse? response;
+
+  ItemReservationPaymentCompletionEvent({ this.options, this.response});
+}

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/custom_widgets/custom_snackbar.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/widgets/back_button.dart';
@@ -20,6 +22,8 @@ class ItemDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ItemDetailsBloc itemDetailsBloc = context.read();
+    itemDetailsBloc.sellerModel=homeBloc.sellers[itemDetailsBloc.item.sellerID];
+    log(itemDetailsBloc.item.name);
     bool reload = false;
     return Container(
       color: greentransparent,
@@ -34,6 +38,7 @@ class ItemDetails extends StatelessWidget {
               }
               else if(state is ItemShowBottomSheetState)
               {
+                // customShowDialogue(context);
                 showBottomSheetForReservation(context, itemDetailsBloc);
               }
             },

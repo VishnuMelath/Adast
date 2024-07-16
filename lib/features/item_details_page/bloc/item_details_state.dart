@@ -22,3 +22,11 @@ class ItemDetailsErrorState extends ItemDetailsState{
 
   ItemDetailsErrorState({required this.error});
 }
+
+class ItemDetailPaymentErrorState extends ItemDetailsState{}
+
+class ItemDetailPaymentSuccessState extends ItemDetailsState{
+  final ReservationModel reservationModel;
+
+  ItemDetailPaymentSuccessState({required this.reservationModel});
+}

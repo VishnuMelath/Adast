@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ themes/constants.dart';
+import '../constants/constants.dart';
 
 class CustomTextfield extends StatefulWidget {
   final String label;
