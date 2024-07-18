@@ -18,7 +18,7 @@ class ReservationModel
 
   factory ReservationModel.fromSnapShot(QueryDocumentSnapshot<Object?> data)
   {
-    return ReservationModel(amount: data['amount'],days: data['days'],id: data.id,itemId: data['itemId'], transactionId: data['transactionId'], sellerId: data['sellerId'], userId: data['userId'], reservationTime: data['reservationTime'], status: data['status']);
+    return ReservationModel(amount: data['amount'],days: data['days'],id: data.id,itemId: data['itemId'], transactionId: data['transactionId'], sellerId: data['sellerId'], userId: data['userId'], reservationTime: data['reservationTime'].toDate(), status: data['status']);
   }
   Map<String,dynamic> toJson()
   {

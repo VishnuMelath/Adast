@@ -1,22 +1,23 @@
 import 'package:adast/%20themes/colors_shemes.dart';
+import 'package:adast/custom_widgets/custom_appbar.dart';
 import 'package:adast/features/reservation_status/UI/widgets/cloth_detail.dart';
 import 'package:adast/features/reservation_status/UI/widgets/custom_stepper.dart';
 import 'package:adast/features/reservation_status/UI/widgets/network_image.dart';
 import 'package:adast/features/reservation_status/UI/widgets/seller_tile.dart';
 import 'package:adast/features/reservation_status/bloc/reservation_status_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReservationStatusScreen extends StatelessWidget {
-  const ReservationStatusScreen({super.key});
+  final ReservationStatusBloc reservationStatusBloc;
+  const ReservationStatusScreen({super.key, required this.reservationStatusBloc});
 
   @override
   Widget build(BuildContext context) {
-    ReservationStatusBloc reservationStatusBloc = context.read();
     return Container(
-      color: backgroundColor,
+      color: white,
       child: SafeArea(
         child: Scaffold(
+          appBar: customAppBar('Reservation Details',context),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(18.0),
@@ -34,12 +35,12 @@ class ReservationStatusScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const SellerTile(),
+                             SellerTile(reservationStatusBloc: reservationStatusBloc),
                             clothDetail(reservationStatusBloc)
                           ],
                         ),
                       ),
-                      networkImage(
+                      networkImageUsingWidth(
                         reservationStatusBloc.clothModel!.images.first,
                         80,
                       )

@@ -52,6 +52,16 @@ class ItemDatabaseServices {
       rethrow;
     }
   }
+
+  Future<ClothModel> getItem(String itemid)async
+  {
+    try {
+      final snapshot=await firestore.collection('items').doc(itemid).get();
+      return ClothModel.fromJson(snapshot.data()!,snapshot.id);
+    }on FirebaseException catch (_) {
+      rethrow;
+    }
+  }
 Future<List<ClothModel>> getAllItems() async {
     try {
       final sellersCollection = firestore.collection('items').orderBy('date', descending: true);

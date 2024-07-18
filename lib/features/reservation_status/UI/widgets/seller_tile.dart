@@ -5,18 +5,19 @@ import 'package:adast/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class SellerTile extends StatelessWidget {
-  const SellerTile({super.key});
+  final ReservationStatusBloc reservationStatusBloc;
+  const SellerTile({super.key,required this.reservationStatusBloc});
 
   @override
   Widget build(BuildContext context) {
-    ReservationStatusBloc reservationStatusBloc = context.read();
     SellerModel sellerModel=reservationStatusBloc.sellerModel;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        networkImage(sellerModel.image!, 50),
+        networkImageUsingWidth(sellerModel.image!, 50),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

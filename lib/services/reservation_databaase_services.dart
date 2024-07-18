@@ -30,6 +30,7 @@ class ReservationDatabaseServices {
 
   Future<List<ReservationModel>> loadReservations(String userId) async {
     try {
+      log(userId);
       final snapshots = await firebaseInstance
           .collection('reservations')
           .where('userId', isEqualTo: userId)

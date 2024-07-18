@@ -36,10 +36,7 @@ Future customShowDialogue(
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) => reservationStatusBloc,
-                              child: const ReservationStatusScreen(),
-                            ),
+                            builder: (context) => ReservationStatusScreen(reservationStatusBloc: reservationStatusBloc,),
                           ));
                     },
                     text: 'ok'),

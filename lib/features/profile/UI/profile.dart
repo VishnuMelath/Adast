@@ -2,6 +2,7 @@ import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/profile/UI/widgets/customtile.dart';
 import 'package:adast/features/profile/UI/widgets/profiletile.dart';
 import 'package:adast/features/profile/bloc/profile_bloc.dart';
+import 'package:adast/features/reservations/UI/reservation.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +52,9 @@ class _ProfileState extends State<Profile> {
                     ),
                     customListTile(
                       'My Reservations',
-                      () {},
+                      () {
+                        Navigator.push(context,MaterialPageRoute(builder: (context) =>const ReservationsList(),));
+                      },
                     ),
                     customListTile(
                       'Subscriptions',

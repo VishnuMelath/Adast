@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/reservation_model.dart';
@@ -22,6 +23,7 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
     emit(ReservationsLoadingState());
     try {
      reservations= await ReservationDatabaseServices().loadReservations(event.email);
+     log(reservations.length.toString());
   emit(ReservationsLoadedState());
     } on FirebaseException catch (e) {
       emit(ReservationsErrorState(error: e.code));

@@ -15,5 +15,5 @@ String dateString(DateTime date)
 String dateTimeString(DateTime date)
 {
   String ampm=date.hour<12?'am':'pm';
-  return '${month[date.month]!} ${date.day} ,${date.year} (${date.hour}:${date.minute} $ampm)' ;
+  return capitalize('${month[date.month]!} ${date.day} ,${date.year} (${date.hour%12}:${date.minute} $ampm)') ;
 }

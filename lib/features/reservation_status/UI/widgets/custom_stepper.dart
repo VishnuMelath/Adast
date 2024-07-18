@@ -1,38 +1,87 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
+import 'package:adast/constants/constants.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:flutter/material.dart';
-import 'package:timelines/timelines.dart';
 
 Widget customStepper(ReservationModel reservation) {
-  return Stepper(
-      connectorColor: DateTime.now()
-              .add(Duration(days: reservation.days))
-              .isAfter(DateTime.now())
-          ? const WidgetStatePropertyAll(green)
-          : const WidgetStatePropertyAll(Colors.red),
+  if (DateTime.now().isBefore(
+      reservation.reservationTime.add(Duration(days: reservation.days)))) {
+    return Stepper(
+        controlsBuilder: (context, _) => Container(),
+        steps: List.generate(
+          reservation.days + 1,
+          (index) {
+            return Step(
+                state: DateTime.now().isAfter(
+                        reservation.reservationTime.add(Duration(days: index)))
+                    ? StepState.complete
+                    : StepState.disabled,
+                isActive: DateTime.now().isAfter(
+                    reservation.reservationTime.add(Duration(days: index))),
+                title: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      index == 0 ? 'Item reserved for ${reservation.days} days' : 'day $index ',
+                      style: blackTextStyle,
+                    ),
+                    Text(
+                      index == 0
+                          ? dateTimeString(reservation.reservationTime
+                              .add(Duration(days: index)))
+                          : dateString(reservation.reservationTime
+                              .add(Duration(days: index))),
+                      style: greyMediumTextStyle,
+                    )
+                  ],
+                ),
+                content: const Text(''));
+          },
+        ));
+  } else {
+    return Stepper(
+      connectorColor: const WidgetStatePropertyAll(Colors.red),
       controlsBuilder: (context, _) => Container(),
-      steps: List.generate(
-        reservation.days,
-        (index) => Step(
-            isActive: DateTime.now().isAfter(
-                reservation.reservationTime.add(Duration(days: index))),
+      steps: [
+        Step(
+          state: StepState.complete,
             title: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  index == 0 ? 'Item reserved' : 'day $index ',
+                  'Item reserved for ${reservation.days} days',
                   style: blackTextStyle,
                 ),
                 Text(
-                  dateTimeString(
-                      reservation.reservationTime.add(Duration(days: index))),
+                  dateTimeString(reservation.reservationTime),
                   style: greyMediumTextStyle,
                 )
               ],
             ),
             content: const Text('')),
-      ));
+        Step(
+          state: StepState.error,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Reserved days are over',
+                  style: blackTextStyle,
+                ),
+                Text(
+                  dateTimeString(reservation.reservationTime.add(Duration(days: reservation.days))),
+                  style: greyMediumTextStyle,
+                )
+              ],
+            ),
+            content: const Text(''))
+      ],
+    );
+  }
 }

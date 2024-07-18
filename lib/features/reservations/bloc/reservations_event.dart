@@ -8,5 +8,3 @@ class ReservationInitialEvent extends ReservationsEvent{
 
   ReservationInitialEvent({required this.email});
 }
-
-class ReservationsTileLoadingEvent extends ReservationsEvent{}
