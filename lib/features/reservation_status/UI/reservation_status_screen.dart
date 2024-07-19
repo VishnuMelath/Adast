@@ -4,6 +4,7 @@ import 'package:adast/features/reservation_status/UI/widgets/cloth_detail.dart';
 import 'package:adast/features/reservation_status/UI/widgets/custom_stepper.dart';
 import 'package:adast/features/reservation_status/UI/widgets/network_image.dart';
 import 'package:adast/features/reservation_status/UI/widgets/seller_tile.dart';
+import 'package:adast/features/reservation_status/UI/widgets/status.dart';
 import 'package:adast/features/reservation_status/bloc/reservation_status_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,8 @@ class ReservationStatusScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  customStepper(reservationStatusBloc.reservationModel)
+                  customStepper(reservationStatusBloc.reservationModel),
+                  statusWidget(reservationStatusBloc.reservationModel)
                 ],
               ),
             ),

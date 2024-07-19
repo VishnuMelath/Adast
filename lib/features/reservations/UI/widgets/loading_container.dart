@@ -7,7 +7,7 @@ Widget loadingTile()
   return  Padding(
     padding: const EdgeInsets.all(8.0),
     child: Shimmer.fromColors(
-      baseColor: greentransparent,
+      baseColor: backgroundColor,
       highlightColor: white,
       child: Container(
         decoration: BoxDecoration(

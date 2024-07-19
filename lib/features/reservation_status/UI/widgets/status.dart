@@ -14,7 +14,7 @@ Widget statusWidget(ReservationModel reservation) {
   }
   if(hours>0)
   {
-    difference+='$hours hours';
+    difference+='$hours hours ';
   }
    difference+='$minutes minutes';
   String text = reservation.status == ReservationStatus.purchased.name
@@ -22,10 +22,20 @@ Widget statusWidget(ReservationModel reservation) {
       : reservation.reservationTime
               .add(Duration(days: reservation.days))
               .isBefore(DateTime.now())
-          ? 'Reservation days are over'
+          ? 'Reserved days are over'
           : '$difference left to pick';
-  return Text(
-    text,
-    style: mediumBlackTextStyle,
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        text,
+        style: greyTextStyle,
+      ),
+      Text(
+        '(note : if you fail to collect the item before reserved days you will lose the reservation money . Only replacement is available for this product from the same seller only)',
+        style: greyTextStyle,
+      ),
+    ],
   );
 }
