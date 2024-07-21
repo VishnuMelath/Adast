@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/seller_database_services.dart';
@@ -56,8 +55,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       try {
         final marker = await createImageMarker(element);
         markers.add(marker);
-      } on Exception catch (e) {
-        log(e.toString());
+      } on Exception catch (_) {
+        rethrow;
       }
     }
     emit(MapMarkerUpdatedState());

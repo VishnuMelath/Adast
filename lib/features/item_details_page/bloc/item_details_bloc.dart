@@ -3,7 +3,8 @@ import 'dart:developer';
 
 import 'package:adast/constants/constants.dart';
 import 'package:adast/features/item_details_page/methods/itemsleft.dart';
-import 'package:adast/methods/network_check.dart';
+import 'package:adast/services/item_database_services.dart';
+import 'package:adast/services/methods/network_check.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:adast/models/seller_model.dart';
@@ -11,6 +12,7 @@ import 'package:adast/models/user_model.dart';
 import 'package:adast/services/reservation_databaase_services.dart';
 import 'package:adast/services/seller_database_services.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -20,6 +22,8 @@ part 'item_details_event.dart';
 part 'item_details_state.dart';
 
 class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
+  ReservationModel? reservationModel;
+  bool replace = false;
   bool success = true;
   ClothModel item;
   Map<String, dynamic> options = {};
@@ -35,6 +39,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
     on<ItemReservationPaymentEvent>(itemReservationPaymentEvent);
     on<ItemReservationPaymentCompletionEvent>(
         itemReservationPaymentCompletionEvent);
+    on<ItemReservationReplacementEvent>(itemReservationReplacementEvent);
   }
 
   FutureOr<void> itemDetailsSizeChangedEvent(
@@ -97,7 +102,6 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
       try {
         options = event.options;
         razorpay.open(options);
-        log('message');
       } catch (e) {
         emit(ItemDetailPaymentErrorState());
       }
@@ -129,7 +133,8 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
         break;
     }
     if (success) {
-      ReservationModel reservationModel = ReservationModel(
+      reservationModel = ReservationModel(
+          size: selectedSize!,
           amount: event.options!['amount'],
           id: null,
           days: days,
@@ -139,15 +144,50 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
           userId: event.options!['prefill']['buyer'],
           reservationTime: DateTime.now(),
           status: ReservationStatus.reserved.name);
+    
+      await ReservationDatabaseServices()
+          .addReservation(reservationModel!)
+          .then(
+        (value)async {
+          if(item.reservedCount.containsKey(selectedSize))
+          {
+            item.reservableCount[selectedSize!]=0;
+          }
+          var temp=int.parse(item.reservableCount[selectedSize!].toString());
+          temp+=1;
+          item.reservableCount[selectedSize!]=temp;
 
-      await ReservationDatabaseServices().addReservation(reservationModel).then(
-        (value) {
+          await ItemDatabaseServices().updateItem(item);
           emit(ItemDetailPaymentSuccessState(
-              reservationModel: reservationModel));
+              reservationModel: reservationModel!));
         },
       );
     } else {
       emit(ItemDetailPaymentErrorState());
+    }
+  }
+
+  FutureOr<void> itemReservationReplacementEvent(
+      ItemReservationReplacementEvent event,
+      Emitter<ItemDetailsState> emit) async {
+    reservationModel!.itemId = item.id!;
+    log(selectedSize.toString());
+    try {
+      if (selectedSize == null) {
+        emit(ItemDetailsErrorState(error: 'Please select a size'));
+      } else {
+        var itemsLeft = itemsLeftPerSize(item, selectedSize!);
+        if (itemsLeft == 0) {
+          emit(ItemDetailsErrorState(
+              error: 'Items not available for that size'));
+        } else {
+          await ReservationDatabaseServices()
+              .updateReservation(reservationModel!);
+          emit(ItemReservationReplacedState());
+        }
+      }
+    } on FirebaseException catch (e) {
+      emit(ItemDetailsErrorState(error: e.toString()));
     }
   }
 }
@@ -156,15 +196,12 @@ class PaymentHandler {
   final ItemDetailsBloc itemDetailsBloc;
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
     itemDetailsBloc.add(ItemReservationPaymentCompletionEvent());
-
-    log("Payment Failed Code: ${response.code}\nDescription: ${response.message}\nMetadata:${response.error.toString()}");
   }
 
 //
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
     itemDetailsBloc.add(ItemReservationPaymentCompletionEvent(
         options: itemDetailsBloc.options, response: response));
-    log('Payment Successful ,Payment ID: ${response.paymentId}');
   }
 
   PaymentHandler({required this.itemDetailsBloc});

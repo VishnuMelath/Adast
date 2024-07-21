@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/services/item_database_services.dart';
@@ -48,17 +47,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       brands.add(item.brand);
       categories.add(item.category);
     }
-    log('${sortOption}sort option');
     items = items
         .where(
           (element) => element.name.contains(searchQuery ?? ''),
         )
         .toList();
     if (selectedBrands.isNotEmpty) {
-      log(selectedBrands.toString());
       items = items.where(
         (e) {
-          log(e.brand);
           return selectedBrands.contains(e.brand);
         },
       ).toList();
@@ -66,14 +62,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (selectedCategory.isNotEmpty) {
       items = items.where(
         (e) {
-          log(e.category);
           return selectedCategory.contains(e.category);
         },
       ).toList();
-      log(items.length.toString());
     }
     if (selectedFabric.isNotEmpty) {
-      log(selectedFabric.toString());
       items = items
           .where(
             (e) => selectedFabric.contains(e.material),
@@ -81,7 +74,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           .toList();
     }
     if (selectedFit.isNotEmpty) {
-      log(selectedFit.toString());
       items = items
           .where(
             (e) => selectedFit.contains(e.fit),

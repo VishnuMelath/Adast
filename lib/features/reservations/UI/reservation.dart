@@ -1,3 +1,4 @@
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/custom_widgets/custom_appbar.dart';
 import 'package:adast/features/reservation_status/UI/reservation_status_screen.dart';
@@ -8,10 +9,12 @@ import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../home_screen/bloc/home_bloc.dart';
 import 'widgets/loading_container.dart';
 
 class ReservationsList extends StatelessWidget {
-  const ReservationsList({super.key});
+  final HomeBloc homeBloc;
+  const ReservationsList({super.key, required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class ReservationsList extends StatelessWidget {
       color: white,
       child: SafeArea(
           child: Scaffold(
-            appBar: customAppBar('My reservations',context),
+        appBar: customAppBar('My reservations', context),
         backgroundColor: backgroundColor,
         body: BlocBuilder<ReservationsBloc, ReservationsState>(
           bloc: reservationsBloc,
@@ -61,9 +64,28 @@ class ReservationsList extends StatelessWidget {
                         if (state is ReservationTileLoadingState) {
                           return loadingTile();
                         } else if (state is ReservationTileLoadedState) {
-                          return loadedTile(reservationStatusBloc.clothModel!, reservationStatusBloc.sellerModel,() {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) => ReservationStatusScreen(reservationStatusBloc: reservationStatusBloc,),));
-                          }, );
+                          return loadedTile(
+                            reservationStatusBloc,
+                            () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ReservationStatusScreen(
+                                      homeBloc: homeBloc,
+                                      reservationStatusBloc:
+                                          reservationStatusBloc,
+                                    ),
+                                  )).then(
+                                (value) {
+                                  if (value != null) {
+                                    reservationsBloc.add(
+                                        ReservationInitialEvent(email: email));
+                                  }
+                                },
+                              );
+                            },
+                          );
                         } else {
                           return loadingTile();
                         }

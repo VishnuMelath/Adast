@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
-import 'package:adast/methods/network_check.dart';
+import 'package:adast/services/methods/network_check.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
@@ -55,7 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeInitialEvent(
       HomeInitialEvent event, Emitter<HomeState> emit) async {
-    log('called');
+
     userModel = event.userModel;
     if (!await hasNetwork()) {
       emit(HomeErrorState(error: 'please check your network connection'));
@@ -64,7 +63,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         for (var value in userModel.subscriptions) {
           if (!sellers.containsKey(value)) {
-            log(value);
+  
             var seller = await SellerDatabaseServices().getSeller(value);
             sellers[seller.email] = seller;
           }
@@ -84,7 +83,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           emit(HomeLoadedState());
         }
       } on FirebaseException catch (e) {
-        log(e.toString());
+
         emit(HomeErrorState(error: e.code));
       }
     }

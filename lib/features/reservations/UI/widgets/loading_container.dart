@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 Widget loadingTile()
 {
   return  Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.only(left :8.0,top: 8,right: 8),
     child: Shimmer.fromColors(
       baseColor: backgroundColor,
       highlightColor: white,

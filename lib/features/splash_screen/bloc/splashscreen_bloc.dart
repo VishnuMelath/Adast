@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/models/user_model.dart';
 import 'package:adast/services/user_database_services.dart';
@@ -31,7 +30,6 @@ class SplashscreenBloc extends Bloc<SplashscreenEvent, SplashscreenState> {
           emit(SplashNavigatetoLoginState());
         } 
         else {
-          log(userModel!.email);
           emit(SplashNavigateToHomeState());
         }
 

@@ -1,7 +1,6 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
-import 'package:adast/features/home_screen/UI/home_screen.dart';
+import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/home_screen.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';
@@ -40,7 +39,7 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
   @override
   Widget build(BuildContext context) {
     
-    log(selectedIndex.toString());
+ 
     return BlocProvider<BottomNavBloc>(
       create: (context) => bottomNavBloc,
       child: Stack(

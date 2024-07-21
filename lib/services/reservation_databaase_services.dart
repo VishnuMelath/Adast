@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/models/reservation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,27 +9,24 @@ class ReservationDatabaseServices {
       await firebaseInstance
           .collection('reservations')
           .add(reservation.toJson());
-    } on FirebaseException catch (e) {
-      log(e.code);
+    } on FirebaseException {
       rethrow;
     }
   }
 
-  void updateReservation(ReservationModel reservation) async {
+  Future updateReservation(ReservationModel reservation) async {
     try {
       await firebaseInstance
           .collection('reservations')
           .doc(reservation.id)
           .set(reservation.toJson());
-    } on FirebaseException catch (e) {
-      log(e.code);
+    } on FirebaseException {
       rethrow;
     }
   }
 
   Future<List<ReservationModel>> loadReservations(String userId) async {
     try {
-      log(userId);
       final snapshots = await firebaseInstance
           .collection('reservations')
           .where('userId', isEqualTo: userId)
@@ -40,8 +36,8 @@ class ReservationDatabaseServices {
             (e) => ReservationModel.fromSnapShot(e),
           )
           .toList();
-    } on FirebaseException catch (e) {
-      log(e.code);
+    } on FirebaseException {
+ 
       rethrow;
     }
   }

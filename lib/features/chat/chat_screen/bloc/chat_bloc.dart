@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/models/chat_room_model.dart';
 import 'package:adast/models/seller_model.dart';
@@ -22,8 +21,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try { 
       chatRoomModel.sellerUnreadCount=0;
        ChatRoomDatabaseServices().updateChatRoomUnseenCount(chatRoomModel);
-    } on FirebaseException catch (e) {
-      log(e.code);
+    } on FirebaseException catch (_) {
+
       
     }
   }

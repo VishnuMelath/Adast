@@ -38,3 +38,5 @@ class ItemReservationPaymentCompletionEvent extends ItemDetailsEvent{
 
   ItemReservationPaymentCompletionEvent({ this.options, this.response});
 }
+
+class ItemReservationReplacementEvent extends ItemDetailsEvent{}

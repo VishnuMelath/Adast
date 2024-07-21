@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../ themes/themes.dart';
-import '../../../../../methods/common_methods.dart';
+import '../../../../../services/methods/common_methods.dart';
 import '../../../../../models/message_model.dart';
 import '../widgets/message_tile.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:adast/services/user_database_services.dart';
 import 'package:adast/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,8 +13,7 @@ class LoginService {
           .then((value) async {
         await UserDatabaseServices().getUserData(email);
       });
-    } on FirebaseAuthException catch (e) {
-      log(e.code.toString());
+    } on FirebaseAuthException catch (_) {
       rethrow;
     }
   }
@@ -29,8 +27,7 @@ class LoginService {
       });
       await UserDatabaseServices().addUser(user);
       return user;
-    } on FirebaseAuthException catch (e) {
-      log(e.code.toString());
+    } on FirebaseAuthException catch (_) {
       rethrow;
     }
   }
@@ -39,7 +36,6 @@ class LoginService {
     try {
       await _auth.signOut();
     } catch (e) {
-      log(e.toString());
       rethrow;
     }
   }
@@ -47,8 +43,8 @@ class LoginService {
   Future<void> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (e) {
-      log(e.toString());
+    } on FirebaseAuthException catch (_) {
+      
       rethrow;
     }
   }
@@ -72,7 +68,7 @@ class LoginService {
         await UserDatabaseServices().addUser(userModel);
       }
     } catch (e) {
-      log(e.toString());
+
       rethrow;
     }
   }

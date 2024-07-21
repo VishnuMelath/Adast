@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../ themes/colors_shemes.dart';
 import '../../../../ themes/themes.dart';
-import '../../../../methods/debouncer.dart';
+import '../../../../services/methods/debouncer.dart';
 
 class SearchBarMapScreen extends StatelessWidget {
   final MapBloc mapBloc;

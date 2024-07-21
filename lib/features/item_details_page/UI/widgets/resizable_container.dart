@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/methods/itemsleft.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ themes/colors_shemes.dart';
 import '../../../../ themes/themes.dart';
-import '../../../../methods/common_methods.dart';
+import '../../../../services/methods/common_methods.dart';
 import '../../../seller_profile/UI/seller_profile.dart';
 import '../../../seller_profile/bloc/seller_profile_bloc.dart';
 import '../../../splash_screen/bloc/splashscreen_bloc.dart';
@@ -53,7 +52,7 @@ class _ResizableContainerState extends State<ResizableContainer> {
         } else {
           itemsLeft = itemsLeftPerSize(itemDetailsBloc.item, itemDetailsBloc.selectedSize!);
         }
-        log(itemDetailsBloc.item.toMap().toString());
+ 
         return Container(
           padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
           width: double.infinity,
@@ -263,7 +262,6 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           ),
                         ),
                          InkWell(onTap: () {
-                           log('tapped');
                          },child: Text('Cancellation and replacement policy',style: blueMediumTextStyle,))
                       ],
                     ),

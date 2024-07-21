@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/services/auth.dart';
 import 'package:adast/models/user_model.dart';
@@ -26,7 +25,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
       on FirebaseException catch(e)
       {
-        log(e.toString());
         emit(RegisterErrorState(errormsg: e.code));
       }
     }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/models/chat_room_model.dart';
@@ -32,13 +31,13 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
   FutureOr<void> sellerProfileItemLoadingEvent(
       SellerProfileItemLoadingEvent event,
       Emitter<SellerProfileState> emit) async {
-        log('seller profile');
+  
     emit(SellerProfileItemsLoadingState());
     try {
       items.addAll(await ItemDatabaseServices().getAllSellerItems(sellerModel.email));
       emit(SellerProfileItemsLoadedState());
-    } on FirebaseException catch (e) {
-      log(e.code);
+    } on FirebaseException catch (_) {
+  rethrow;
     }
   }
 
@@ -54,7 +53,7 @@ class SellerProfileBloc extends Bloc<SellerProfileEvent, SellerProfileState> {
       event.userModel.subscriptions.remove(sellerModel.email);
     }
     event.homeBloc.add(HomeInitialEvent(userModel: event.userModel));
-    log(event.userModel.subscriptions.toString());
+
 await UserDatabaseServices().updateUser(event.userModel);
     emit(SellerSubscribedState());
   }
@@ -64,8 +63,8 @@ await UserDatabaseServices().updateUser(event.userModel);
       ChatRoomModel chatRoomModel=await ChatRoomDatabaseServices().checkWheatherChatroomExists(sellerModel.email, event.userId);
       chatRoomModel.roomId=MessagesDatabaseServices().generateChatRoomId(chatRoomModel);
       emit(SellerProfileNavigateToChatState(chatRoomModel: chatRoomModel));
-    } on FirebaseException catch (e) {
-      log(e.toString());
+    } on FirebaseException catch (_) {
+
       rethrow;
     }
   }

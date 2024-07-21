@@ -1,6 +1,7 @@
 
 import 'package:adast/custom_widgets/custom_button.dart';
 import 'package:adast/custom_widgets/custom_snackbar.dart';
+import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/widgets/custom_checkbox.dart';
 import 'package:adast/features/item_details_page/UI/widgets/custom_show_dialogue.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:adast/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void showBottomSheetForReservation(
+void showBottomSheetForReservation(HomeBloc homeBloc,
     BuildContext context, ItemDetailsBloc itemDetailsBloc) {
   ValueNotifier groupValueNotifier = ValueNotifier('');
   showModalBottomSheet(
@@ -41,7 +42,7 @@ void showBottomSheetForReservation(
               if (state is ItemDetailPaymentSuccessState) {
                 Navigator.pop(context);
                 customShowDialogue(
-                    context, itemDetailsBloc, state.reservationModel);
+                    context, itemDetailsBloc, state.reservationModel,homeBloc);
               } else if (state is ItemDetailPaymentErrorState) {
               } else if (state is ItemDetailsErrorState) {
                 customSnackBar(context, state.error);

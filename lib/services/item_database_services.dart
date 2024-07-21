@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,16 +11,15 @@ class ItemDatabaseServices {
       final sellersCollection = firestore.collection('items');
       await sellersCollection.add(item.toMap());
 
-    } on FirebaseException catch (e) {
-      log(e.toString());
+    } on FirebaseException {
+      rethrow;
     }
   }
   Future<void> updateItem(ClothModel item) async {
     try {
       final document = firestore.collection('items').doc(item.id);
-      await document.set(item.toMap());
-    } on FirebaseException catch (e) {
-      log(e.toString());
+      await document.update(item.toMap());
+    } on FirebaseException { rethrow;
     }
   }
 
@@ -30,8 +28,8 @@ class ItemDatabaseServices {
     try {
       final document = firestore.collection('items').doc(id);
      await document.delete();
-    } on FirebaseException catch (e) {
-      log(e.toString());
+    } on FirebaseException { rethrow;
+
     }
 
   }
@@ -43,12 +41,12 @@ class ItemDatabaseServices {
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {
-          log(e.id.toString());
+      
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    }on FirebaseException catch (e) {
-      log(e.toString());
+    }on FirebaseException {
+   
       rethrow;
     }
   }
@@ -72,8 +70,7 @@ Future<List<ClothModel>> getAllItems() async {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    }on FirebaseException catch (e) {
-      log(e.toString());
+    }on FirebaseException {
       rethrow;
     }
   }
@@ -88,8 +85,7 @@ Future<List<ClothModel>> getAllItems() async {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    }on FirebaseException catch (e) {
-      log(e.toString());
+    }on FirebaseException {
       rethrow;
     }
   }
@@ -107,8 +103,8 @@ Future<List<ClothModel>> getAllItems() async {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    }on FirebaseException  catch (e) {
-      log(e.toString());
+    }on FirebaseException  {
+
       rethrow;
     }
   }
@@ -140,8 +136,7 @@ Future<List<ClothModel>> getAllItems() async {
           return ClothModel.fromJson(e.data() as Map<String, dynamic>,e.id);
         },
       ).toList();
-    }on FirebaseException catch (e) {
-      log(e.toString());
+    }on FirebaseException {
       rethrow;
     }
   }

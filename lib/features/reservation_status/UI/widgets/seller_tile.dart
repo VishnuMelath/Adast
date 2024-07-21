@@ -11,7 +11,7 @@ class SellerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SellerModel sellerModel=reservationStatusBloc.sellerModel;
+    SellerModel sellerModel=reservationStatusBloc.sellerModel!;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

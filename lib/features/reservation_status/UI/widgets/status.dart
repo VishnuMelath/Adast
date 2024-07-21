@@ -4,19 +4,28 @@ import 'package:adast/models/reservation_model.dart';
 import 'package:flutter/material.dart';
 
 Widget statusWidget(ReservationModel reservation) {
-  var days=reservation.reservationTime.add(Duration(days: reservation.days)).difference(DateTime.now()).inDays;
-  var hours=reservation.reservationTime.add(Duration(days: reservation.days)).difference(DateTime.now()).inHours%24;
-  var minutes=reservation.reservationTime.add(Duration(days: reservation.days)).difference(DateTime.now()).inMinutes%60;
-  var difference='';
-  if(days>0)
-  {
-    difference+='$days days ';
+  var days = reservation.reservationTime
+      .add(Duration(days: reservation.days))
+      .difference(DateTime.now())
+      .inDays;
+  var hours = reservation.reservationTime
+          .add(Duration(days: reservation.days))
+          .difference(DateTime.now())
+          .inHours %
+      24;
+  var minutes = reservation.reservationTime
+          .add(Duration(days: reservation.days))
+          .difference(DateTime.now())
+          .inMinutes %
+      60;
+  var difference = '';
+  if (days > 0) {
+    difference += '$days days ';
   }
-  if(hours>0)
-  {
-    difference+='$hours hours ';
+  if (hours > 0) {
+    difference += '$hours hours ';
   }
-   difference+='$minutes minutes';
+  difference += '$minutes minutes';
   String text = reservation.status == ReservationStatus.purchased.name
       ? 'Order Completed'
       : reservation.reservationTime
@@ -32,9 +41,12 @@ Widget statusWidget(ReservationModel reservation) {
         text,
         style: greyTextStyle,
       ),
+      const SizedBox(
+        height: 20,
+      ),
       Text(
-        '(note : if you fail to collect the item before reserved days you will lose the reservation money . Only replacement is available for this product from the same seller only)',
-        style: greyTextStyle,
+        '(note : if you fail to collect the item before reserved days you will lose the reservation money . \nOnly replacement is available for this product from the same seller )',
+        style: redTextStyle,
       ),
     ],
   );

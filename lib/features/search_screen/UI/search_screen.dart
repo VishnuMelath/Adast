@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
@@ -31,7 +30,6 @@ class SearchScreen extends StatelessWidget {
                 bloc: searchBloc,
                 listener: (context, state) {},
                 builder: (context, state) {
-                  log(state.runtimeType.toString());
                   if (state is SearchLoadingState || state is SearchInitial) {
                     return const Expanded(
                         child: Center(

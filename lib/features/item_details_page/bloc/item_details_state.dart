@@ -30,3 +30,6 @@ class ItemDetailPaymentSuccessState extends ItemDetailsState{
 
   ItemDetailPaymentSuccessState({required this.reservationModel});
 }
+
+
+class ItemReservationReplacedState extends ItemDetailsState{}

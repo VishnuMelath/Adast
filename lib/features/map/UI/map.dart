@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
@@ -147,12 +146,11 @@ class _MapScreenState extends State<MapScreen> {
             },
           );
           markers[marker.markerId.value] = marker;
-        } on Exception catch (e) {
-          log(e.toString());
+        } on Exception catch (_) {rethrow;
+
         }
       },
     ));
-    log(markers.toString());
     mapBloc.add(MapBuildCompletedEvent());
   }
 }

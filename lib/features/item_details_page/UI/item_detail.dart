@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:adast/custom_widgets/custom_snackbar.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
+import 'package:adast/features/item_details_page/UI/widgets/alert_dialog_replacement.dart';
 import 'package:adast/features/item_details_page/UI/widgets/back_button.dart';
 import 'package:adast/features/item_details_page/UI/widgets/page_indicator.dart';
 import 'package:adast/features/item_details_page/UI/widgets/pageview.dart';
+import 'package:adast/features/item_details_page/UI/widgets/replace_button.dart';
 import 'package:adast/features/item_details_page/UI/widgets/reserve_button.dart';
 import 'package:adast/features/item_details_page/UI/widgets/bottomsheet_reservation.dart';
 import 'package:adast/features/item_details_page/UI/widgets/string_to_imagewidget.dart';
@@ -22,8 +22,9 @@ class ItemDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ItemDetailsBloc itemDetailsBloc = context.read();
-    itemDetailsBloc.sellerModel=homeBloc.sellers[itemDetailsBloc.item.sellerID];
-    log(itemDetailsBloc.item.name);
+    itemDetailsBloc.sellerModel =
+        homeBloc.sellers[itemDetailsBloc.item.sellerID];
+
     bool reload = false;
     return Container(
       color: greentransparent,
@@ -31,22 +32,26 @@ class ItemDetails extends StatelessWidget {
         child: Scaffold(
           floatingActionButton: BlocListener<ItemDetailsBloc, ItemDetailsState>(
             listener: (context, state) {
-              
-              if(state is ItemDetailsErrorState)
-              {
+              if (state is ItemDetailsErrorState) {
                 customSnackBar(context, state.error);
-              }
-              else if(state is ItemShowBottomSheetState)
-              {
+              } else if (state is ItemShowBottomSheetState) {
                 // customShowDialogue(context);
-                showBottomSheetForReservation(context, itemDetailsBloc);
+                showBottomSheetForReservation(homeBloc,context, itemDetailsBloc,);
+              } else if (state is ItemReservationReplacedState) {
+                Navigator.pop(context, itemDetailsBloc.reservationModel);
               }
             },
-            child: reserveButton(
-              () {
-                itemDetailsBloc.add(ItemsReserverPressedEvent());
-              },
-            ),
+            child: itemDetailsBloc.replace
+                ? replaceButton(
+                    () {
+                      replacementDialog(context, itemDetailsBloc);
+                    },
+                  )
+                : reserveButton(
+                    () {
+                      itemDetailsBloc.add(ItemsReserverPressedEvent());
+                    },
+                  ),
           ),
           body: BlocBuilder<ItemDetailsBloc, ItemDetailsState>(
             builder: (context, state) {

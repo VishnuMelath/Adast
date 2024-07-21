@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
@@ -15,7 +14,6 @@ class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeBloc homeBloc=context.read();
-        log('message');
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -28,7 +26,6 @@ class SearchWidget extends StatelessWidget {
             BlocBuilder<MapBloc, MapState>(
               bloc: mapBloc,
               builder: (context, state) {
-                log(state.runtimeType.toString());
                 if (state is MapSearchedState) {
                   if (mapBloc.sellers.isEmpty) {
                     return const Padding(

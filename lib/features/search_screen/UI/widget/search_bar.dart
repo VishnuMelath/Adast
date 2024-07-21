@@ -5,7 +5,7 @@ import 'package:adast/features/search_screen/UI/widget/sort_widget.dart';
 import 'package:adast/features/search_screen/bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../methods/debouncer.dart';
+import '../../../../services/methods/debouncer.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final SearchBloc searchBloc;

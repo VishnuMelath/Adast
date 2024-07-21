@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/models/chat_room_model.dart';
 import 'package:adast/models/message_model.dart';
 import 'package:adast/services/chat_room_database_services.dart';
@@ -25,10 +27,17 @@ class MessagesDatabaseServices {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getMessages(
       String chatRoomId) async* {
-    final snapshot = firebaseFirestore
-        .collection('messages')
-        .where('roomId', isEqualTo: chatRoomId);
-    yield* snapshot.snapshots();
+    try {
+  final snapshot = firebaseFirestore
+      .collection('messages')
+      .where('roomId', isEqualTo: chatRoomId);
+  log(snapshot.toString());
+  yield* snapshot.snapshots();
+} on FirebaseException catch (e) {
+   log(e.code);
+  rethrow;
+ 
+}
   }
 
   String generateChatRoomId(ChatRoomModel chatRoom) {

@@ -7,7 +7,7 @@ import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
-import 'package:adast/methods/common_methods.dart';
+import 'package:adast/services/methods/common_methods.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

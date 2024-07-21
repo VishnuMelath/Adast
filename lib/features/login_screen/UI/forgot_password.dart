@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 
 import 'package:adast/custom_widgets/custom_button.dart';
 import 'package:adast/custom_widgets/custom_textfield.dart';
@@ -19,7 +18,6 @@ Future forgotPasswordDialog(BuildContext context,
           CustomButton(onTap: () {
             if(controller.text.isEmpty)
             {
-              log('email connot be empty');
             }else
             {
               loginBloc.add(LoginForgotPasswordEvent(email: controller));

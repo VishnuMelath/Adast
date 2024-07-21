@@ -1,17 +1,16 @@
-import 'dart:developer';
 
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_cached_network_image.dart';
 import 'package:adast/features/chat/chat_list/UI/chat_list_page.dart';
 import 'package:adast/features/chat/chat_list/bloc/chat_list_bloc.dart';
-import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/feed_widget.dart';
+import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/widgets/feed_widget.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/home_bloc.dart';
+import '../../../../bloc/home_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,7 +22,6 @@ class HomeScreen extends StatelessWidget {
     HomeBloc homeBloc = context.read();
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        log(state.runtimeType.toString());
         if (state is HomeLoadingState) {
           return const Center(
             child: CircularProgressIndicator(),

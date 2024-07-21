@@ -9,3 +9,5 @@ class ReservationTileLoadingEvent extends ReservationStatusEvent{
 
   ReservationTileLoadingEvent({required this.itemId, required this.sellerId});
 }
+
+class ReservationRelodEvent extends ReservationStatusEvent{}

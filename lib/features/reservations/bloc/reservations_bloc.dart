@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/reservation_model.dart';
-import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/reservation_databaase_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,7 +20,7 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
     emit(ReservationsLoadingState());
     try {
      reservations= await ReservationDatabaseServices().loadReservations(event.email);
-     log(reservations.length.toString());
+     reservations.sort((a, b) => a.reservationTime.compareTo(b.reservationTime),);
   emit(ReservationsLoadedState());
     } on FirebaseException catch (e) {
       emit(ReservationsErrorState(error: e.code));

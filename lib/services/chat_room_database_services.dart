@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:adast/models/chat_room_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +23,14 @@ class ChatRoomDatabaseServices {
 
   Future updateChatRoom(ChatRoomModel chatroom) async {
     try {
+      final snapshot=firebaseFirestore
+          .collection('chatrooms')
+          .doc(chatroom.roomId);
+      if(!await snapshot.get().then((value) => value.exists,))
+          {
+            await snapshot.set(chatroom.toJson());
+          }
+          
       await firebaseFirestore
           .collection('chatrooms')
           .doc(chatroom.roomId)
@@ -33,7 +41,6 @@ class ChatRoomDatabaseServices {
   }
  Future updateChatRoomUnseenCount(ChatRoomModel chatroom) async {
     try {
-      log(chatroom.toJson().toString());
       await firebaseFirestore
           .collection('chatrooms')
           .doc(chatroom.roomId)
