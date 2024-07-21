@@ -24,65 +24,54 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
      HomeBloc homeBloc = context.read<HomeBloc>();
     final user = context.read<SplashscreenBloc>().userModel;
-    return Scaffold(
-      backgroundColor: greentransparent.withOpacity(0.1),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-              onPressed: () {
-                //todo settings icon button pressed
-              },
-              icon: const Icon(
-                Icons.settings,
-                color: green,
-              ))
-        ],
-      ),
-      body: BlocListener<ProfileBloc, ProfileState>(
-        bloc: profileBloc,
-        listener: (context, state) {},
-        child: Column(
-          children: [
-            Profiletile(user: user!),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    customListTile(
-                      'Personal Details',
-                      () {},
-                    ),
-                    customListTile(
-                      'My Reservations',
-                      () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context) => ReservationsList(homeBloc: homeBloc,),));
-                      },
-                    ),
-                    customListTile(
-                      'Subscriptions',
-                      () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context) => SubscriptionsScreen(homeBloc: homeBloc),));
-
-                      },
-                    ),
-                    customListTile(
-                      'Saved',
-                      () {
-                        Navigator.push(context,MaterialPageRoute(builder: (context) =>  SavedItemsScreen(homeBloc: homeBloc,),));
-                      },
-                    ),
-                    customListTile(
-                      'Settings',
-                      () {},
-                    )
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: greentransparent.withOpacity(0.1),
+        body: BlocListener<ProfileBloc, ProfileState>(
+          bloc: profileBloc,
+          listener: (context, state) {},
+          child: Column(
+            children: [
+              Profiletile(user: user!),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      customListTile(
+                        'Personal Details',
+                        () {},
+                      ),
+                      customListTile(
+                        'My Reservations',
+                        () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => ReservationsList(homeBloc: homeBloc,),));
+                        },
+                      ),
+                      customListTile(
+                        'Subscriptions',
+                        () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => SubscriptionsScreen(homeBloc: homeBloc),));
+      
+                        },
+                      ),
+                      customListTile(
+                        'Saved',
+                        () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) =>  SavedItemsScreen(homeBloc: homeBloc,),));
+                        },
+                      ),
+                      customListTile(
+                        'Settings',
+                        () {},
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

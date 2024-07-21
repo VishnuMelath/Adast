@@ -1,6 +1,6 @@
 
 import 'package:adast/%20themes/colors_shemes.dart';
-import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/home_screen.dart';
+import 'package:adast/features/home_screen/UI/home_screen.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/map.dart';
 import 'package:adast/features/profile/UI/profile.dart';

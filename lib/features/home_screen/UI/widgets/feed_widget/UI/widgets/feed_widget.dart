@@ -119,7 +119,7 @@ class FeedWidget extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 10,
+            top: 0,
             child: Container(
               padding: const EdgeInsets.all(10),
               width: MediaQuery.sizeOf(context).width,

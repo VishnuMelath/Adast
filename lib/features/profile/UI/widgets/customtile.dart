@@ -1,4 +1,5 @@
 
+import 'package:adast/%20themes/themes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants/constants.dart';
@@ -11,7 +12,7 @@ Widget customListTile(String title,Function()? onTap)
     child: ListTile(
       onTap:onTap ,
       leading: Icon(icons[title]),
-      title: Text(title),
+      title: Text(title,style: blackPlainTextStyle,),
     ),
   );
 
