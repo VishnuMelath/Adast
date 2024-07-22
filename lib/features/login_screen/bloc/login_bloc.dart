@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adast/models/user_model.dart';
 import 'package:adast/services/auth.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,9 +24,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginEmptyFieldState());
     } else {
       try {
-        await LoginService()
+       var user= await LoginService()
             .signInWithMailandPass(event.email.text, event.pass.text);
-        emit(LoginNavigateToHomeState());
+        emit(LoginNavigateToHomeState(user: user));
       } on FirebaseException catch (e) {
         emit(LoginInvalidUserIdOrPassState(errormsg: e.code));
       }
@@ -40,8 +41,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> loginGoogleAuthPressedEvent(
       LoginGoogleAuthPressedEvent event, Emitter<LoginState> emit) async {
     try {
-      await LoginService().signUpWithGoogle();
-      emit(LoginNavigateToHomeState());
+     var user= await LoginService().signUpWithGoogle();
+      emit(LoginNavigateToHomeState(user: user));
     } on FirebaseException catch (e) {
       emit(LoginInvalidUserIdOrPassState(errormsg: e.code));
     }

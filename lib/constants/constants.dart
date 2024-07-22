@@ -17,8 +17,15 @@ Map<String, IconData> icons = {
   'Saved': Icons.bookmark,
   'Settings': Icons.settings,
   'Subscriptions':Icons.follow_the_signs
+  ,'Edit profile':Icons.person,
+    'Camera': Icons.camera,
+  'Gallery': Icons.image,
+  'Privacy policy':Icons.privacy_tip,
+  'Help':Icons.help,
+  'About':Icons.info_outlined
 };
-
+const String imagePath =
+    'https://firebasestorage.googleapis.com/v0/b/adast-425404.appspot.com/o/profileImages%2Fbusinessman.png?alt=media&token=1245ce78-22fa-43d1-b863-bad64a8dcab4';
 Map<bool, Icon> eye = {
   true: const Icon(Icons.remove_red_eye_outlined),
   false: const Icon(Icons.remove_red_eye)

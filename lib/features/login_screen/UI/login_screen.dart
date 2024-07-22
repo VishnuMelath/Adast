@@ -7,6 +7,7 @@ import 'package:adast/features/login_screen/UI/forgot_password.dart';
 import 'package:adast/features/login_screen/UI/widgets/google_button.dart';
 import 'package:adast/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast/features/register_page.dart/UI/register_page.dart';
+import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               } else if (state is LoginInvalidUserIdOrPassState) {
                 customSnackBar(context, state.errormsg);
               } else if (state is LoginNavigateToHomeState) {
+                context.read<SplashscreenBloc>().userModel=state.user;
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

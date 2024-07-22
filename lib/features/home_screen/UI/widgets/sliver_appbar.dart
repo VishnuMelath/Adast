@@ -8,6 +8,7 @@ import '../../../chat/chat_list/bloc/chat_list_bloc.dart';
 SliverAppBar sliverAppBar({required BuildContext context})
 {
   return  SliverAppBar(
+    backgroundColor: backgroundColor,
                       titleSpacing: 0,
                       title: Align(
                         alignment: Alignment.centerLeft,

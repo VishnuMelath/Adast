@@ -40,53 +40,50 @@ class _CustomTextfieldState extends State<CustomTextfield> {
       child: Material(
         borderRadius: BorderRadius.circular(15),
         elevation: elevation,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: 0, maxWidth: 100),
-          child: TextFormField(
-            autovalidateMode: widget.login||widget.passController!=null
-                ? AutovalidateMode.disabled
-                : AutovalidateMode.onUserInteraction,
-            controller: widget.controller,
-            obscureText: show,
-            decoration: InputDecoration(
-                suffixIcon: Visibility(
-                    visible: widget.password&&widget.passController==null,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          show = !show;
-                        });
-                      },
-                      icon: eye[show]!,
-                    )),
-                prefixIcon: Icon(icons[widget.label]),
-                labelStyle: const TextStyle(fontSize: 12),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-                labelText: widget.label,
-                isDense: true,
-                border: InputBorder.none),
-            validator: (value) {
-              if (value == '' || value == null) {
-                return '${widget.label} cannot be empty';
-              }
-              else if(widget.passController!=null&&widget.passController!.text!=widget.controller.text)
-              {
-                return 'passwords doesn\'t matches ';
-              }
-              return null;
-            },
-            onTapOutside: (event) {
-              elevation = 1;
-              FocusManager.instance.primaryFocus?.unfocus();
-              setState(() {});
-            },
-            onTap: () {
-              setState(() {
-                elevation = 10;
-              });
-            },
-          ),
+        child: TextFormField(
+          autovalidateMode: widget.login||widget.passController!=null
+              ? AutovalidateMode.disabled
+              : AutovalidateMode.onUserInteraction,
+          controller: widget.controller,
+          obscureText: show,
+          decoration: InputDecoration(
+              suffixIcon: Visibility(
+                  visible: widget.password&&widget.passController==null,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        show = !show;
+                      });
+                    },
+                    icon: eye[show]!,
+                  )),
+              prefixIcon: Icon(icons[widget.label]),
+              labelStyle: const TextStyle(fontSize: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+              labelText: widget.label,
+              isDense: true,
+              border: InputBorder.none),
+          validator: (value) {
+            if (value == '' || value == null) {
+              return '${widget.label} cannot be empty';
+            }
+            else if(widget.passController!=null&&widget.passController!.text!=widget.controller.text)
+            {
+              return 'passwords doesn\'t matches ';
+            }
+            return null;
+          },
+          onTapOutside: (event) {
+            elevation = 1;
+            FocusManager.instance.primaryFocus?.unfocus();
+            setState(() {});
+          },
+          onTap: () {
+            setState(() {
+              elevation = 10;
+            });
+          },
         ),
       ),
     );

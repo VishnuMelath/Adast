@@ -11,7 +11,11 @@ class LoginButtonPressedState extends LoginState{}
 
 class LoginEmptyFieldState extends LoginActionState{}
 
- class LoginNavigateToHomeState extends LoginActionState{}
+ class LoginNavigateToHomeState extends LoginActionState{
+  final UserModel user;
+
+  LoginNavigateToHomeState({required this.user});
+ }
 
  class LoginNavigateToRegisterState extends LoginActionState{}
 

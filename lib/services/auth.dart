@@ -6,25 +6,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> signInWithMailandPass(String email, String password) async {
+  Future<UserModel> signInWithMailandPass(String email, String password) async {
     try {
-      await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        await UserDatabaseServices().getUserData(email);
-      });
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      return await UserDatabaseServices().getUserData(email);
     } on FirebaseAuthException catch (_) {
       rethrow;
     }
   }
-  
 
   Future<UserModel> signUp(UserModel user, String password) async {
-    try {      
+    try {
       await _auth
           .createUserWithEmailAndPassword(email: user.email, password: password)
-          .then((value) {
-      });
+          .then((value) {});
       await UserDatabaseServices().addUser(user);
       return user;
     } on FirebaseAuthException catch (_) {
@@ -44,12 +40,11 @@ class LoginService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (_) {
-      
       rethrow;
     }
   }
 
-  Future<void> signUpWithGoogle() async {
+  Future<UserModel> signUpWithGoogle() async {
     try {
       await GoogleSignIn().signOut();
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -66,9 +61,13 @@ class LoginService {
             name: map.profile?['given_name'],
             image: map.profile?['picture']);
         await UserDatabaseServices().addUser(userModel);
+        return userModel;
+      }
+      else
+      {
+        return await UserDatabaseServices().getUserData(user.additionalUserInfo!.profile!['email']);
       }
     } catch (e) {
-
       rethrow;
     }
   }

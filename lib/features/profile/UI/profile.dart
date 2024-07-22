@@ -4,6 +4,7 @@ import 'package:adast/features/profile/UI/widgets/profiletile.dart';
 import 'package:adast/features/profile/bloc/profile_bloc.dart';
 import 'package:adast/features/reservations/UI/reservation.dart';
 import 'package:adast/features/saved_items/UI/saved_items.dart';
+import 'package:adast/features/settings/UI/settings.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/features/subscriptions_page/UI/subscriptions.dart';
 import 'package:flutter/material.dart';
@@ -39,10 +40,10 @@ class _ProfileState extends State<Profile> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      customListTile(
-                        'Personal Details',
-                        () {},
-                      ),
+                      // customListTile(
+                      //   'Personal Details',
+                      //   () {},
+                      // ),
                       customListTile(
                         'My Reservations',
                         () {
@@ -64,7 +65,9 @@ class _ProfileState extends State<Profile> {
                       ),
                       customListTile(
                         'Settings',
-                        () {},
+                        () {
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => const SettingsPage(),));
+                        },
                       )
                     ],
                   ),

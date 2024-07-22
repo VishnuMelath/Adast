@@ -26,7 +26,10 @@ const Decoration greenbuttonDecoration=BoxDecoration(
 
 
  TextStyle redTextStyle=  GoogleFonts.robotoSlab(color: Colors.red,fontSize: 10);
+
  TextStyle mediumRedTextStyle=  GoogleFonts.robotoSlab(color: Colors.red,fontSize: 14);
+
+  TextStyle largeRedTextStyle=  GoogleFonts.robotoSlab(color: Colors.red,fontSize: 18);
 
 
 

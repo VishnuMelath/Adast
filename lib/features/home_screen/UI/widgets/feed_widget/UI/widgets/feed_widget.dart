@@ -22,7 +22,7 @@ class FeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     FeedWidgetBloc feedWidgetBloc = FeedWidgetBloc();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      padding: const EdgeInsets.only(bottom: 28.0),
       child: Stack(
         children: [
           GestureDetector(
