@@ -4,7 +4,58 @@ import 'package:adast/services/methods/common_methods.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../ themes/colors_shemes.dart';
+import '../../../../constants/constants.dart';
+
 Widget customStepper(ReservationModel reservation) {
+  if(reservation.status == ReservationStatus.purchased.name)
+  {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Stepper(
+        physics: const NeverScrollableScrollPhysics(),
+        connectorColor: const WidgetStatePropertyAll(green),
+        controlsBuilder: (context, _) => Container(),
+        steps: [
+          Step(
+            state: StepState.complete,
+              title: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Item reserved for ${reservation.days} days',
+                    style: blackTextStyle,
+                  ),
+                  Text(
+                    dateTimeString(reservation.reservationTime),
+                    style: greyMediumTextStyle,
+                  )
+                ],
+              ),
+              content: const Text('')),
+          Step(
+            state: StepState.complete,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Item purchased',
+                    style: blackTextStyle,
+                  ),
+                  Text(
+                    dateTimeString(reservation.reservationTime.add(Duration(days: reservation.days))),
+                    style: greyMediumTextStyle,
+                  )
+                ],
+              ),
+              content: const Text(''))
+        ],
+      ),
+    );
+  }
+  else
+  {
   if (DateTime.now().isBefore(
       reservation.reservationTime.add(Duration(days: reservation.days)))) {
     return Padding(
@@ -89,4 +140,5 @@ Widget customStepper(ReservationModel reservation) {
       ),
     );
   }
+}
 }

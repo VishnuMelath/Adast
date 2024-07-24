@@ -37,7 +37,8 @@ Widget statusWidget1(ReservationModel reservation) {
     alignment: Alignment.bottomLeft,
     child: Text(
       text,
-      style: greyMediumTextStyle,
+      style:reservation.status == ReservationStatus.purchased.name
+      ? greenmediumTextStyle:redmediumTextStyle,
     ),
   );
 }

@@ -3,7 +3,7 @@ import 'package:adast/models/cloth_model.dart';
 int totalItemsLeft(ClothModel clothModel) {
   return clothModel.size.values.fold<int>(
         0,
-        (previousValue, element) => previousValue + int.parse(element),
+        (previousValue, element) => previousValue + int.parse(element.toString()),
       ) -
       clothModel.soldCount.values.fold<int>(
         0,
@@ -13,5 +13,5 @@ int totalItemsLeft(ClothModel clothModel) {
 
 int itemsLeftPerSize(ClothModel clothModel,String size)
 {
-  return int.parse(clothModel.size[size])-int.parse(clothModel.soldCount[size]??'0');
+  return int.parse(clothModel.size[size].toString())-int.parse(clothModel.soldCount[size]??'0');
 }

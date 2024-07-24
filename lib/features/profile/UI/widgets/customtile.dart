@@ -13,6 +13,7 @@ Widget customListTile(String title,Function()? onTap)
       onTap:onTap ,
       leading: Icon(icons[title]),
       title: Text(title,style: blackPlainTextStyle,),
+      
     ),
   );
 

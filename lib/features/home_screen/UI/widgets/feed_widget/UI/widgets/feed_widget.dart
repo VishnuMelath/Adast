@@ -48,7 +48,7 @@ class FeedWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.sizeOf(context).width * 1.4,
+                  height: MediaQuery.sizeOf(context).width * 1.5,
                   child: PageView(
                     onPageChanged: (value) {
                       feedWidgetBloc.add(FeedImageChangedEvent(page: value));
@@ -59,7 +59,7 @@ class FeedWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           child: CachedNetworkImage(
                             imageUrl: e,
-                            fit: BoxFit.fitWidth,
+                            fit: BoxFit.fitHeight,
                           ),
                         ),
                       )

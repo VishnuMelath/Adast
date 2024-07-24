@@ -19,6 +19,10 @@ Widget clothDetail(ReservationStatusBloc reservationStatusBloc) {
           style: mediumBlackTextStyle,
         ),
         Text(
+          'size : ${reservationStatusBloc.reservationModel.size}',
+          style: greyMediumTextStyle,
+        ),
+        Text(
           'price : ₹${reservationStatusBloc.clothModel!.price}',
           style: greyMediumTextStyle,
         ),

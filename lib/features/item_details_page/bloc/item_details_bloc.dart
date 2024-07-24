@@ -114,6 +114,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
   FutureOr<void> itemReservationPaymentCompletionEvent(
       ItemReservationPaymentCompletionEvent event,
       Emitter<ItemDetailsState> emit) async {
+        emit(ItemDetailsLoadingState());
     var days = 0;
     switch (event.options!['amount']) {
       case 1000:
@@ -144,20 +145,20 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
           userId: event.options!['prefill']['buyer'],
           reservationTime: DateTime.now(),
           status: ReservationStatus.reserved.name);
-    
+
       await ReservationDatabaseServices()
           .addReservation(reservationModel!)
           .then(
-        (value)async {
-          if(item.reservedCount.containsKey(selectedSize))
-          {
-            item.reservableCount[selectedSize!]=0;
+        (value) async {
+          if (!item.reservedCount.containsKey(selectedSize)) {
+            item.reservedCount[selectedSize!] = 0;
           }
-          var temp=int.parse(item.reservableCount[selectedSize!].toString());
-          temp+=1;
-          item.reservableCount[selectedSize!]=temp;
-
+          var temp = int.parse(item.reservedCount[selectedSize!].toString());
+          temp += 1;
+          item.reservedCount[selectedSize!] = temp;
+          item.revenue += reservationModel!.amount;
           await ItemDatabaseServices().updateItem(item);
+          await SellerDatabaseServices().updateSellerWallet(reservationModel!.amount,reservationModel!.sellerId);
           emit(ItemDetailPaymentSuccessState(
               reservationModel: reservationModel!));
         },
@@ -183,6 +184,14 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
         } else {
           await ReservationDatabaseServices()
               .updateReservation(reservationModel!);
+          if (!item.reservedCount.containsKey(selectedSize)) {
+            item.reservedCount[selectedSize!] = 0;
+          }
+          var temp = int.parse(item.reservedCount[selectedSize!].toString());
+          temp += 1;
+          item.reservedCount[selectedSize!] = temp;
+          item.revenue += reservationModel!.amount;
+          await ItemDatabaseServices().updateItem(item);
           emit(ItemReservationReplacedState());
         }
       }

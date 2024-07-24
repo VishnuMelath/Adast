@@ -20,7 +20,7 @@ class ReservationsBloc extends Bloc<ReservationsEvent, ReservationsState> {
     emit(ReservationsLoadingState());
     try {
      reservations= await ReservationDatabaseServices().loadReservations(event.email);
-     reservations.sort((a, b) => a.reservationTime.compareTo(b.reservationTime),);
+     reservations.sort((a, b) => b.reservationTime.compareTo(a.reservationTime),);
   emit(ReservationsLoadedState());
     } on FirebaseException catch (e) {
       emit(ReservationsErrorState(error: e.code));

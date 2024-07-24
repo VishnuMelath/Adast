@@ -54,4 +54,8 @@ class ReservationModel {
       'reservationTime': reservationTime,
     };
   }
+  copyWith()
+  {
+    return {'id':itemId,'size':size};
+  }
 }

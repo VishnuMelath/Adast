@@ -11,3 +11,9 @@ class ReservationTileLoadingEvent extends ReservationStatusEvent{
 }
 
 class ReservationRelodEvent extends ReservationStatusEvent{}
+
+class ReservationItemsUpdatingEvent extends ReservationStatusEvent{
+  final Map<String,dynamic> data;
+
+  ReservationItemsUpdatingEvent({required this.data});
+}

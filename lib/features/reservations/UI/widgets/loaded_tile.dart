@@ -19,11 +19,19 @@ Widget loadedTile(ReservationStatusBloc reservationsBloc,Function()? onTap) {
         borderRadius: BorderRadius.circular(10),
         elevation: 1,
         child: Container(
-          decoration: BoxDecoration(
+          decoration:  BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: white,
-              // border: Border.all(color: grey.withOpacity(0.3))
-              ),
+            color: green,
+            gradient: LinearGradient(
+                colors: [
+                  backgroundColor,
+                  white.withOpacity(0.3),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: const[0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
           padding: const EdgeInsets.all(8),
           height: 80,
           child: Row(

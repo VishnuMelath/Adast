@@ -17,6 +17,7 @@ class ClothModel {
   String metaTitle;
   String metaDescription;
   DateTime date;
+  int revenue;
 
   ClothModel(
       {this.id,
@@ -36,7 +37,8 @@ class ClothModel {
       required this.tags,
       required this.metaTitle,
       required this.metaDescription,
-      required this.date});
+      required this.date,
+      required this.revenue});
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,7 +50,7 @@ class ClothModel {
       'size': size,
       'images': images,
       'reservedCount': reservedCount,
-      'reservableCount':reservableCount,
+      'reservableCount': reservableCount,
       'soldCount': soldCount,
       'brand': brand,
       'material': material,
@@ -56,6 +58,7 @@ class ClothModel {
       'tags': tags,
       'metaTitle': metaTitle,
       'metaDescription': metaDescription,
+      'revenue': revenue
     };
   }
 
@@ -78,7 +81,7 @@ class ClothModel {
         tags: map['tags'],
         reservedCount: map['reservedCount'],
         soldCount: map['soldCount'],
-        date:map['date'].toDate()
-        );
+        date: map['date'].toDate(),
+        revenue: map.containsKey('revenue') ? map['revenue'] : 0);
   }
 }

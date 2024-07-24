@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/cloth_model.dart';
@@ -19,6 +21,16 @@ class ItemDatabaseServices {
     try {
       final document = firestore.collection('items').doc(item.id);
       await document.update(item.toMap());
+    } on FirebaseException { rethrow;
+    }
+  }
+
+  Future<void> updateItemRevenue(String id,String size,int amount,[bool replace=false])async
+  {
+    try {
+      log('its here $id $size');
+      final document = firestore.collection('items').doc(id);
+      await document.update({'revenue':FieldValue.increment(replace?(amount*-1):amount),'reservedCount.$size':FieldValue.increment(replace?-1:1)});
     } on FirebaseException { rethrow;
     }
   }

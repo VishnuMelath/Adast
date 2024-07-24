@@ -1,4 +1,7 @@
+
+
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -43,6 +46,7 @@ class ImageIconBloc extends Bloc<ImageIconEvent, ImageIconState> {
       emit(ImageIconChangedState(imageUrl: null, loading: true));
       image = await FirebaseStorageServices()
           .uploadImageToFirebase(File(image),'profileImages');
+          log(image.toString());
       if (image != null) {
         imageUrl = image;
         emit(ImageIconChangedState(imageUrl: image, loading: false));

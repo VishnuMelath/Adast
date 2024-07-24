@@ -22,7 +22,7 @@ Widget feedList({required BuildContext context,required HomeBloc homeBloc})
                                     clothModel: e, homeBloc: homeBloc),
                               ),
                               const SizedBox(
-                                height: 100,
+                                height: 60,
                               )
                             ]),
                     );

@@ -1,4 +1,5 @@
 
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/custom_widgets/custom_appbar.dart';
 import 'package:adast/features/reservation_status/UI/widgets/cloth_detail.dart';
@@ -16,6 +17,7 @@ import '../../replace_product_list/UI/replace_screen.dart';
 class ReservationStatusScreen extends StatelessWidget {
   final HomeBloc homeBloc;
   final ReservationStatusBloc reservationStatusBloc;
+
   const ReservationStatusScreen(
       {super.key, required this.reservationStatusBloc, required this.homeBloc});
 
@@ -27,6 +29,7 @@ class ReservationStatusScreen extends StatelessWidget {
         child: Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
+              reservationStatusBloc.temp=reservationStatusBloc.reservationModel.copyWith();
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -37,6 +40,7 @@ class ReservationStatusScreen extends StatelessWidget {
                   )).then(
                 (value) {
                   if (value != null) {
+                    reservationStatusBloc.add(ReservationItemsUpdatingEvent(data: reservationStatusBloc.temp));
                     reservationStatusBloc.reservationModel = value;
                     reservationStatusBloc.add(ReservationTileLoadingEvent(itemId: reservationStatusBloc.reservationModel.itemId,sellerId: reservationStatusBloc.reservationModel.sellerId));
                   }

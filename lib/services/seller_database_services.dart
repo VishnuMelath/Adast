@@ -24,4 +24,10 @@ class SellerDatabaseServices {
     final list=await sellersCollection.get();
     return list.docs.map((e) => SellerModel.fromJson(e),).toList();
   }
+
+  Future updateSellerWallet(int amount,String sellerId)
+  async 
+  {
+    await firestore.collection('sellers').doc(sellerId).update({'wallet':FieldValue.increment(amount)});
+  }
 }

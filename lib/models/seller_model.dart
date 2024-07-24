@@ -9,6 +9,7 @@ class SellerModel {
   GeoPoint? latLng;
   String place;
   List<ClothModel> items;
+  int wallet;
 
   SellerModel(
       {this.items = const [],
@@ -16,7 +17,8 @@ class SellerModel {
       required this.name,
       required this.email,
       required this.place,
-      this.latLng});
+      this.latLng,
+      this.wallet = 0});
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,16 +26,18 @@ class SellerModel {
       'image': image,
       'name': name,
       'latlng': latLng,
-      'plance': place
+      'plance': place,
+      'wallet': wallet
     };
   }
 
   factory SellerModel.fromJson(QueryDocumentSnapshot<Object?> data) {
     return SellerModel(
-      place: data['place'],
+        place: data['place'],
         name: data['name'],
         email: data['emailaddress'],
         image: data['image'],
-        latLng: data['latlng']);
+        latLng: data['latlng'],
+        wallet: data['wallet'] ?? 0);
   }
 }

@@ -60,6 +60,7 @@ class _BottomNavbarScreenState extends State<BottomNavbarScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: BottomNavigationBar(
+                  backgroundColor: Colors.green[50],
                     onTap: (value) {
                       setState(() {
                         selectedIndex = value;

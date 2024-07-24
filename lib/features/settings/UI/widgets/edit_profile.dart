@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/custom_widgets/custom_snackbar.dart';
 import 'package:adast/custom_widgets/custom_textfield.dart';
 import 'package:adast/features/settings/UI/widgets/custom_save_button.dart';
@@ -24,6 +26,7 @@ void editProfile(BuildContext context) {
             bloc: settingsBloc,
             listener: (context, state) {
               if (state is SettingsSaveSuccessState) {
+                context.read<SplashscreenBloc>().userModel=userModel;
                 customSnackBar(context, 'updated succesfully');
                 Navigator.pop(context);
               } else if (state is SettingsErrorState) {
@@ -57,6 +60,7 @@ void editProfile(BuildContext context) {
                             }, save: false),
                             customSaveCancelButton(
                                 onTap: () {
+                                  log(imageIconBloc.imageUrl.toString());
                                   if (nameController.text.trim().isNotEmpty) {
                                     loading.value = true;
                                     userModel.name = nameController.text;

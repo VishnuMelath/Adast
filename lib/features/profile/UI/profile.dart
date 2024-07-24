@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/profile/UI/widgets/customtile.dart';
 import 'package:adast/features/profile/UI/widgets/profiletile.dart';
@@ -23,7 +25,8 @@ class _ProfileState extends State<Profile> {
   ProfileBloc profileBloc = ProfileBloc();
   @override
   Widget build(BuildContext context) {
-     HomeBloc homeBloc = context.read<HomeBloc>();
+    log('hello');
+    HomeBloc homeBloc = context.read<HomeBloc>();
     final user = context.read<SplashscreenBloc>().userModel;
     return SafeArea(
       child: Scaffold(
@@ -47,26 +50,50 @@ class _ProfileState extends State<Profile> {
                       customListTile(
                         'My Reservations',
                         () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => ReservationsList(homeBloc: homeBloc,),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReservationsList(
+                                  homeBloc: homeBloc,
+                                ),
+                              ));
                         },
                       ),
                       customListTile(
                         'Subscriptions',
                         () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => SubscriptionsScreen(homeBloc: homeBloc),));
-      
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SubscriptionsScreen(homeBloc: homeBloc),
+                              ));
                         },
                       ),
                       customListTile(
                         'Saved',
                         () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) =>  SavedItemsScreen(homeBloc: homeBloc,),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SavedItemsScreen(
+                                  homeBloc: homeBloc,
+                                ),
+                              ));
                         },
                       ),
                       customListTile(
                         'Settings',
                         () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => const SettingsPage(),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SettingsPage(),
+                              )).then(
+                            (value) {
+                              setState(() {});
+                            },
+                          );
                         },
                       )
                     ],

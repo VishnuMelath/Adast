@@ -57,7 +57,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     userModel = event.userModel;
     if (!await hasNetwork()) {
-      emit(HomeErrorState(error: 'please check your network connection'));
+      emit(HomeErrorState(error: 'please check your network connection '));
     } else {
       emit(HomeLoadingState());
       try {

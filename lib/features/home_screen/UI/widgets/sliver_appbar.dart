@@ -17,6 +17,21 @@ SliverAppBar sliverAppBar({required BuildContext context})
                           height: 100,
                         ),
                       ),
+                      flexibleSpace: Container(
+          decoration:  BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  backgroundColor,
+                  white,
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: const[0.0, 1.0],
+                tileMode: TileMode.clamp),
+          ),
+        ),
+    
+      
                       elevation: 10,
                       stretch: true,
                       floating: true,

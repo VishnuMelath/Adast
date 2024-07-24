@@ -41,7 +41,6 @@ class HomeScreen extends StatelessWidget {
               return CustomScrollView(
                 key: key1,
                 controller: scrollController, slivers: [
-                
                 sliverAppBar(context: context),
                 widget
               ]);

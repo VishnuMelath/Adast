@@ -7,13 +7,14 @@ import 'feed_list.dart';
 Widget homeBody(BuildContext context,{required HomeBloc homeBloc})
 {
   return SliverFillRemaining(
+    fillOverscroll: true,
                         hasScrollBody: false,
                         child: Column(
                          mainAxisSize: MainAxisSize.min,
                           children: [
                             subscriptionsHorizontalList(
                                 context: context, homeBloc: homeBloc),
-                            feedList(context: context, homeBloc: homeBloc),
+                            Expanded(child: feedList(context: context, homeBloc: homeBloc)),
                           ],
                         ),
                       );
