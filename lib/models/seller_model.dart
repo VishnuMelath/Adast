@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'cloth_model.dart';
 
 class SellerModel {
+  String? id;
   String name;
   String email;
   String? image;
@@ -12,7 +13,9 @@ class SellerModel {
   int wallet;
 
   SellerModel(
-      {this.items = const [],
+      {
+        this.id,
+        this.items = const [],
       this.image,
       required this.name,
       required this.email,
@@ -33,6 +36,7 @@ class SellerModel {
 
   factory SellerModel.fromJson(QueryDocumentSnapshot<Object?> data) {
     return SellerModel(
+      id: data.id,
         place: data['place'],
         name: data['name'],
         email: data['emailaddress'],

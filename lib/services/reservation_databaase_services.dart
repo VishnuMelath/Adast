@@ -1,4 +1,5 @@
 
+import 'package:adast/constants/constants.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -41,4 +42,10 @@ class ReservationDatabaseServices {
       rethrow;
     }
   }
+  Future<bool> checkPurchased(String sellerId,String userId) async
+{
+final query=firebaseInstance.collection('reservations').where('sellerId',isEqualTo: sellerId).where('userId',isEqualTo: userId).where('status',isEqualTo: ReservationStatus.purchased.name);
+final data=await query.get();
+return data.docs.isNotEmpty;
+}
 }

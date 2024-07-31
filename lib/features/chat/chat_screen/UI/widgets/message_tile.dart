@@ -4,6 +4,7 @@ import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class MessageTile extends StatelessWidget {
   final MessageModel messageModel;
@@ -40,7 +41,7 @@ class MessageTile extends StatelessWidget {
                 style: blackPlainTextStyle,
               ),
             ),
-            // Text('${messageModel.timestamp.toDate().hour}:${messageModel.timestamp.toDate().minute}',style:greySmallTextStyle,)
+            Text(DateFormat("h:mma").format(messageModel.timestamp.toDate()),style:greySmallTextStyle,)
           ],
         ),
       ),

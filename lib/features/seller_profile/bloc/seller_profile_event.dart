@@ -20,3 +20,15 @@ class SellerProfileSubscribeUnsubEvent extends SellerProfileEvent{
 
   SellerProfileSubscribeUnsubEvent({required this.userModel,required this.homeBloc});
 }
+
+class SellerProfileAddReviewLoadingEvent extends SellerProfileEvent{
+  final UserModel userModel;
+
+  SellerProfileAddReviewLoadingEvent({required this.userModel});
+}
+
+class SellerProfileAddUpdateReviewEvent extends SellerProfileEvent{
+  final RatingModel ratingModel;
+
+  SellerProfileAddUpdateReviewEvent({required this.ratingModel});
+}

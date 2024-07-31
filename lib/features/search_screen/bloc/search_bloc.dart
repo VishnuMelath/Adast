@@ -11,6 +11,8 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  int maxPrice=10000;
+  int minPrice=0;
   String? searchQuery;
   List<ClothModel> items = [];
    Map<String, SellerModel> sellers = {};
@@ -32,7 +34,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchInitialEvent event, Emitter<SearchState> emit) async {
     emit(SearchLoadingState());
     items = await ItemDatabaseServices().getAllItems();
+    minPrice=items.first.price;
     for (var item in items) {
+      if(item.price<minPrice)
+      {
+        minPrice=item.price;
+      }
+      if(item.price>maxPrice)
+      {
+        maxPrice=item.price;
+      }
       brands.add(item.brand);
       categories.add(item.category);
     }

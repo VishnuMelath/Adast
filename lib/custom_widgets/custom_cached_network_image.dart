@@ -10,7 +10,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return   ClipRRect(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(30),
       child: CachedNetworkImage(
                       
                         fit: BoxFit.fill,
@@ -19,7 +19,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
                           baseColor: Colors.grey[300]!,
                           highlightColor: Colors.grey[100]!,
                           child: Container(
-                            decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(10)),
+                            decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(30)),
                             width: 60,
                             height: 60
                           ),

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
+import 'package:adast/constants/constants.dart';
 import 'package:adast/features/reservation_status/bloc/reservation_status_bloc.dart';
 import 'package:adast/features/reservations/UI/widgets/network_image.dart';
 import 'package:adast/models/cloth_model.dart';
@@ -8,19 +11,19 @@ import 'package:flutter/material.dart';
 
 import 'status.dart';
 
-Widget loadedTile(ReservationStatusBloc reservationsBloc,Function()? onTap) {
-  ClothModel item=reservationsBloc.clothModel!;
-  SellerModel seller=reservationsBloc.sellerModel!; 
+Widget loadedTile(ReservationStatusBloc reservationsBloc, Function()? onTap) {
+  ClothModel item = reservationsBloc.clothModel!;
+  SellerModel seller = reservationsBloc.sellerModel!;
   return Padding(
-    padding: const EdgeInsets.only(left :8.0,top: 8,right: 8),
+    padding: const EdgeInsets.only(left: 8.0, top: 8, right: 8),
     child: InkWell(
-      onTap:onTap ,
+      onTap: onTap,
       child: Material(
         borderRadius: BorderRadius.circular(10),
         elevation: 1,
         child: Container(
-          decoration:  BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
             color: green,
             gradient: LinearGradient(
                 colors: [
@@ -29,7 +32,7 @@ Widget loadedTile(ReservationStatusBloc reservationsBloc,Function()? onTap) {
                 ],
                 begin: const FractionalOffset(0.0, 0.0),
                 end: const FractionalOffset(1.0, 0.0),
-                stops: const[0.0, 1.0],
+                stops: const [0.0, 1.0],
                 tileMode: TileMode.clamp),
           ),
           padding: const EdgeInsets.all(8),
@@ -39,7 +42,7 @@ Widget loadedTile(ReservationStatusBloc reservationsBloc,Function()? onTap) {
             children: [
               networkImage(item.images.first, 64),
               Padding(
-                padding: const EdgeInsets.only(left:8.0),
+                padding: const EdgeInsets.only(left: 8.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +55,9 @@ Widget loadedTile(ReservationStatusBloc reservationsBloc,Function()? onTap) {
                       seller.name,
                       style: greySmallTextStyle,
                     ),
-                    Expanded(child: statusWidget1(reservationsBloc.reservationModel))
+                    Expanded(
+                        child: statusWidget1(
+                            reservationsBloc.reservationModel))
                   ],
                 ),
               )

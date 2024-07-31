@@ -28,6 +28,8 @@ class SellerDatabaseServices {
   Future updateSellerWallet(int amount,String sellerId)
   async 
   {
-    await firestore.collection('sellers').doc(sellerId).update({'wallet':FieldValue.increment(amount)});
+    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: sellerId);
+    final list=await query.get();
+    await firestore.collection('sellers').doc(list.docs.first.id).update({'wallet':FieldValue.increment(amount)});
   }
 }

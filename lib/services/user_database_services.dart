@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +27,13 @@ class UserDatabaseServices {
     } catch (e) {
       rethrow;
     }
+  }
+  Future<UserModel> getUserById(String id)async
+  {
+    log(id);
+    final user =await firestore.collection('users').doc(id).get();
+    log(user.data().toString());
+    return UserModel(id: user.id,name: user['name'],email: user['emailaddress'],image: user['image']);
   }
 
   Future<UserModel?> getUser() async {

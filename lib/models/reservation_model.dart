@@ -31,7 +31,7 @@ class ReservationModel {
         size: data['size'],
         amount: data['amount'],
         days: data['days'],
-        purchasedDate: data['purchasedDate'],
+        purchasedDate: data['purchasedDate']?.toDate(),
         id: data.id,
         itemId: data['itemId'],
         transactionId: data['transactionId'],

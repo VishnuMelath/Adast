@@ -40,7 +40,7 @@ void showFilters(BuildContext context, SearchBloc searchBloc) {
                   TextButton(onPressed: () {
                     searchBloc.add(SearchClearFilterEvent());
                   Navigator.pop(context);
-                  showFilters(context, searchBloc);
+                  // showFilters(context, searchBloc);
                   }, child: Text('clear',style: mediumRedTextStyle,))
                 ],
               ),

@@ -13,6 +13,8 @@ final Decoration whiteButtonDecoration = BoxDecoration(
   color: Colors.transparent,
 );
 
+TextStyle urlTextStyle = GoogleFonts.robotoSlab(color: Colors.blue, decoration: TextDecoration.underline,);
+
 TextStyle whiteTextStyle = GoogleFonts.robotoSlab(color: Colors.white);
 
 TextStyle whiteHeadTextStyle = GoogleFonts.robotoSlab(

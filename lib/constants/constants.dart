@@ -9,6 +9,7 @@ enum ReservationStatus {
 var logo =
     'https://firebasestorage.googleapis.com/v0/b/adast-425404.appspot.com/o/profileImages%2Flogo.png?alt=media&token=87b2b282-a7ac-4821-aaf7-b6194aa48c52';
 Map<String, IconData> icons = {
+  'Terms and Conditions':Icons.newspaper,
   'Email Address': Icons.email,
   'Password': Icons.lock_open,
   'Name': Icons.person,

@@ -43,10 +43,6 @@ class _ProfileState extends State<Profile> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // customListTile(
-                      //   'Personal Details',
-                      //   () {},
-                      // ),
                       customListTile(
                         'My Reservations',
                         () {

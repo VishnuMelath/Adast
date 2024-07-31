@@ -176,8 +176,8 @@ class _ResizableContainerState extends State<ResizableContainer> {
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 15),
-                            decoration: greenBoxDecoration,
-                            child: Text(
+                            decoration:itemsLeft==0?lightRedBoxDecoration: greenBoxDecoration,
+                            child: Text(itemsLeft==0? 'Not available':
                               '$itemsLeft left',
                               style: whiteTextStyle,
                             ),

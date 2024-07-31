@@ -8,3 +8,9 @@ class ReservationInitialEvent extends ReservationsEvent{
 
   ReservationInitialEvent({required this.email});
 }
+
+class ReservationsFilterSelectedEvent extends ReservationsEvent{
+  final String value;
+
+  ReservationsFilterSelectedEvent({required this.value});
+}

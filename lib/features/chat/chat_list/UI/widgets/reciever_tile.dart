@@ -27,7 +27,7 @@ class RecieverTile extends StatelessWidget {
       child: ListTile(
         onTap: () async {
           chatRoomModel.userUnreadCount = 0;
-           ChatRoomDatabaseServices().updateChatRoom(chatRoomModel);
+           ChatRoomDatabaseServices().updateChatRoomUnseenCount(chatRoomModel);
           Navigator.push(
                   context,
                   MaterialPageRoute(

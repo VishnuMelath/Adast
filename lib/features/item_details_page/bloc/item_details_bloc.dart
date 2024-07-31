@@ -84,7 +84,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
     } else {
       var itemsLeft = itemsLeftPerSize(item, selectedSize!);
       if (itemsLeft == 0) {
-        emit(ItemDetailsErrorState(error: 'No items available for that size'));
+        emit(ItemDetailsErrorState(error: 'Items not available for that size'));
       } else {
         emit(ItemShowBottomSheetState());
       }

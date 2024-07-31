@@ -130,6 +130,7 @@ Future<List<ClothModel>> getAllItems() async {
       required String email}) async {
     try {
       late dynamic sellersCollection;
+ 
       if(sortby!=null)
       {
          sellersCollection =
@@ -159,4 +160,6 @@ async{
   final snaps=await query.get();
   return snaps.docs.map((e) => ClothModel.fromJson(e.data(), e.id),).toList();
 }
+
+
 }

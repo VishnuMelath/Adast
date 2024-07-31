@@ -1,4 +1,4 @@
-import 'package:adast/features/home_screen/UI/widgets/subscription_home.dart';
+import 'package:adast/features/home_screen/UI/widgets/subscription_list_home.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 

@@ -23,3 +23,17 @@ class SellerProfileNavigateToChatState extends SellerProfileState{
 
   SellerProfileNavigateToChatState({required this.chatRoomModel});
 }
+
+class SellerProfileErrorState extends SellerProfileState{
+  final String error;
+
+  SellerProfileErrorState({required this.error});
+}
+
+class SellerProfileReviewLoadingState extends SellerProfileState{}
+
+class SellerProfileReviewLoadedState extends SellerProfileState{}
+
+class SellerReviewSavingState extends SellerProfileState{}
+
+class SellerReviewSavedState extends SellerProfileState{}

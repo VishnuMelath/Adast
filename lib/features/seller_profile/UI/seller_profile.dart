@@ -1,3 +1,4 @@
+import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/custom_widgets/custom_button.dart';
 import 'package:adast/features/chat/chat_screen/UI/chat_screen.dart';
@@ -5,6 +6,8 @@ import 'package:adast/features/chat/chat_screen/bloc/chat_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
+import 'package:adast/features/reviews/UI/reviews.dart';
+import 'package:adast/features/seller_profile/UI/widgets/add_review.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/services/methods/common_methods.dart';
@@ -20,7 +23,7 @@ class SellerProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SellerProfileBloc sellerProfileBloc = context.read();
+    SellerProfileBloc sellerProfileBloc = context.read()..add(SellerProfileAddReviewLoadingEvent(userModel: homeBloc.userModel));
 
     return Scaffold(
       appBar: AppBar(),
@@ -97,34 +100,77 @@ class SellerProfile extends StatelessWidget {
                   style: greyTextStyle,
                 ),
               ),
-              BlocListener<SellerProfileBloc, SellerProfileState>(
-                listener: (context, state) {
-                  if (state is SellerProfileNavigateToChatState) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BlocProvider(
-                            create: (context) => ChatBloc(
-                                sellerModel: sellerProfileBloc.sellerModel,
-                                chatRoomModel: state.chatRoomModel),
-                                child:const ChatScreen(),
+              Row(
+                children: [
+                  BlocListener<SellerProfileBloc, SellerProfileState>(
+                    listener: (context, state) {
+                      if (state is SellerProfileNavigateToChatState) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => ChatBloc(
+                                    sellerModel: sellerProfileBloc.sellerModel,
+                                    chatRoomModel: state.chatRoomModel),
+                                child: const ChatScreen(),
+                              ),
+                            ));
+                      }
+                    },
+                    child: IconButton(
+                      onPressed: () {
+                        sellerProfileBloc.add(SellerProfileMessageTappedEvent(
+                            userId: context
+                                .read<SplashscreenBloc>()
+                                .userModel!
+                                .email));
+                      },
+                      icon: const Icon(
+                        Icons.chat_bubble_outline,
+                        color: green,
+                      ),
+                    ),
+                  ),
+                  BlocBuilder<SellerProfileBloc, SellerProfileState>(
+                    buildWhen: (previous, current) => current is SellerProfileReviewLoadingState|| current is SellerProfileReviewLoadedState,
+                    builder: (context, state) {
+                      if(state is SellerProfileReviewLoadingState)
+                      {
+                        return const SizedBox(
+                          width: 20,height: 20,
+                          child: CircularProgressIndicator());
+                      }
+                      else{
+                        return Visibility(
+                          visible: sellerProfileBloc.reviewable,
+                        child: TextButton(
+                          onPressed: () {
+                            addRating(context, sellerProfileBloc: sellerProfileBloc);
+                          },
+                          child: Text(
+                            sellerProfileBloc.ratingModel==null?'Add review':'Update review',
+                            style: greenTextStyle,
                           ),
-                          
-                        ));
-                  }
+                        ),
+                      );
+                      }
+                      
+                    },
+                  ),
+                ],
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context,MaterialPageRoute(builder: (context) => ReviewsWidget(sellerModel: sellerProfileBloc.sellerModel),));
                 },
-                child: CustomButton(
-                  onTap: () {
-                    sellerProfileBloc.add(SellerProfileMessageTappedEvent(
-                        userId:
-                            context.read<SplashscreenBloc>().userModel!.email));
-                  },
-                  text: 'Message',
-                  icon: true,
+                child: Text(
+                  'Reviews and ratings',
+                  style: greenTextStyle,
                 ),
               ),
               const Divider(),
               BlocBuilder<SellerProfileBloc, SellerProfileState>(
+                buildWhen: (previous, current) => current is SellerProfileItemsLoadingState || current is SellerProfileItemsLoadedState,
                 builder: (context, state) {
                   if (state is SellerProfileItemsLoadingState) {
                     return SizedBox(

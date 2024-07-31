@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
@@ -50,6 +52,7 @@ Widget loadedTile(BuildContext context,bool notvisible,List<ClothModel> item,int
                     child: ItemDetails(homeBloc: homeBloc),
                   ),
                 )).then((value) {
+                  log('message');
                   savedBloc.add(SavedItemsLoadingEvent(ids: homeBloc.userModel.saved));
                 },);
       },

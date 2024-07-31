@@ -61,8 +61,10 @@ void showBottomSheetForReservation(HomeBloc homeBloc,
                       'items_id': itemDetailsBloc.item.id,
                     }
                   };
+                  
                   itemDetailsBloc
                       .add(ItemReservationPaymentEvent(options: options));
+                      
                 },
                 text: 'Proceed to pay'),
           )

@@ -35,7 +35,7 @@ Widget subscriptionsHorizontalList({required BuildContext context,required HomeB
                                                   color: green, width: 3)
                                               : Border.all(),
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                              BorderRadius.circular(30),
                                         ),
                                         width: 60,
                                         child: Center(
@@ -66,7 +66,7 @@ Widget subscriptionsHorizontalList({required BuildContext context,required HomeB
                                                 decoration: BoxDecoration(
                                                   color: green,
                                                   borderRadius:
-                                                      BorderRadius.circular(12),
+                                                      BorderRadius.circular(30),
                                                   border:
                                                       homeBloc.shopSelected ==
                                                               e.email
