@@ -14,11 +14,17 @@ import '../../../../models/cloth_model.dart';
 import '../../../item_details_page/UI/item_detail.dart';
 
 Widget loadedTiles(List<ClothModel> items, BuildContext context,HomeBloc homeBloc,SavedBloc savedBloc) {
-  var temp=(items.length / 3).ceil();
+  var temp=(items.length / 3).ceil();items=[];
+  items=homeBloc.userModel.saved.map((e) {
+    return savedBloc.items[e]!;
+  },).toList();
+  log(temp.toString());
   return ListView(
     children: List.generate(
       temp,
-      (index) => loadedRow(context,items,temp==index+1,index,homeBloc,savedBloc),
+      (index) {
+        return loadedRow(context,items,temp==index+1,index,homeBloc,savedBloc);
+      },
     ),
   );
 }
@@ -27,12 +33,9 @@ Widget loadedRow(BuildContext context,List<ClothModel> items,bool last,int row,H
   return Row(
     children: List.generate(
       3,
-      (index) {
-
-        return loadedTile(context,
-      index>=(items.length%3)&&last,items,row*3+(index)
-      ,homeBloc,savedBloc);
-      },
+      (index) => loadedTile(context,
+      index>=(items.length%3==0?3:items.length%3)&&last,items,row*3+(index)
+      ,homeBloc,savedBloc),
     ),
   );
 }

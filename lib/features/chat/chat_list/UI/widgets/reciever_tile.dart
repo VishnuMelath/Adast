@@ -52,20 +52,26 @@ class RecieverTile extends StatelessWidget {
           chatRoomModel.lastMessage,
           style: greySmallTextStyle,
         ),
-        trailing: Visibility(
-          visible: chatRoomModel.userUnreadCount != 0,
-          child: Container(
-              height: 25,
-              width: 25,
-              decoration: BoxDecoration(
-                  color: green, borderRadius: BorderRadius.circular(15)),
-              padding: const EdgeInsets.all(5),
-              child: Center(
-                child: Text(
-                  chatRoomModel.userUnreadCount.toString(),
-                  style: whiteTextStyle,
-                ),
-              )),
+        trailing: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Visibility(
+              visible: chatRoomModel.userUnreadCount != 0,
+              child: Container(
+                  height: 25,
+                  width: 25,
+                  decoration: BoxDecoration(
+                      color: green, borderRadius: BorderRadius.circular(15)),
+                  padding: const EdgeInsets.all(5),
+                  child: Center(
+                    child: Text(
+                      chatRoomModel.userUnreadCount.toString(),
+                      style: whiteTextStyle,
+                    ),
+                  )),
+            ),
+            Text(dateString(chatRoomModel.time),style: greySmallTextStyle,)
+          ],
         ),
       ),
     );

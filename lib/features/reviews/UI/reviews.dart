@@ -1,7 +1,5 @@
 import 'package:adast/features/reviews/UI/widgets/loaded_reviews_body.dart';
-import 'package:adast/features/reviews/UI/widgets/loaded_tile.dart';
 import 'package:adast/features/reviews/bloc/reviews_bloc.dart';
-import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

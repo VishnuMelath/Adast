@@ -17,6 +17,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
   FutureOr<void> savedItemsLoadingEvent(
       SavedItemsLoadingEvent event, Emitter<SavedState> emit) async {
     emit(SavedLoadingState());
+    items.clear();
     for (var element in event.ids) {
       if (!items.containsKey(element)) {
         items[element] = await ItemDatabaseServices().getItem(element);

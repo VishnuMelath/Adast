@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/custom_widgets/custom_appbar.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
@@ -30,6 +32,7 @@ class SavedItemsScreen extends StatelessWidget {
           body: BlocBuilder(
             bloc: savedBloc,
             builder: (context, state) {
+              log(state.runtimeType.toString());
               if (splashscreenBloc.userModel!.saved.isEmpty) {
                 return const Center(
                       child: Text('No items saved'),
@@ -44,9 +47,13 @@ class SavedItemsScreen extends StatelessWidget {
                       child: Text(state.error),
                     );
               }
-              else 
+              else if(state is SavedLoadedState)
               {
                 return loadedTiles(savedBloc.items.values.toList(), context,homeBloc,savedBloc);
+              }
+              else 
+              {
+                return const SizedBox();
               }
             },
           ),
