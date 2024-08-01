@@ -28,7 +28,6 @@ class ItemDatabaseServices {
   Future<void> updateItemRevenue(String id,String size,int amount,[bool replace=false])async
   {
     try {
-      log('its here $id $size');
       final document = firestore.collection('items').doc(id);
       await document.update({'revenue':FieldValue.increment(replace?(amount*-1):amount),'reservedCount.$size':FieldValue.increment(replace?-1:1)});
     } on FirebaseException { rethrow;
