@@ -5,7 +5,7 @@ import 'package:adast/features/replace_product_list/UI/widget/sort_widget.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../../services/methods/debouncer.dart';
+import '../../../../methods/debouncer.dart';
 import '../../bloc/replace_bloc.dart';
 
 

@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:adast/services/methods/network_check.dart';
+import 'dart:developer';
+import 'package:adast/methods/network_check.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/models/user_model.dart';
@@ -8,8 +9,7 @@ import 'package:adast/services/seller_database_services.dart';
 import 'package:adast/services/user_database_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:meta/meta.dart';
-
+import 'package:flutter/foundation.dart';
 part 'home_event.dart';
 part 'home_state.dart';
 
@@ -56,7 +56,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeInitialEvent event, Emitter<HomeState> emit) async {
 
     userModel = event.userModel;
-    if (!await hasNetwork()) {
+    log(kIsWeb.toString());
+    if (!kIsWeb&&!await hasNetwork()) {
       emit(HomeErrorState(error: 'please check your network connection '));
     } else {
       emit(HomeLoadingState());

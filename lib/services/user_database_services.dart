@@ -4,6 +4,8 @@ import 'package:adast/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../methods/encrypt.dart';
+
 class UserDatabaseServices {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -19,7 +21,7 @@ class UserDatabaseServices {
   Future<UserModel> getUserData(String email) async {
     try {
       final usersCollection = firestore.collection('users');
-      Query userQuery = usersCollection.where('emailaddress', isEqualTo: email);
+      Query userQuery = usersCollection.where('emailaddress', isEqualTo: encryptData(email));
       QuerySnapshot<Object?> userSnap = await userQuery.get();
 
       final user = UserModel.fromMap(userSnap.docs.first);

@@ -32,134 +32,196 @@ class PrivacyPolicyPage extends StatelessWidget {
 
 class PrivacyPolicyContent extends StatelessWidget {
   const PrivacyPolicyContent({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Privacy Policy for Adast',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Introduction',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Adast is a mobile application that allows users to discover nearby fashion shops, view their items, and reserve items for a fee. This privacy policy outlines how we collect, use, and protect your personal information.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Information We Collect',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Personal Information: We collect basic personal information such as your name, email address, and profile picture when you create an account.',
-          style: blackPlainTextStyle,
-        ),
-        // const Text(
-        //   'Location Data: To help you find nearby fashion shops, we collect your location data. You can control location sharing through your device settings.',
-        // ),
-        Text(
-          'Payment Information: If you choose to reserve an item, we collect payment information through Razorpay, our payment gateway. We do not store your full payment details.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'How We Use Your Information',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Account Management: We use your information to create and manage your Adast account.',
-          style: blackPlainTextStyle,
-        ),
-        const Text(
-          'Nearby Shop Suggestions: Your location data is used to suggest nearby fashion shops.',
-        ),
-        Text(
-          'Payment Processing: Payment information is used to process item reservations through Razorpay.',
-          style: blackPlainTextStyle,
-        ),
-
-        const SizedBox(height: 16),
-        Text(
-          'Data Sharing',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'We share your information with the following third-party service providers:',
-          style: blackPlainTextStyle,
-        ),
-        Text(
-          'Firebase: We use Firebase to store and manage user data.',
-          style: blackPlainTextStyle,
-        ),
-        Text(
-          'Razorpay: We use Razorpay to process payments.',
-          style: blackPlainTextStyle,
-        ),
-        Text(
-          'We do not sell or rent your personal information to third parties for marketing purposes.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Data Security',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'We implement reasonable security measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. However, no method of transmission or storage is completely secure.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Your Rights',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'You have the right to access, correct, or delete your personal information. You can also request to restrict the processing of your data or object to certain processing activities.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          "Children's Privacy",
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Adast is not intended for use by children under the age of 13. We do not knowingly collect personal information from children.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Changes to This Privacy Policy',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'We may update this privacy policy from time to time. We will notify you of any significant changes by posting the new policy on this page.',
-          style: blackPlainTextStyle,
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Contact Us',
-          style: mediumBlackTextStyle,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'If you have any questions about this privacy policy, please contact us at',
-          style: blackPlainTextStyle,
-        ),
-        GestureDetector(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Privacy Policy for adast'),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  'Privacy Policy for adast',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Center(
+                child: Text(
+                  'Last Updated: 06/08/2024',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Welcome to adast! Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application. By using adast, you agree to the terms of this Privacy Policy.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '1. Information We Collect',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'We collect the following information from you to provide a personalized experience:',
+              ),
+              SizedBox(height: 10),
+              _buildBulletPoint(
+                'Profile Photo: Used to personalize your profile within the app.',
+              ),
+              _buildBulletPoint(
+                'Name: Used to address you within the app.',
+              ),
+              _buildBulletPoint(
+                'Email Address: Used for account verification, notifications, and support.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '2. How We Use Your Information',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'We use the collected information for the following purposes:',
+              ),
+              SizedBox(height: 10),
+              _buildBulletPoint(
+                'Personalization: To personalize your experience and provide tailored content.',
+              ),
+              _buildBulletPoint(
+                'Account Management: To manage your account and provide customer support.',
+              ),
+              _buildBulletPoint(
+                'Location Services: To provide users with the location of nearby fashion shops.',
+              ),
+              _buildBulletPoint(
+                'In-App Chat: To facilitate communication between users and sellers.',
+              ),
+              _buildBulletPoint(
+                'Transactions: To process transactions securely within the app.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '3. Information Sharing and Disclosure',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'We do not share, sell, or distribute your personal information to any third parties. All information collected is used solely within adast for the purposes mentioned above.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '4. Data Security',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'We take the security of your personal information seriously and use industry-standard security measures to protect your data from unauthorized access, disclosure, alteration, and destruction.',
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Security Measures:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 10),
+              _buildBulletPoint(
+                'Encryption: We use encryption to protect your data during transmission and storage.',
+              ),
+              _buildBulletPoint(
+                'Secure Storage: We store your data on secure servers provided by Firebase services, which comply with industry security standards.',
+              ),
+              _buildBulletPoint(
+                'Payment Processing: We use Razorpay for processing transactions securely. Razorpay adheres to the highest security standards to protect your financial information.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '5. Your Rights',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text('You have the right to:'),
+              SizedBox(height: 10),
+              _buildBulletPoint(
+                'Access Your Information: Request a copy of the personal information we hold about you.',
+              ),
+              _buildBulletPoint(
+                'Update Your Information: Correct or update your personal information.',
+              ),
+              _buildBulletPoint(
+                'Delete Your Information: Request the deletion of your personal information.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '6. Changes to This Privacy Policy',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'We may update this Privacy Policy from time to time. If we make significant changes, we will notify you through the app or by other means before the changes take effect. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information.',
+              ),
+              SizedBox(height: 20),
+              Text(
+                '7. Contact Us',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:',
+              ),
+              SizedBox(height: 10),
+                 GestureDetector(
           onTap: () async {
             final Uri params = Uri(
               scheme: 'mailto',
@@ -178,12 +240,42 @@ class PrivacyPolicyContent extends StatelessWidget {
             style: urlTextStyle,
           ),
         ),
-        const SizedBox(height: 16),
-        Text(
-          'Remember to replace the placeholders with your specific information and consult with a legal professional to ensure compliance with applicable laws.',
-          style: blackPlainTextStyle,
+              Text(
+                'Phone: 9605391056',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Effective Date: 06/08/2024',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'By using adast, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.',
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildBulletPoint(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('• ', style: TextStyle(fontSize: 16.0)),
+          Expanded(
+            child: Text(text, style: TextStyle(fontSize: 16.0)),
+          ),
+        ],
+      ),
     );
   }
 }

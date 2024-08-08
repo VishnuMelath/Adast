@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/chat_room_model.dart';
 import 'package:adast/models/message_model.dart';
 import 'package:adast/services/chat_room_database_services.dart';
@@ -13,8 +14,9 @@ class MessagesDatabaseServices {
     try {
      chatroom.lastMessage=message.message;
      chatroom.time=DateTime.now();
-      message.roomId=chatroom.roomId;
+      message.roomId=generateChatRoomId(chatroom);
       message.messageId = generateMessageId(message);
+      log(message.roomId);
       await chatRoomDatabaseServices.updateChatRoom(chatroom);
       await firebaseFirestore
           .collection('messages')
@@ -30,7 +32,7 @@ class MessagesDatabaseServices {
     try {
   final snapshot = firebaseFirestore
       .collection('messages')
-      .where('roomId', isEqualTo: chatRoomId);
+      .where('roomId', isEqualTo: encryptData(chatRoomId));
   log(snapshot.toString());
   yield* snapshot.snapshots();
 } on FirebaseException catch (e) {
@@ -52,7 +54,9 @@ class MessagesDatabaseServices {
       message.recieverId,
       message.timestamp.seconds.toString()
     ];
+    log(temp.toString());
     temp.sort();
+    log(temp.join('_'));
     return temp.join('_');
   }
 }

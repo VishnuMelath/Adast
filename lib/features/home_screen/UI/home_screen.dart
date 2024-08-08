@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/home_screen/UI/widgets/body_home.dart';
 import 'package:adast/features/home_screen/UI/widgets/box_to_sliver.dart';
@@ -27,8 +29,13 @@ class HomeScreen extends StatelessWidget {
           child: BlocBuilder<HomeBloc, HomeState>(
             
             builder: (context, state) {
-              late Widget widget= errorMsg( msg: '');
-                   if (state is HomeLoadingState) {
+              log(state.runtimeType.toString());
+              late Widget widget= errorMsg( msg: 'error');
+              if(context.read<SplashscreenBloc>().userModel!.subscriptions.isEmpty)
+              {
+                widget =errorMsg(msg: 'You havn\'t subscripbed to any shops');
+              }
+                else   if (state is HomeLoadingState) {
                       widget= circularLoading();
                     } else if (state is HomeNoSubState) {
                       widget= errorMsg(msg: 'Please check your network');

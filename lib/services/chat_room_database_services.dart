@@ -1,5 +1,6 @@
 
 
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/chat_room_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,7 +13,7 @@ class ChatRoomDatabaseServices {
     try {
       final snapshots = firebaseFirestore
           .collection('chatrooms')
-          .where('userId', isEqualTo: userId)
+          .where('userId', isEqualTo: encryptData(userId))
           .snapshots();
 
       yield* snapshots;
@@ -34,7 +35,7 @@ class ChatRoomDatabaseServices {
       await firebaseFirestore
           .collection('chatrooms')
           .doc(chatroom.roomId)
-          .update({'sellerUnreadCount':FieldValue.increment(1),'lastMessage':chatroom.lastMessage,'time':chatroom.time});
+          .update({'sellerUnreadCount':FieldValue.increment(1),'lastMessage':encryptData(chatroom.lastMessage),'time':chatroom.time});
     } on FirebaseException catch (_) {
       rethrow;
     }
@@ -53,7 +54,7 @@ class ChatRoomDatabaseServices {
     try {
       var count = await firebaseFirestore
           .collection('chatrooms')
-          .where('sellerId', isEqualTo: sellerId)
+          .where('sellerId', isEqualTo: encryptData(sellerId)).where('userId',isEqualTo: encryptData(userId))
           .get();
         if(count.docs.isEmpty)
         {

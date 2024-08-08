@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../methods/encrypt.dart';
+
 class ChatRoomModel {
   String roomId;
   final String userId;
@@ -21,25 +23,25 @@ class ChatRoomModel {
 
   factory ChatRoomModel.fromSnapShot(QueryDocumentSnapshot<Object?> data) {
     return ChatRoomModel(
-        roomId: data['roomId'],
-        userId: data['userId'],
-        sellerId: data['sellerId'],
-        sellerUnreadCount: data['sellerUnreadCount'],
-        userUnreadCount: data['userUnreadCount'],
-        lastMessage: data['lastMessage'],
-        time:( data['time'] as Timestamp).toDate()
-        );
+      roomId: decryptData(data['roomId']),
+      userId: decryptData(data['userId']),
+      sellerId: decryptData(data['sellerId']),
+      sellerUnreadCount: data['sellerUnreadCount'],
+      userUnreadCount: data['userUnreadCount'],
+      lastMessage: decryptData(data['lastMessage']),
+      time: (data['time'] as Timestamp).toDate(),
+    );
   }
 
-  Map<String, dynamic> toJson() {
+   Map<String, dynamic> toJson() {
     return {
-      'roomId': roomId,
-      'userId': userId,
-      'sellerId': sellerId,
-      'sellerUnreadCount': sellerUnreadCount,
+      'roomId': encryptData(roomId),
+      'userId': encryptData(userId),
+      'sellerId': encryptData(sellerId),
+      'sellerUnreadCount':sellerUnreadCount,
       'userUnreadCount': userUnreadCount,
-      'lastMessage': lastMessage,
-      'time':Timestamp.fromDate(time)
+      'lastMessage': encryptData(lastMessage),
+      'time': Timestamp.fromDate(time),
     };
   }
 }

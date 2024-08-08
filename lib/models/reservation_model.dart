@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../methods/encrypt.dart';
+
 class ReservationModel {
    String? id;
   final String transactionId;
@@ -11,7 +13,7 @@ class ReservationModel {
   final DateTime reservationTime;
   final int amount;
   final int days;
-  final DateTime? purchasedDate;
+   DateTime? purchasedDate;
 
   ReservationModel(
       {required this.id,
@@ -26,36 +28,38 @@ class ReservationModel {
       required this.reservationTime,
       required this.status});
 
-  factory ReservationModel.fromSnapShot(QueryDocumentSnapshot<Object?> data) {
+   factory ReservationModel.fromSnapShot(QueryDocumentSnapshot<Object?> data) {
     return ReservationModel(
-        size: data['size'],
-        amount: data['amount'],
-        days: data['days'],
-        purchasedDate: data['purchasedDate']?.toDate(),
-        id: data.id,
-        itemId: data['itemId'],
-        transactionId: data['transactionId'],
-        sellerId: data['sellerId'],
-        userId: data['userId'],
-        reservationTime: data['reservationTime'].toDate(),
-        status: data['status']);
+      size: decryptData(data['size']),
+      amount: data['amount'],
+      days: data['days'],
+      purchasedDate: data['purchasedDate']?.toDate(),
+      id: data.id,
+      itemId: decryptData(data['itemId']),
+      transactionId: decryptData(data['transactionId']),
+      sellerId: decryptData(data['sellerId']),
+      userId: decryptData(data['userId']),
+      reservationTime: data['reservationTime'].toDate(),
+      status: decryptData(data['status']),
+    );
   }
+
   Map<String, dynamic> toJson() {
     return {
-      'size':size,
+      'size': encryptData(size),
       'amount': amount,
       'days': days,
-      'purchasedDate':purchasedDate,
-      'transactionId': transactionId,
-      'sellerId': sellerId,
-      'userId': userId,
-      'status': status,
-      'itemId': itemId,
+      'purchasedDate': purchasedDate,
+      'transactionId': encryptData(transactionId),
+      'sellerId': encryptData(sellerId),
+      'userId': encryptData(userId),
+      'status': encryptData(status),
+      'itemId': encryptData(itemId),
       'reservationTime': reservationTime,
     };
   }
-  copyWith()
+   copyWith()
   {
-    return {'id':itemId,'size':size};
+    return {'id':encryptData(itemId),'size':encryptData(size)};
   }
 }

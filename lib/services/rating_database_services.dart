@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/rating_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,7 +19,7 @@ class RatingDatabaseServices {
     try {
       final query = firebaseFirestore
           .collection('ratings')
-          .where('sellerId', isEqualTo: sellerId);
+          .where('sellerId', isEqualTo: encryptData(sellerId));
       final snaps = await query.get();
       final docs = snaps.docs;
       return docs.map(
@@ -36,7 +37,7 @@ class RatingDatabaseServices {
   {
     final query = firebaseFirestore
           .collection('ratings')
-          .where('sellerId', isEqualTo: sellerId).where('userId',isEqualTo: userId);
+          .where('sellerId', isEqualTo: encryptData(sellerId)).where('userId',isEqualTo: encryptData(userId));
           final docs=await query.get();
           if(docs.docs.isEmpty)
           {

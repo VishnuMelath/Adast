@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -25,35 +26,20 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="adast">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
+  <meta name="google-signin-client_id" content="282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com">
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>adast</title>
   <link rel="manifest" href="manifest.json">
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrEye_u6VwYQpCIp8eOBgGj71MThkQCDE"></script>
+  <script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrEye_u6VwYQpCIp8eOBgGj71MThkQCDE&libraries=drawing">
+</script>
 </head>
+
 <body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
+
 </html>

@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "282036476767-e8nfmk4jfulem28i59mm4nhv042l1idt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vishnumeloth.adast",
+            "certificate_hash": "96a2cc472a69938c2e20b6656e1a1fb09a1b3106"
+          }
+        },
+        {
+          "client_id": "282036476767-umvlp4e3oh21rbrqtdjresjfrkjq4pm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vishnumeloth.adast",
+            "certificate_hash": "b4326c85382db8a2f4c2613ea64620f92f72ba35"
+          }
+        },
+        {
           "client_id": "282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -55,6 +71,14 @@
           "android_info": {
             "package_name": "com.vishnumeloth.adast_seller",
             "certificate_hash": "b4326c85382db8a2f4c2613ea64620f92f72ba35"
+          }
+        },
+        {
+          "client_id": "282036476767-er36i2pp772vc80o9418c0nn18g64tm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vishnumeloth.adast_seller",
+            "certificate_hash": "533df7475e7391fd8291dc78192ed66e8df2c28f"
           }
         },
         {

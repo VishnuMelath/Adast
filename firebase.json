@@ -1,1 +1,38 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"adast-425404","appId":"1:282036476767:android:6111fbdc8c7dc3e49a34ea","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"adast-425404","configurations":{"android":"1:282036476767:android:6111fbdc8c7dc3e49a34ea","web":"1:282036476767:web:6032c2a187e1917f9a34ea","windows":"1:282036476767:web:7a597150791db39e9a34ea"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "adast-425404",
+          "appId": "1:282036476767:android:6111fbdc8c7dc3e49a34ea",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "adast-425404",
+          "configurations": {
+            "android": "1:282036476767:android:6111fbdc8c7dc3e49a34ea",
+            "ios": "1:282036476767:ios:4335f19f66020c979a34ea",
+            "web": "1:282036476767:web:2aa09cee30b8f61b9a34ea"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "site": "adast-user",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

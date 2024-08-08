@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/models/message_model.dart';
 import 'package:adast/services/messages_database_services.dart';
@@ -28,6 +30,7 @@ class TextboxMessage extends StatelessWidget {
         decoration: InputDecoration(
             suffixIcon: IconButton(
                 onPressed: () async {
+
                   MessageModel messageModel = MessageModel(
                     roomId: '',
                       seen: false,
@@ -38,6 +41,7 @@ class TextboxMessage extends StatelessWidget {
                       timestamp: Timestamp.fromDate(DateTime.now()),
                       messageId: '');
                        controller.clear();
+                       log(messageModel.senderId);
                  await MessagesDatabaseServices().sendOrUpdateMessage(messageModel,chatBloc.chatRoomModel);
 
                  

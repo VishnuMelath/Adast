@@ -8,6 +8,7 @@ import 'package:adast/features/login_screen/UI/widgets/google_button.dart';
 import 'package:adast/features/login_screen/bloc/login_bloc.dart';
 import 'package:adast/features/register_page.dart/UI/register_page.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    var size=MediaQuery.sizeOf(context);
     return Scaffold(
       body: Form(
         key: formkey,
@@ -60,112 +62,119 @@ class _LoginScreenState extends State<LoginScreen> {
                 emailcontroller.clear();
               }
             },
-            child: ListView(
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
-                  child: Center(
-                      child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 150,
-                  )),
-                ),
-                CustomTextfield(
-                  label: 'Email Address',
-                  controller: emailcontroller,
-                  login: true,
-                ),
-                CustomTextfield(
-                  label: 'Password',
-                  controller: passwordController,
-                  password: true,
-                  login: true,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: InkWell(
-                        onTap: () {
-                          forgotPasswordDialog(
-                              context, emailcontroller1, loginBloc);
-                          //todo : forgot password
-                        },
-                        child: const Text(
-                          'forgot password?',
-                          style: TextStyle(
-                            color: green,
-                            fontSize: 13,
-                          ),
-                        )),
-                  ),
-                ),
-                BlocBuilder<LoginBloc, LoginState>(
-                  bloc: loginBloc,
-                  builder: (context, state) {            
-                      if(state is LoginButtonPressedState) {
-                        return CustomButton(
-                          onTap: () {},
-                          text: 'Login',
-                          loading: true,
-                        );
-                      } else {
-                        return CustomButton(
-                          onTap: () {
-                            loginBloc.add(LoginButtonPressedEvent(
-                                email: emailcontroller,
-                                pass: passwordController));
-                            //todo login button action
-                          },
-                          text: 'Login',
-                        );
-                      }
-                    
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.1,
-                    right: MediaQuery.of(context).size.width * 0.1,
-                    bottom: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  child: const Row(
-                    children: [
-                      Expanded(child: Divider()),
-                      Text('  or sign up with  '),
-                      Expanded(child: Divider()),
-                    ],
-                  ),
-                ),
-                GoogleButton(
-                  onTap: () {
-                    loginBloc.add(LoginGoogleAuthPressedEvent());
-
-                  },
-                ),
-                Center(
-                  child: BlocListener(
-                    bloc: loginBloc,
-                    listener: (context, state) {},
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('Don\'t have an Account?'),
-                        GestureDetector(
-                          onTap: () {
-                            loginBloc.add(LoginRegisterPressedEvent());
-                          },
-                          child:  Text(
-                            'Sign up here',
-                            style: greenTextStyle,
-                          ),
-                        )
-                      ],
+            child: Center(
+              child: SizedBox( width: size.height<size.width?MediaQuery.sizeOf(context).width/2.3:null,
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
+                      child: Center(
+                          child: Image.asset(
+                        'assets/images/logo.png',
+                        height: 150,
+                      )),
                     ),
-                  ),
-                )
-              ],
+                    CustomTextfield(
+                      label: 'Email Address',
+                      controller: emailcontroller,
+                      login: true,
+                    ),
+                    CustomTextfield(
+                      label: 'Password',
+                      controller: passwordController,
+                      password: true,
+                      login: true,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: InkWell(
+                            onTap: () {
+                              forgotPasswordDialog(
+                                  context, emailcontroller1, loginBloc);
+                              //todo : forgot password
+                            },
+                            child: const Text(
+                              'forgot password?',
+                              style: TextStyle(
+                                color: green,
+                                fontSize: 13,
+                              ),
+                            )),
+                      ),
+                    ),
+                    BlocBuilder<LoginBloc, LoginState>(
+                      bloc: loginBloc,
+                      builder: (context, state) {            
+                          if(state is LoginButtonPressedState) {
+                            return CustomButton(
+                              onTap: () {},
+                              text: 'Login',
+                              loading: true,
+                            );
+                          } else {
+                            return CustomButton(
+                              onTap: () {
+                                loginBloc.add(LoginButtonPressedEvent(
+                                    email: emailcontroller,
+                                    pass: passwordController));
+                                //todo login button action
+                              },
+                              text: 'Login',
+                            );
+                          }
+                        
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.1,
+                        right: MediaQuery.of(context).size.width * 0.1,
+                        bottom: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      child: const Row(
+                        children: [
+                          Expanded(child: Divider()),
+                          Text('  or sign up with  '),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
+                    ),
+                    Visibility(
+                      visible: !kIsWeb,
+                      child: GoogleButton(
+                        onTap: () {
+                          loginBloc.add(LoginGoogleAuthPressedEvent());
+                      
+                        },
+                      ),
+                    ),
+                    Center(
+                      child: BlocListener(
+                        bloc: loginBloc,
+                        listener: (context, state) {},
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text('Don\'t have an Account?'),
+                            GestureDetector(
+                              onTap: () {
+                                loginBloc.add(LoginRegisterPressedEvent());
+                              },
+                              child:  Text(
+                                'Sign up here',
+                                style: greenTextStyle,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),

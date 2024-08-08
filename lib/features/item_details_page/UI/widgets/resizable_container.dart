@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../ themes/colors_shemes.dart';
 import '../../../../ themes/themes.dart';
-import '../../../../services/methods/common_methods.dart';
+import '../../../../methods/common_methods.dart';
 import '../../../seller_profile/UI/seller_profile.dart';
 import '../../../seller_profile/bloc/seller_profile_bloc.dart';
 import '../../../splash_screen/bloc/splashscreen_bloc.dart';

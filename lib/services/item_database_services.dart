@@ -1,6 +1,5 @@
 
-import 'dart:developer';
-
+import 'package:adast/methods/encrypt.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/cloth_model.dart';
@@ -48,7 +47,7 @@ class ItemDatabaseServices {
   Future<List<ClothModel>> getAllSellerItems(String email) async {
     try {
       final sellersCollection = firestore.collection('items');
-      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email);
+      Query userQuery = sellersCollection.where('sellerID', isEqualTo: encryptData(email));
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {
@@ -88,7 +87,7 @@ Future<List<ClothModel>> getAllItems() async {
 
   Future<List<ClothModel>> search(String? query) async {
     try {
-      final sellersCollection = firestore.collection('items').where('name',isEqualTo: query);
+      final sellersCollection = firestore.collection('items').where('name',isEqualTo: encryptData(query??''));
       Query userQuery = sellersCollection;
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
@@ -107,7 +106,7 @@ Future<List<ClothModel>> getAllItems() async {
     try {
       final sellersCollection =
           firestore.collection('items').orderBy(sortby, descending: descending);
-      Query userQuery = sellersCollection.where('sellerID', isEqualTo: email);
+      Query userQuery = sellersCollection.where('sellerID', isEqualTo: encryptData(email));
       QuerySnapshot<Object?> itemsnap = await userQuery.get();
       return itemsnap.docs.map(
         (e) {
@@ -155,7 +154,7 @@ Future<List<ClothModel>> getAllItems() async {
 
 Future<List<ClothModel>> getItemOfSubscribedSeller(List seller)
 async{
-  final query=firestore.collection('items').where('sellerID',whereIn: seller).orderBy('date',descending: true);
+  final query=firestore.collection('items').where('sellerID',whereIn: seller.map((e) => encryptData(e),)).orderBy('date',descending: true);
   final snaps=await query.get();
   return snaps.docs.map((e) => ClothModel.fromJson(e.data(), e.id),).toList();
 }

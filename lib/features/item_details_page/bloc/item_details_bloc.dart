@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:adast/constants/constants.dart';
 import 'package:adast/features/item_details_page/methods/itemsleft.dart';
 import 'package:adast/services/item_database_services.dart';
-import 'package:adast/services/methods/network_check.dart';
+import 'package:adast/methods/network_check.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:adast/models/seller_model.dart';

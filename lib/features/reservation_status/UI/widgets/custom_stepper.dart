@@ -1,6 +1,6 @@
 
 import 'package:adast/%20themes/themes.dart';
-import 'package:adast/services/methods/common_methods.dart';
+import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:flutter/material.dart';
 

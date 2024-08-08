@@ -5,7 +5,7 @@ import 'package:adast/features/reviews/bloc/reviews_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../custom_widgets/custom_cached_network_image.dart';
-import '../../../../services/methods/common_methods.dart';
+import '../../../../methods/common_methods.dart';
 
 Widget loadedReviews(BuildContext context,ReviewsBloc reviewsBloc)
 {

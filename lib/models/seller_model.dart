@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'cloth_model.dart';
+import '../methods/encrypt.dart';
 
 class SellerModel {
   String? id;
@@ -8,15 +8,15 @@ class SellerModel {
   String email;
   String? image;
   GeoPoint? latLng;
+  DateTime creationTime;
   String place;
-  List<ClothModel> items;
   int wallet;
 
   SellerModel(
       {
-        this.id,
-        this.items = const [],
       this.image,
+      this.id,
+      required this.creationTime,
       required this.name,
       required this.email,
       required this.place,
@@ -25,23 +25,26 @@ class SellerModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'emailaddress': email,
-      'image': image,
-      'name': name,
+      'emailaddress': encryptData(email),
+      'image': image != null ? encryptData(image!) : null,
+      'name': encryptData(name),
       'latlng': latLng,
-      'plance': place,
-      'wallet': wallet
+      'place': encryptData(place),
+      'wallet': wallet,
+      'creationTime': Timestamp.fromDate(creationTime),
     };
   }
 
   factory SellerModel.fromJson(QueryDocumentSnapshot<Object?> data) {
     return SellerModel(
       id: data.id,
-        place: data['place'],
-        name: data['name'],
-        email: data['emailaddress'],
-        image: data['image'],
-        latLng: data['latlng'],
-        wallet: data['wallet'] ?? 0);
+      place: decryptData(data['place']),
+      name: decryptData(data['name']),
+      email: decryptData(data['emailaddress']),
+      image: data['image'] != null ? decryptData(data['image']) : 'https://firebasestorage.googleapis.com/v0/b/adast-425404.appspot.com/o/download.jpeg?alt=media&token=ea16bd9e-c9f0-47da-9d2b-050c121057ac',
+      creationTime: (data['creationTime'] as Timestamp).toDate(),
+      latLng: data['latlng'],
+      wallet: data['wallet'] ?? 0,
+    );
   }
 }

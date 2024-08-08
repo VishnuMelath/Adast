@@ -1,15 +1,19 @@
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/features/splash_screen/UI/splash_screen.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
+import 'package:adast/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
 
 void main() async {
+ 
+  await dotenv.load(fileName: '.env');
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+ await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
       create: (context) => SplashscreenBloc(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'adast',
         theme: ThemeData(
           appBarTheme: const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
           colorScheme: ColorScheme.fromSeed(seedColor: green),

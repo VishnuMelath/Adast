@@ -1,7 +1,7 @@
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
 import 'package:adast/features/chat/chat_screen/bloc/chat_bloc.dart';
-import 'package:adast/services/methods/common_methods.dart';
+import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/message_model.dart';
 import 'package:adast/services/messages_database_services.dart';
 import 'package:cached_network_image/cached_network_image.dart';

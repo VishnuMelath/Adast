@@ -42,7 +42,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCNDxCQTh7vIL7nukVRgCD5NqQL9Oc_oqQ',
-    appId: '1:282036476767:web:6032c2a187e1917f9a34ea',
+    appId: '1:282036476767:web:2aa09cee30b8f61b9a34ea',
     messagingSenderId: '282036476767',
     projectId: 'adast-425404',
     authDomain: 'adast-425404.firebaseapp.com',
@@ -58,26 +58,30 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCHxkBWUp2YRqyXDUYRV5OXDKkJJTyLfrk',
-    appId: '1:888534327765:ios:beb1dc3bad9dea74e01d5c',
-    messagingSenderId: '888534327765',
-    projectId: 'adast-53666',
-    storageBucket: 'adast-53666.appspot.com',
+    apiKey: 'AIzaSyBIepHwXbL-BAgC3789GrvF77Ig61-pT_k',
+    appId: '1:282036476767:ios:4335f19f66020c979a34ea',
+    messagingSenderId: '282036476767',
+    projectId: 'adast-425404',
+    storageBucket: 'adast-425404.appspot.com',
+    androidClientId: '282036476767-3on9ml5cqbf5et8jvf2292u8ovt2mk8k.apps.googleusercontent.com',
+    iosClientId: '282036476767-f8eoq206011qhu54i9pvcal9jbou2tff.apps.googleusercontent.com',
     iosBundleId: 'com.example.adast',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCHxkBWUp2YRqyXDUYRV5OXDKkJJTyLfrk',
-    appId: '1:888534327765:ios:beb1dc3bad9dea74e01d5c',
-    messagingSenderId: '888534327765',
-    projectId: 'adast-53666',
-    storageBucket: 'adast-53666.appspot.com',
+    apiKey: 'AIzaSyBIepHwXbL-BAgC3789GrvF77Ig61-pT_k',
+    appId: '1:282036476767:ios:4335f19f66020c979a34ea',
+    messagingSenderId: '282036476767',
+    projectId: 'adast-425404',
+    storageBucket: 'adast-425404.appspot.com',
+    androidClientId: '282036476767-3on9ml5cqbf5et8jvf2292u8ovt2mk8k.apps.googleusercontent.com',
+    iosClientId: '282036476767-f8eoq206011qhu54i9pvcal9jbou2tff.apps.googleusercontent.com',
     iosBundleId: 'com.example.adast',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyCNDxCQTh7vIL7nukVRgCD5NqQL9Oc_oqQ',
-    appId: '1:282036476767:web:7a597150791db39e9a34ea',
+    appId: '1:282036476767:web:4d5e73910c419fce9a34ea',
     messagingSenderId: '282036476767',
     projectId: 'adast-425404',
     authDomain: 'adast-425404.firebaseapp.com',

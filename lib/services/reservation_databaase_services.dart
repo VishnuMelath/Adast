@@ -1,5 +1,6 @@
 
 import 'package:adast/constants/constants.dart';
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/reservation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,7 +31,7 @@ class ReservationDatabaseServices {
     try {
       final snapshots = await firebaseInstance
           .collection('reservations')
-          .where('userId', isEqualTo: userId)
+          .where('userId', isEqualTo: encryptData(userId))
           .get();
       return snapshots.docs
           .map(
@@ -44,7 +45,7 @@ class ReservationDatabaseServices {
   }
   Future<bool> checkPurchased(String sellerId,String userId) async
 {
-final query=firebaseInstance.collection('reservations').where('sellerId',isEqualTo: sellerId).where('userId',isEqualTo: userId).where('status',isEqualTo: ReservationStatus.purchased.name);
+final query=firebaseInstance.collection('reservations').where('sellerId',isEqualTo: encryptData(sellerId)).where('userId',isEqualTo: encryptData(userId)).where('status',isEqualTo: encryptData(ReservationStatus.purchased.name));
 final data=await query.get();
 return data.docs.isNotEmpty;
 }

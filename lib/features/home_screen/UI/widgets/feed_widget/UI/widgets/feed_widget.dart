@@ -1,4 +1,6 @@
+import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
+import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/widgets/listwidgets.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/bloc/feed_widget_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
@@ -6,11 +8,14 @@ import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/seller_profile/UI/seller_profile.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
-import 'package:adast/services/methods/common_methods.dart';
+import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeedWidget extends StatelessWidget {
   final ClothModel clothModel;
@@ -21,6 +26,7 @@ class FeedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FeedWidgetBloc feedWidgetBloc = FeedWidgetBloc();
+    var constraints = MediaQuery.sizeOf(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 28.0),
       child: Stack(
@@ -44,22 +50,40 @@ class FeedWidget extends StatelessWidget {
                     ),
                   ));
             },
-            child: Column(
+            child: 
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.sizeOf(context).width * 1.5,
+              children: [   SizedBox(
+
+                  height:constraints.height<constraints.width?MediaQuery.sizeOf(context).height*0.9 :MediaQuery.sizeOf(context).width * 1.5,
                   child: PageView(
                     onPageChanged: (value) {
                       feedWidgetBloc.add(FeedImageChangedEvent(page: value));
                     },
                     children: [
                       ...clothModel.images.map(
-                        (e) => ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CachedNetworkImage(
-                            imageUrl: e,
-                            fit: BoxFit.fitHeight,
+                        (e) => Align(
+                          alignment:Alignment.centerLeft ,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: e,
+                              fit: BoxFit.fitHeight,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              child: Center(child: CircularProgressIndicator(
+                                color: green,
+                              ),),
+                              decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(30)),
+                              width: constraints.width,
+                              height:constraints.height<constraints.width?MediaQuery.sizeOf(context).height*0.9 :MediaQuery.sizeOf(context).width * 1.5
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                            ),
                           ),
                         ),
                       )
@@ -115,7 +139,8 @@ class FeedWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
+              
+  ],
             ),
           ),
           Positioned(

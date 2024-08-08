@@ -6,9 +6,9 @@ import 'package:adast/features/item_details_page/UI/widgets/custom_checkbox.dart
 import 'package:adast/features/item_details_page/UI/widgets/custom_show_dialogue.dart';
 import 'package:adast/features/item_details_page/bloc/item_details_bloc.dart';
 import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
-import 'package:adast/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void showBottomSheetForReservation(HomeBloc homeBloc,
     BuildContext context, ItemDetailsBloc itemDetailsBloc) {
@@ -51,7 +51,7 @@ void showBottomSheetForReservation(HomeBloc homeBloc,
             child: CustomButton(
                 onTap: () {
                   Map<String, dynamic> options = {
-                    'key': rpaykey,
+                    'key': dotenv.env['rpaykey'],
                     'amount': int.parse(groupValueNotifier.value) * 100,
                     'name': context.read<SplashscreenBloc>().userModel!.name,
                     'description': 'reservation',

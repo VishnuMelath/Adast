@@ -1,4 +1,5 @@
 
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,7 +13,7 @@ class SellerDatabaseServices {
 
   Future<SellerModel> getSeller(String email) async
   {
-    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: email);
+    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: encryptData(email));
     final list=await query.get();
 
     return SellerModel.fromJson(list.docs.first);
@@ -28,7 +29,7 @@ class SellerDatabaseServices {
   Future updateSellerWallet(int amount,String sellerId)
   async 
   {
-    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: sellerId);
+    final query=firestore.collection('sellers').where('emailaddress',isEqualTo: encryptData(sellerId));
     final list=await query.get();
     await firestore.collection('sellers').doc(list.docs.first.id).update({'wallet':FieldValue.increment(amount)});
   }

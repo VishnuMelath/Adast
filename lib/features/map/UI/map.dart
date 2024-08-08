@@ -3,6 +3,7 @@ import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/map/UI/widgets/marker.dart';
 import 'package:adast/features/map/UI/widgets/search_widget.dart';
 import 'package:adast/features/seller_profile/bloc/seller_profile_bloc.dart';
+import 'package:adast/methods/encrypt.dart';
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/seller_database_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,8 +75,8 @@ class _MapScreenState extends State<MapScreen> {
                             child: RepaintBoundary(
                               key: data[i]['globalKey'],
                               child: CustomMarker(
-                                image: data[i]['data']['image'],
-                                name: data[i]['data']['name'],
+                                image: decryptData(data[i]['data']['image']),
+                                name: decryptData(data[i]['data']['name']),
                               ),
                             ),
                           )

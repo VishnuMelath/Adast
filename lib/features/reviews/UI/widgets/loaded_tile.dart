@@ -4,7 +4,7 @@ import 'package:adast/features/reviews/UI/widgets/star_widget.dart';
 import 'package:adast/features/reviews/bloc/reviews_bloc.dart';
 import 'package:adast/models/rating_model.dart';
 import 'package:adast/models/user_model.dart';
-import 'package:adast/services/methods/common_methods.dart';
+import 'package:adast/methods/common_methods.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../ themes/colors_shemes.dart';
