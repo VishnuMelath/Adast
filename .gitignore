@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/src/main/AndroidManifest.xml
 /lib/keys.dart
 .env
-/android/secrets.properties
+android/secrets.properties
+android/local.defaults.properties
