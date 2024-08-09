@@ -1,6 +1,5 @@
 import 'package:adast/%20themes/colors_shemes.dart';
 import 'package:adast/%20themes/themes.dart';
-import 'package:adast/features/home_screen/UI/widgets/feed_widget/UI/widgets/listwidgets.dart';
 import 'package:adast/features/home_screen/UI/widgets/feed_widget/bloc/feed_widget_bloc.dart';
 import 'package:adast/features/home_screen/bloc/home_bloc.dart';
 import 'package:adast/features/item_details_page/UI/item_detail.dart';
@@ -11,9 +10,7 @@ import 'package:adast/features/splash_screen/bloc/splashscreen_bloc.dart';
 import 'package:adast/methods/common_methods.dart';
 import 'package:adast/models/cloth_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
