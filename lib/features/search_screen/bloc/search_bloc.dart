@@ -34,7 +34,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchInitialEvent event, Emitter<SearchState> emit) async {
     emit(SearchLoadingState());
     items = await ItemDatabaseServices().getAllItems();
-    minPrice=items.first.price;
+    if (items.isNotEmpty) {
+  minPrice=items.first.price;
+}
     for (var item in items) {
       if(item.price<minPrice)
       {
