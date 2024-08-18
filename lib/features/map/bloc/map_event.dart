@@ -40,3 +40,8 @@ class MapSellerSearchEvent extends MapEvent{
 }
 
 class MapSearchClearEvent extends MapEvent{}
+
+class MapImageLoadingEvent extends MapEvent{
+ final Map<String,dynamic> data;
+  MapImageLoadingEvent({required this.data});
+}

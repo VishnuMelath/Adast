@@ -88,7 +88,8 @@ class _MapScreenState extends State<MapScreen> {
                       onTap: (latlng) {},
                       mapType: MapType.normal,
                       zoomControlsEnabled: false,
-                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
                       onMapCreated: (controller) {
                         mapController = controller;
                         mapBloc.googleMapController = controller;
@@ -129,7 +130,7 @@ class _MapScreenState extends State<MapScreen> {
                   .read<SplashscreenBloc>()
                   .userModel!
                   .subscriptions
-                  .contains(e['data']['emailaddress']);
+                  .contains(decryptData(e['data']['emailaddress']));
               SellerProfileBloc sellerProfileBloc = SellerProfileBloc(
                   sellerModel: SellerModel.fromJson(e['data']),
                   subscribed: subscribed)

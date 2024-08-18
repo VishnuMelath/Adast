@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:adast/models/seller_model.dart';
 import 'package:adast/services/seller_database_services.dart';
@@ -19,6 +20,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   String searchQuery='';
   List<SellerModel> sellers = [];
   Set<Marker> markers = {};
+  Map<String , Uint8List> images={};
   MapBloc() : super(MapInitial()) {
     on<MapTapedEvent>(mapTapedEvent);
     on<MapCurrentLocationTappedEvent>(mapCurrentLocationTappedEvent);
@@ -26,6 +28,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<MapBuildCompletedEvent>(mapBuildCompletedEvent);
     on<MapSellerSearchEvent>(mapSearchEvent);
     on<MapSearchClearEvent>(mapSearchClearEvent);
+    on<MapImageLoadingEvent>(mapImageLoadingEvent);
   }
 
   FutureOr<void> mapTapedEvent(MapTapedEvent event, Emitter<MapState> emit) {
@@ -88,5 +91,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     sellers.clear();
     searchQuery='';
     emit(MapSearchClearedState());
+  }
+
+  FutureOr<void> mapImageLoadingEvent(MapImageLoadingEvent event, Emitter<MapState> emit) async{
+    
   }
 }

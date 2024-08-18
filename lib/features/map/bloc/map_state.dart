@@ -39,3 +39,5 @@ class MapSearchingState extends MapState{}
 class MapSearchedState extends MapState{}
 
 class MapSearchClearedState extends MapState{}
+
+class MapImageLoadingState extends MapState{}
