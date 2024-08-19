@@ -37,33 +37,36 @@ class ChatListPage extends StatelessWidget {
           ),
           body: BlocBuilder<ChatListBloc, ChatListState>(
             builder: (context, state) {
-              if(state is ChatListLoadingState)
-              {
-                return const Center(child: CircularProgressIndicator(),);
+              if (state is ChatListLoadingState) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (chatListBloc.sellers.isEmpty) {
+                  return Center(
+                      child: Text(
+                    'No chats',
+                    style: greyTextStyle,
+                  ));
+                } else {
+                  return ListView(
+                    children: [
+                      ...chatListBloc.sellers.map(
+                        (e) {
+                          if (chatListBloc.loadedSellers.keys.contains(e)) {
+                            return RecieverTile(
+                                sellerModel: chatListBloc.loadedSellers[e]!);
+                          } else {
+                            chatListBloc
+                                .add(ChatListTileLoadingEvent(sellerId: e));
+                            return const LoadingTile();
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                }
               }
-              else
-              {
-                return ListView(
-                children: [
-                  ...chatListBloc.sellers.map((e){
-                    if(chatListBloc.loadedSellers.keys.contains(e))
-                    {
-                      return RecieverTile(sellerModel: chatListBloc.loadedSellers[e]!);
-
-                    }
-                    else
-                    {
-                      chatListBloc.add(ChatListTileLoadingEvent(sellerId: e));
-                      return const LoadingTile();
-                    }
-                  },),
-
-                  
-                ],
-              );
-              }
-
-              
             },
           ),
         ),

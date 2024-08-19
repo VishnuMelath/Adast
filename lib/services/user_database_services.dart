@@ -35,7 +35,7 @@ class UserDatabaseServices {
     log(id);
     final user =await firestore.collection('users').doc(id).get();
     log(user.data().toString());
-    return UserModel(id: user.id,name: user['name'],email: user['emailaddress'],image: user['image']);
+    return UserModel(id: user.id,name: decryptData(user['name']),email: decryptData(user['emailaddress']),image: decryptData(user['image']));
   }
 
   Future<UserModel?> getUser() async {

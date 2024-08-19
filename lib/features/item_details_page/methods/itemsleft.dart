@@ -16,5 +16,5 @@ int totalItemsLeft(ClothModel clothModel) {
 
 int itemsLeftPerSize(ClothModel clothModel,String size)
 {
-  return int.parse(clothModel.size[size].toString())-(int.parse(clothModel.soldCount[size]??'0')+int.parse(clothModel.reservedCount[size]?.toString()??'0'));
+  return int.parse(clothModel.size[size].toString())-(int.parse((clothModel.soldCount[size]??0).toString())+int.parse(clothModel.reservedCount[size]?.toString()??'0'));
 }

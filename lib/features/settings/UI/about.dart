@@ -23,7 +23,7 @@ class About extends StatelessWidget {
                 Image.asset('assets/images/logo.png'),
                 SizedBox(
                   height: 80,
-                  child:  Text('Version 1.0.2',style: greyTextStyle,))
+                  child:  Text('Version 1.0.3',style: greyTextStyle,))
               ],
             ),
           ),
