@@ -50,11 +50,6 @@ class LoginService {
     try {
       await GoogleSignIn().signOut();
       log('google');
-
-//       bool isAuthorized = gUser != null;
-//       if (kIsWeb && gUser != null) {
-//   isAuthorized = await GoogleSignIn().canAccessScopes([]);
-// }
       final GoogleSignIn googleSignIn = GoogleSignIn(
         clientId:
             '282036476767-v64qhk6hu949mobacdiqcv4qv8d3aa48.apps.googleusercontent.com',

@@ -2,7 +2,6 @@ import 'package:adast/%20themes/themes.dart';
 import 'package:adast/features/reviews/UI/widgets/loaded_tile.dart';
 import 'package:adast/features/reviews/UI/widgets/star_widget.dart';
 import 'package:adast/features/reviews/bloc/reviews_bloc.dart';
-import 'package:adast/methods/encrypt.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../custom_widgets/custom_cached_network_image.dart';

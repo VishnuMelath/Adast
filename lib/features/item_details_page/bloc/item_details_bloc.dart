@@ -114,7 +114,7 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
   FutureOr<void> itemReservationPaymentCompletionEvent(
       ItemReservationPaymentCompletionEvent event,
       Emitter<ItemDetailsState> emit) async {
-        emit(ItemDetailsLoadingState());
+    emit(ItemDetailsLoadingState());
     var days = 0;
     switch (event.options!['amount']) {
       case 1000:
@@ -158,7 +158,8 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
           item.reservedCount[selectedSize!] = temp;
           item.revenue += reservationModel!.amount;
           await ItemDatabaseServices().updateItem(item);
-          await SellerDatabaseServices().updateSellerWallet(reservationModel!.amount,reservationModel!.sellerId);
+          await SellerDatabaseServices().updateSellerWallet(
+              reservationModel!.amount, reservationModel!.sellerId);
           emit(ItemDetailPaymentSuccessState(
               reservationModel: reservationModel!));
         },
@@ -204,11 +205,13 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
 class PaymentHandler {
   final ItemDetailsBloc itemDetailsBloc;
   void handlePaymentErrorResponse(PaymentFailureResponse response) {
+    itemDetailsBloc.success=false;
     itemDetailsBloc.add(ItemReservationPaymentCompletionEvent());
   }
 
 //
   void handlePaymentSuccessResponse(PaymentSuccessResponse response) {
+    itemDetailsBloc.success=true;
     itemDetailsBloc.add(ItemReservationPaymentCompletionEvent(
         options: itemDetailsBloc.options, response: response));
   }
